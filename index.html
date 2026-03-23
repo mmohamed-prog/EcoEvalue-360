@@ -3,2379 +3,1483 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EcoEvalue 360° — Simulateur conformité tertiaire | EcoVertaConsul't</title>
-  <meta name="description" content="Simulateur de pré-diagnostic réglementaire tertiaire : conformité, priorités d'action, calendrier, CEE et autres aides mobilisables." />
-
+  <title>EcoEvalue 360° — V5 | EcoVertaConsul't</title>
+  <meta name="description" content="Simulateur pré-diagnostic réglementaire tertiaire : conformité, score pondéré, calendrier, CEE, plan d'action." />
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
     :root{
-      --dark:#182126;
-      --dark-2:#10181c;
-      --brand:#18b45b;
-      --brand-2:#42df74;
-      --bg:#f0eeeb;
-      --card:#ffffff;
-      --ink:#23211f;
-      --muted:#66605c;
-      --line:#ddd5cd;
-      --gold:#c8960e;
-      --gold-2:#f0c040;
-      --blue:#4aa7dc;
-      --purple:#8a69d4;
-      --red:#e05b4a;
-      --shadow:0 14px 36px rgba(0,0,0,.08);
-      --shadow-dark:0 24px 60px rgba(0,0,0,.28);
-      --radius-xl:28px;
-      --radius-lg:20px;
-      --radius-md:14px;
-      --radius-sm:10px;
+      --bg:#f0eeeb;--card:#fff;--ink:#23211f;--muted:#66605c;--line:#ddd5cd;
+      --dark:#182126;--brand:#18b45b;--brand2:#42df74;--brandSoft:#e8f6ee;
+      --gold:#c8960e;--gold2:#f0c040;--blue:#4aa7dc;--blue2:#7dd4f8;
+      --purple:#8a69d4;--red:#e05b4a;
+      --shadow:0 14px 36px rgba(0,0,0,.08);--shadowDark:0 24px 60px rgba(0,0,0,.28);
+      --rxl:28px;--rlg:20px;--rmd:14px;
     }
-
-    body{
-      font-family:'Segoe UI',system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
-      background:var(--bg);
-      color:var(--ink);
-      min-height:100vh;
-    }
-
-    button,input,select,textarea{font-family:inherit}
-    a{text-decoration:none;color:inherit}
-
-    .wrap{
-      max-width:1240px;
-      margin:0 auto;
-      padding:20px 14px 44px;
-    }
+    body{font-family:Segoe UI,system-ui,-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh}
+    button,input,textarea{font-family:inherit}
+    .wrap{max-width:1240px;margin:0 auto;padding:20px 14px 44px}
 
     /* HERO */
-    .hero{
-      position:relative;
-      overflow:hidden;
-      border-radius:var(--radius-xl);
-      background:linear-gradient(140deg,#131e22 0%,#1d2e34 55%,#0e1a1e 100%);
-      padding:50px 28px 42px;
-      text-align:center;
-      margin-bottom:20px;
-    }
-    .hero::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:
-        radial-gradient(ellipse at 15% 25%,rgba(24,180,91,.12) 0 80px,transparent 81px),
-        radial-gradient(ellipse at 85% 15%,rgba(24,180,91,.08) 0 70px,transparent 71px),
-        radial-gradient(ellipse at 50% 100%,rgba(24,180,91,.05) 0 120px,transparent 121px);
-      pointer-events:none;
-    }
+    .hero{position:relative;overflow:hidden;border-radius:var(--rxl);background:linear-gradient(140deg,#131e22 0%,#1d2e34 55%,#0e1a1e 100%);padding:50px 28px 42px;text-align:center;margin-bottom:20px}
+    .hero::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 15% 25%,rgba(24,180,91,.12) 0 80px,transparent 81px),radial-gradient(ellipse at 85% 15%,rgba(24,180,91,.08) 0 70px,transparent 71px)}
     .hero-in{position:relative;z-index:2}
-    .hero-mascot-top{
-      width:72px;height:72px;margin:0 auto 16px;
-      filter:drop-shadow(0 8px 18px rgba(24,180,91,.35));
-    }
-    .hero-badge{
-      display:inline-flex;align-items:center;gap:8px;
-      padding:7px 16px;border-radius:999px;
-      background:rgba(24,180,91,.16);
-      border:1px solid rgba(24,180,91,.28);
-      color:#7ff5aa;font-size:12px;font-weight:700;letter-spacing:.06em;
-      margin-bottom:18px;
-    }
-    .hero h1{
-      color:#fff;
-      font-size:clamp(24px,4vw,50px);
-      line-height:1;
-      letter-spacing:-.04em;
-      font-weight:900;
-      margin-bottom:12px;
-    }
-    .hero h1 em{font-style:normal;color:var(--brand-2)}
-    .hero-sub{
-      color:rgba(255,255,255,.68);
-      font-size:15px;
-      line-height:1.65;
-      max-width:700px;
-      margin:0 auto 24px;
-    }
-    .hero-regs{
-      display:flex;flex-wrap:wrap;gap:7px;justify-content:center;
-      margin-bottom:24px;
-    }
-    .hero-regs span{
-      padding:4px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.13);
-      color:rgba(255,255,255,.62);font-size:11px;font-weight:600;
-    }
-    .hero-note{
-      margin-top:12px;
-      font-size:12px;
-      color:rgba(255,255,255,.38);
-      line-height:1.5;
-    }
+    .hero-mascot{width:72px;height:72px;margin:0 auto 16px;filter:drop-shadow(0 8px 18px rgba(24,180,91,.35))}
+    .hero-badge{display:inline-flex;align-items:center;gap:8px;padding:7px 16px;border-radius:999px;background:rgba(24,180,91,.16);border:1px solid rgba(24,180,91,.28);color:#7ff5aa;font-size:12px;font-weight:700;letter-spacing:.06em;margin-bottom:18px}
+    .hero h1{color:#fff;font-size:clamp(24px,4vw,50px);line-height:1;letter-spacing:-.04em;font-weight:900;margin-bottom:12px}
+    .hero h1 em{font-style:normal;color:var(--brand2)}
+    .hero-sub{color:rgba(255,255,255,.68);font-size:15px;line-height:1.65;max-width:700px;margin:0 auto 24px}
+    .hero-regs{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin-bottom:24px}
+    .hero-regs span{padding:4px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.13);color:rgba(255,255,255,.62);font-size:11px;font-weight:600}
+    .hero-note{margin-top:12px;font-size:12px;color:rgba(255,255,255,.38);line-height:1.5}
 
     /* BUTTONS */
-    .btn{
-      display:inline-flex;align-items:center;justify-content:center;gap:8px;
-      min-height:52px;padding:0 26px;border:none;border-radius:16px;
-      cursor:pointer;font-size:15px;font-weight:800;transition:.16s ease;
-    }
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:52px;padding:0 26px;border:none;border-radius:16px;cursor:pointer;font-size:15px;font-weight:800;transition:.16s ease}
     .btn:hover{transform:translateY(-1px)}
     .btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
-    .btn-brand{
-      background:linear-gradient(175deg,var(--brand-2),var(--brand));
-      color:#fff;
-      box-shadow:0 12px 26px rgba(24,180,91,.24);
-    }
-    .btn-ghost{
-      background:rgba(255,255,255,.1);
-      color:#fff;
-      border:1px solid rgba(255,255,255,.14);
-    }
-    .btn-outline{
-      background:#fff;
-      color:#1a7a3a;
-      border:2px solid #a4d4b2;
-    }
-    .btn-dark{
-      background:var(--dark);
-      color:#fff;
-    }
-    .btn-gold{
-      background:linear-gradient(160deg,var(--gold-2),var(--gold));
-      color:#1a1000;
-    }
-    .btn-sm{
-      min-height:44px;
-      padding:0 20px;
-      font-size:14px;
-    }
+    .btn-brand{background:linear-gradient(175deg,var(--brand2),var(--brand));color:#fff;box-shadow:0 12px 26px rgba(24,180,91,.24)}
+    .btn-ghost{background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.14)}
+    .btn-outline{background:#fff;color:#1a7a3a;border:2px solid #a4d4b2}
+    .btn-dark{background:var(--dark);color:#fff}
+    .btn-gold{background:linear-gradient(160deg,var(--gold2),var(--gold));color:#1a1000}
+    .btn-sm{min-height:44px;padding:0 20px;font-size:14px}
+    @keyframes pulse-green{0%,100%{box-shadow:0 12px 26px rgba(24,180,91,.24)}50%{box-shadow:0 12px 30px rgba(24,180,91,.55)}}
+    .btn-brand.pulse{animation:pulse-green .7s ease 2}
 
     /* INFO CARDS */
-    .info-grid{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:14px;
-      margin-bottom:20px;
-    }
-    .info-card{
-      background:var(--card);
-      border-radius:20px;
-      border:1px solid var(--line);
-      padding:20px 16px;
-      text-align:center;
-      box-shadow:var(--shadow);
-    }
-    .info-icon{
-      width:48px;height:48px;border-radius:14px;background:#e8f6ee;
-      display:flex;align-items:center;justify-content:center;
-      margin:0 auto 12px;font-size:20px;
-    }
-    .info-card h3{
-      font-size:14px;font-weight:800;color:#1a6e3a;margin-bottom:6px;
-    }
-    .info-card p{
-      font-size:12px;line-height:1.6;color:var(--muted);
-    }
+    .info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px}
+    .info-card{background:var(--card);border-radius:20px;border:1px solid var(--line);padding:20px 16px;text-align:center;box-shadow:var(--shadow)}
+    .info-icon{width:48px;height:48px;border-radius:14px;background:#e8f6ee;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:20px}
+    .info-card h3{font-size:14px;font-weight:800;color:#1a6e3a;margin-bottom:6px}
+    .info-card p{font-size:12px;line-height:1.6;color:var(--muted)}
 
     /* LOCAL BAND */
-    .local-band{
-      background:#e8f6ee;border:1px solid #b8dfc5;border-radius:18px;
-      padding:16px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;
-      margin-bottom:20px;
-    }
-    .local-band p{
-      font-size:13px;line-height:1.6;color:#246b3a;flex:1;
-    }
+    .local-band{background:#e8f6ee;border:1px solid #b8dfc5;border-radius:18px;padding:16px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:20px}
+    .local-band p{font-size:13px;line-height:1.6;color:#246b3a;flex:1}
     .local-band strong{color:var(--brand)}
 
     /* MODAL */
-    .modal{
-      position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;
-      padding:14px;background:rgba(0,0,0,.62);backdrop-filter:blur(5px);
-    }
+    .modal{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:14px;background:rgba(0,0,0,.62);backdrop-filter:blur(5px)}
     .modal.open{display:flex}
-    .mbox{
-      position:relative;width:min(1180px,100%);max-height:93vh;overflow:hidden;
-      border-radius:26px;background:linear-gradient(155deg,#1c2a30 0%,#131e22 100%);
-      box-shadow:var(--shadow-dark);color:#fff;display:flex;flex-direction:column;
-    }
-    .mbox-in{
-      position:relative;z-index:2;display:flex;flex-direction:column;height:100%;max-height:93vh;
-    }
+    .mbox{width:min(1180px,100%);max-height:93vh;overflow:hidden;border-radius:26px;background:linear-gradient(155deg,#1c2a30 0%,#131e22 100%);box-shadow:var(--shadowDark);color:#fff;display:flex;flex-direction:column}
 
     /* WIZARD HEAD */
-    .whead{
-      padding:20px 24px 14px;border-bottom:1px solid rgba(255,255,255,.07);flex:0 0 auto;
-    }
-    .whead-top{
-      display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px;
-    }
-    .wtitle{
-      font-size:clamp(20px,2.5vw,36px);line-height:1;font-weight:900;letter-spacing:-.04em;
-    }
-    .wtitle em{font-style:normal;color:var(--brand-2)}
+    .whead{padding:20px 24px 14px;border-bottom:1px solid rgba(255,255,255,.07)}
+    .whead-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px}
+    .wtitle{font-size:clamp(20px,2.5vw,36px);line-height:1;font-weight:900;letter-spacing:-.04em}
+    .wtitle em{font-style:normal;color:var(--brand2)}
     .wsub{font-size:13px;color:rgba(255,255,255,.5);margin-top:5px}
-    .xbtn{
-      width:50px;height:50px;flex:0 0 50px;display:grid;place-items:center;
-      border-radius:13px;border:1px solid rgba(255,255,255,.1);
-      background:rgba(255,255,255,.05);color:#fff;cursor:pointer;font-size:28px;line-height:1;
-    }
+    .xbtn{width:50px;height:50px;display:grid;place-items:center;border-radius:13px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);color:#fff;cursor:pointer;font-size:28px;line-height:1}
     .prog-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-    .prog-bg{
-      flex:1;height:4px;background:rgba(255,255,255,.1);border-radius:999px;overflow:hidden;
-    }
-    .prog-fill{
-      height:100%;background:linear-gradient(90deg,var(--brand-2),var(--brand));
-      border-radius:999px;transition:width .3s ease;
-    }
+    .prog-bg{flex:1;height:4px;background:rgba(255,255,255,.1);border-radius:999px;overflow:hidden}
+    .prog-fill{height:100%;background:linear-gradient(90deg,var(--brand2),var(--brand));border-radius:999px;transition:width .3s ease}
     .prog-txt{font-size:11px;color:rgba(255,255,255,.38);white-space:nowrap}
     .step-title-row{display:flex;align-items:center;gap:10px}
-    .step-num{
-      width:28px;height:28px;border-radius:50%;background:var(--brand);
-      display:grid;place-items:center;font-size:12px;font-weight:800;flex:0 0 28px;
-    }
+    .step-num{width:28px;height:28px;border-radius:50%;background:var(--brand);display:grid;place-items:center;font-size:12px;font-weight:800;flex:0 0 28px}
     .step-name{font-size:15px;font-weight:800;color:#fff}
     .qcount{font-size:11px;color:rgba(255,255,255,.35);margin-left:auto}
 
     /* WIZARD BODY */
-    .wbody{
-      padding:18px 24px;overflow-y:auto;flex:1;
-    }
+    .wbody{padding:18px 24px;overflow-y:auto;flex:1}
     .step-panel{display:none}
     .step-panel.active{display:block}
-    .two-col{
-      display:grid;grid-template-columns:1.15fr .85fr;gap:22px;
-    }
+    .two-col{display:grid;grid-template-columns:1.15fr .85fr;gap:22px}
     .qgroup{margin-bottom:18px}
-    .qgroup h4{
-      font-size:15px;font-weight:800;color:#fff;margin-bottom:9px;
-      display:flex;align-items:center;gap:8px;
-    }
-    .qnote{
-      font-size:12px;color:rgba(255,255,255,.42);margin-bottom:8px;line-height:1.5;
-    }
+    .qgroup h4{font-size:15px;font-weight:800;color:#fff;margin-bottom:9px;display:flex;align-items:center;gap:8px}
     .q-opt{font-size:11px;color:rgba(255,255,255,.38);font-weight:400}
-
-    /* CHIPS */
     .chips{display:flex;flex-wrap:wrap;gap:7px}
-    .chip{
-      border:none;border-radius:11px;background:rgba(255,255,255,.09);
-      color:rgba(255,255,255,.8);padding:10px 15px;font-size:13px;font-weight:700;
-      cursor:pointer;transition:.14s;text-align:left;
-    }
+    .chip{border:none;border-radius:11px;background:rgba(255,255,255,.09);color:rgba(255,255,255,.82);padding:10px 15px;font-size:13px;font-weight:700;cursor:pointer;transition:.14s;text-align:left}
     .chip:hover{background:rgba(255,255,255,.16)}
     .chip.on{background:var(--brand);color:#fff}
-    .chip.multi.on{
-      background:rgba(24,180,91,.3);color:#7ff5aa;border:1px solid rgba(24,180,91,.4);
-    }
     .chip.multi{border:1px solid transparent}
+    .chip.multi.on{background:rgba(24,180,91,.3);color:#7ff5aa;border:1px solid rgba(24,180,91,.4)}
+    .field-err{font-size:11px;color:#ff8a7a;margin-top:5px;display:none}
+    .field-err.show{display:block}
+    @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
 
-    @keyframes pulse-green{
-      0%,100%{box-shadow:0 12px 26px rgba(24,180,91,.24)}
-      50%{box-shadow:0 12px 30px rgba(24,180,91,.5)}
-    }
-    .btn-brand.pulse{animation:pulse-green .7s ease 2}
-
-    /* HELPER */
+    /* HELPER (mascotte) */
     .hlp{display:flex;flex-direction:column;justify-content:flex-start;padding-top:4px}
     .hlp-mascot{width:72px;height:72px;margin:0 0 10px auto}
-    .hlp-mascot svg{width:100%;height:100%;display:block}
-    .bubble{
-      background:#fff;color:#1a1614;border-radius:16px;padding:12px 15px;
-      box-shadow:0 10px 24px rgba(0,0,0,.18);
-    }
-    .bubble strong{
-      display:block;font-size:13px;font-weight:800;margin-bottom:4px;color:#1a6e3a;
-    }
+    .bubble{background:#fff;color:#1a1614;border-radius:16px;padding:12px 15px;box-shadow:0 10px 24px rgba(0,0,0,.18)}
+    .bubble strong{display:block;font-size:13px;font-weight:800;margin-bottom:4px;color:#1a6e3a}
     .bubble span{display:block;font-size:12px;line-height:1.55;color:#66605c}
-    .bubble-tip{
-      display:inline-flex;padding:3px 9px;border-radius:999px;background:#e8f6ee;
-      color:#1a6e3a;font-size:11px;font-weight:700;margin-top:7px;
-    }
+    .bubble-tip{display:inline-flex;padding:3px 9px;border-radius:999px;background:#e8f6ee;color:#1a6e3a;font-size:11px;font-weight:700;margin-top:7px}
 
     /* WIZARD FOOT */
-    .wfoot{
-      padding:12px 24px;border-top:1px solid rgba(255,255,255,.07);
-      display:flex;align-items:center;justify-content:space-between;gap:12px;flex:0 0 auto;
-    }
+    .wfoot{padding:12px 24px;border-top:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-between;gap:12px}
     .wfoot .right{display:flex;gap:10px}
 
+    /* RESUME BANNER */
+    .resume-banner{background:rgba(74,167,220,.12);border:1px solid rgba(74,167,220,.3);border-radius:12px;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
+    .resume-banner p{font-size:12px;color:rgba(255,255,255,.75)}
+    .resume-banner button{font-size:11px;font-weight:700;color:#7dd4f8;background:none;border:none;cursor:pointer;text-decoration:underline}
+
     /* RESULTS */
-    .res-top-cta{
-      background:rgba(24,180,91,.1);border:1px solid rgba(24,180,91,.22);border-radius:16px;
-      padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:16px;
-      margin-bottom:16px;flex-wrap:wrap;
-    }
-    .res-top-cta p{
-      font-size:13px;color:rgba(255,255,255,.82);line-height:1.55;flex:1;
-    }
+    .res-top-cta{background:rgba(24,180,91,.1);border:1px solid rgba(24,180,91,.22);border-radius:16px;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:16px;flex-wrap:wrap}
+    .res-top-cta p{font-size:13px;color:rgba(255,255,255,.82);line-height:1.55;flex:1}
+    .res-grid{display:grid;grid-template-columns:1fr 2fr;gap:16px;margin-bottom:16px}
 
-    .res-grid{
-      display:grid;grid-template-columns:1fr 2fr;gap:16px;margin-bottom:16px;
-    }
-    .score-box{
-      background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:20px;
-      padding:20px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;
-    }
-    .score-val{
-      font-size:clamp(48px,7vw,84px);font-weight:900;line-height:.9;letter-spacing:-.06em;color:var(--brand-2);
-    }
+    /* SCORE BOX */
+    .score-box{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+    .score-val{font-size:clamp(48px,7vw,84px);font-weight:900;line-height:.9;letter-spacing:-.06em;color:var(--brand2)}
     .score-val small{font-size:.35em;color:rgba(255,255,255,.4);font-weight:600}
-    .score-bar-bg{
-      width:100%;height:10px;background:rgba(255,255,255,.1);border-radius:999px;overflow:hidden;
-      margin:12px 0 8px;
-    }
-    .score-bar-fill{
-      height:100%;border-radius:999px;transition:width .8s cubic-bezier(.34,1.56,.64,1);
-    }
+    .score-bar-bg{width:100%;height:10px;background:rgba(255,255,255,.1);border-radius:999px;overflow:hidden;margin:12px 0 8px}
+    .score-bar-fill{height:100%;border-radius:999px;transition:width .8s cubic-bezier(.34,1.56,.64,1)}
     .score-lbl{font-size:14px;font-weight:800;color:#fff}
-    .score-desc{
-      font-size:12px;color:rgba(255,255,255,.45);line-height:1.55;margin-top:6px;padding:8px 10px;
-      background:rgba(255,255,255,.04);border-radius:10px;text-align:left;
-    }
+    .score-desc{font-size:12px;color:rgba(255,255,255,.45);line-height:1.55;margin-top:6px;padding:8px 10px;background:rgba(255,255,255,.04);border-radius:10px;text-align:left}
+    .axes{display:grid;gap:8px;margin-top:12px;width:100%}
+    .axis{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:10px}
+    .axis-top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:5px}
+    .axis-top strong{font-size:11px;color:#fff}
+    .axis-top span{font-size:11px;font-weight:800;color:rgba(255,255,255,.75)}
+    .axis-bar{height:6px;border-radius:999px;background:rgba(255,255,255,.1);overflow:hidden}
+    .axis-fill{height:100%;border-radius:999px;transition:width .5s ease}
+    .axis-fill.c{background:linear-gradient(90deg,#42df74,#18b45b)}
+    .axis-fill.r{background:linear-gradient(90deg,#f0c040,#c8960e)}
+    .axis-fill.d{background:linear-gradient(90deg,#7dd4f8,#4aa7dc)}
+    .mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;width:100%}
+    .mini{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:10px}
+    .mini-label{font-size:10px;color:rgba(255,255,255,.55);margin-bottom:3px}
+    .mini-val{font-size:15px;font-weight:900;color:#fff}
+    .reliability-tip{position:relative;cursor:help;display:inline-flex;align-items:center;gap:3px}
+    .reliability-tip .tip-box{position:absolute;bottom:calc(100%+5px);left:50%;transform:translateX(-50%);background:#1a1614;color:#fff;font-size:11px;padding:5px 9px;border-radius:7px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .15s;z-index:10}
+    .reliability-tip:hover .tip-box{opacity:1}
 
-    /* CATEGORIES */
+    /* ACCORDION CATEGORIES */
     .cats{display:flex;flex-direction:column;gap:10px}
     .cat-block{border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,.07)}
-    .cat-header{
-      display:flex;align-items:center;justify-content:space-between;padding:10px 14px;
-      cursor:pointer;user-select:none;transition:.15s;
-    }
+    .cat-header{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;cursor:pointer;user-select:none;transition:.15s}
     .cat-header:hover{filter:brightness(1.08)}
     .cat-title{font-size:13px;font-weight:800;display:flex;align-items:center;gap:8px}
     .cat-badge{padding:2px 8px;border-radius:999px;font-size:11px;font-weight:800}
-    .cat-toggle{font-size:16px;transition:.2s}
+    .cat-toggle{font-size:14px;transition:.2s}
     .cat-block.open .cat-toggle{transform:rotate(180deg)}
     .cat-items{display:none;flex-direction:column;gap:1px}
     .cat-block.open .cat-items{display:flex}
-    .reg-item{
-      background:rgba(255,255,255,.03);padding:11px 14px;display:grid;grid-template-columns:1fr auto;
-      gap:8px;align-items:start;
-    }
-    .reg-name{font-size:13px;font-weight:800;color:#fff;margin-bottom:4px}
+    .reg-item{background:rgba(255,255,255,.03);padding:11px 14px;display:grid;grid-template-columns:1fr auto;gap:8px;align-items:start}
+    .reg-name{font-size:13px;font-weight:800;color:#fff;margin-bottom:3px}
     .reg-desc{font-size:12px;color:rgba(255,255,255,.55);line-height:1.5}
-    .reg-pill{
-      padding:3px 10px;border-radius:999px;font-size:11px;font-weight:800;white-space:nowrap;align-self:start;margin-top:2px;
-    }
+    .reg-pill{padding:3px 10px;border-radius:999px;font-size:11px;font-weight:800;white-space:nowrap;align-self:start;margin-top:2px}
     .reg-pill.ok{background:rgba(24,180,91,.22);color:#7ff5aa}
     .reg-pill.warn{background:rgba(232,128,10,.22);color:#ffd280}
     .reg-pill.no{background:rgba(80,80,80,.22);color:rgba(255,255,255,.45)}
-    .sanction-badge{
-      font-size:10px;padding:2px 7px;border-radius:999px;background:rgba(224,60,44,.18);
-      color:#ffaaa6;margin-top:4px;display:inline-block;
-    }
+    .sanction-badge{font-size:10px;padding:2px 7px;border-radius:999px;background:rgba(224,60,44,.18);color:#ffaaa6;margin-top:4px;display:inline-block}
 
-    /* PRIORITIES */
-    .prio-box{
-      background:rgba(24,180,91,.07);border:1px solid rgba(24,180,91,.18);
-      border-radius:18px;padding:14px 16px;margin-bottom:14px;
-    }
-    .prio-box h4{font-size:13px;font-weight:800;color:#7ff5aa;margin-bottom:10px}
-    .prio-item{display:flex;align-items:flex-start;gap:9px;margin-bottom:9px}
-    .prio-item:last-child{margin-bottom:0}
-    .prio-n{
-      width:24px;height:24px;border-radius:50%;background:var(--brand);
-      display:grid;place-items:center;font-size:11px;font-weight:900;flex:0 0 24px;margin-top:1px;
-    }
-    .prio-t{font-size:13px;line-height:1.55;color:rgba(255,255,255,.82)}
-
-    /* CEE / FUNDING */
-    .cee-estimate{
-      background:rgba(200,150,14,.08);border:1px solid rgba(200,150,14,.2);
-      border-radius:16px;padding:13px 16px;margin-bottom:14px;
-    }
-    .cee-estimate h4{font-size:13px;font-weight:800;color:var(--gold-2);margin-bottom:8px}
-    .cee-row{
-      display:flex;justify-content:space-between;align-items:center;padding:5px 0;
-      border-bottom:1px solid rgba(255,255,255,.05);
-    }
-    .cee-row:last-child{border:none}
-    .cee-label{font-size:12px;color:rgba(255,255,255,.75)}
-    .cee-val{font-size:12px;font-weight:700;color:var(--gold-2)}
-    .cee-total-row{
-      display:flex;justify-content:space-between;align-items:center;padding:8px 0 0;margin-top:3px;
-    }
-    .cee-total-label{font-size:13px;font-weight:800;color:#fff}
-    .cee-total-val{font-size:22px;font-weight:900;color:var(--gold-2);letter-spacing:-.03em}
-
-    .fund-grid{
-      display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:10px;
-    }
-    .fund-mini{
-      background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);
-      border-radius:14px;padding:12px 14px;
-    }
-    .fund-mini-label{font-size:12px;color:rgba(255,255,255,.6);margin-bottom:4px}
-    .fund-mini-val{font-size:24px;font-weight:900}
-    .fund-section-title{
-      font-size:12px;text-transform:uppercase;letter-spacing:.1em;font-weight:800;margin-bottom:8px;
-    }
-    .fund-card{
-      padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.04);
-      border:1px solid rgba(255,255,255,.05);margin-bottom:8px;
-    }
-    .fund-card-top{
-      display:flex;justify-content:space-between;gap:10px;align-items:flex-start;
-    }
-    .fund-card-title{font-size:13px;font-weight:800;color:#fff}
-    .fund-card-desc{font-size:12px;color:rgba(255,255,255,.65);line-height:1.5;margin-top:4px}
-    .fund-card-meta{font-size:11px;color:#c4b0f5;margin-top:6px}
-    .fund-card-amt{text-align:right;white-space:nowrap}
-    .fund-card-amt-main{font-size:13px;font-weight:900}
-    .fund-card-amt-sub{font-size:11px;color:rgba(255,255,255,.45);margin-top:4px}
+    /* SECTION BOXES */
+    .section-box{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:14px 16px;margin-bottom:14px}
+    .section-box h4{font-size:13px;font-weight:800;color:#fff;margin-bottom:10px}
+    .row-item{display:flex;align-items:flex-start;gap:9px;margin-bottom:9px}
+    .row-item:last-child{margin-bottom:0}
+    .row-n{width:24px;height:24px;border-radius:50%;background:var(--brand);display:grid;place-items:center;font-size:11px;font-weight:900;flex:0 0 24px;margin-top:1px}
+    .row-text{font-size:13px;line-height:1.55;color:rgba(255,255,255,.82)}
 
     /* CALENDAR */
-    .calendar-box{
-      background:rgba(58,159,212,.08);border:1px solid rgba(58,159,212,.2);
-      border-radius:16px;padding:13px 16px;margin-bottom:14px;
-    }
+    .calendar-box{background:rgba(58,159,212,.08);border:1px solid rgba(58,159,212,.2);border-radius:16px;padding:13px 16px;margin-bottom:14px}
     .calendar-box h4{font-size:13px;font-weight:800;color:#7dd4f8;margin-bottom:10px}
     .cal-items{display:flex;flex-direction:column;gap:7px}
     .cal-item{display:flex;align-items:flex-start;gap:10px}
     .cal-dot{width:10px;height:10px;border-radius:50%;flex:0 0 10px;margin-top:4px}
     .cal-dot.urgent{background:#ff6b6b}
-    .cal-dot.soon{background:var(--gold-2)}
+    .cal-dot.soon{background:var(--gold2)}
     .cal-dot.medium{background:#7dd4f8}
     .cal-dot.long{background:rgba(255,255,255,.3)}
     .cal-date{font-size:11px;font-weight:800;min-width:80px;color:rgba(255,255,255,.7)}
     .cal-label{font-size:12px;color:rgba(255,255,255,.75);line-height:1.45}
 
+    /* FUNDING */
+    .cee-box{background:rgba(200,150,14,.08);border:1px solid rgba(200,150,14,.2);border-radius:16px;padding:13px 16px;margin-bottom:14px}
+    .cee-box h4{font-size:13px;font-weight:800;color:var(--gold2);margin-bottom:8px}
+    .cee-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+    .cee-row:last-child{border:none}
+    .cee-label{font-size:12px;color:rgba(255,255,255,.75)}
+    .cee-val{font-size:12px;font-weight:700;color:var(--gold2)}
+    .cee-code{font-size:10px;color:rgba(255,255,255,.4);margin-left:4px}
+    .fund-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+    .fund-mini{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:12px 14px}
+    .fund-mini-label{font-size:12px;color:rgba(255,255,255,.6);margin-bottom:4px}
+    .fund-mini-val{font-size:22px;font-weight:900}
+    .fund-section-title{font-size:12px;text-transform:uppercase;letter-spacing:.08em;font-weight:800;margin-bottom:8px}
+    .fund-card{padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.05);margin-bottom:8px}
+    .fund-card-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+    .fund-card-title{font-size:13px;font-weight:800;color:#fff}
+    .fund-card-desc{font-size:12px;color:rgba(255,255,255,.65);line-height:1.5;margin-top:4px}
+    .fund-card-meta{font-size:11px;color:#c4b0f5;margin-top:5px}
+    .fund-card-amt{text-align:right;white-space:nowrap}
+    .fund-card-amt-main{font-size:13px;font-weight:900}
+    .fund-card-amt-sub{font-size:11px;color:rgba(255,255,255,.45);margin-top:3px}
+    .fund-variance{font-size:10px;color:rgba(255,200,80,.8);background:rgba(240,192,64,.1);border:1px solid rgba(240,192,64,.2);border-radius:6px;padding:2px 6px;display:inline-block;margin-top:4px}
+    .fund-disclaimer{font-size:12px;color:rgba(255,200,80,.75);padding:8px 10px;background:rgba(240,192,64,.06);border-radius:8px;border:1px solid rgba(240,192,64,.15);margin-bottom:10px}
+
     /* ALERT */
-    .alert-box{
-      background:rgba(130,100,200,.08);border:1px solid rgba(130,100,200,.22);
-      border-radius:16px;padding:13px 16px;margin-bottom:14px;
-    }
+    .alert-box{background:rgba(130,100,200,.08);border:1px solid rgba(130,100,200,.22);border-radius:16px;padding:13px 16px;margin-bottom:14px}
     .alert-box h4{font-size:13px;font-weight:800;color:#c4b0f5;margin-bottom:8px}
     .alert-form{display:flex;gap:8px;flex-wrap:wrap}
-    .alert-form input{
-      flex:1;min-width:180px;border-radius:11px;border:1px solid rgba(255,255,255,.12);
-      background:rgba(255,255,255,.08);color:#fff;padding:10px 13px;font-size:13px;outline:none;
-    }
+    .alert-form input{flex:1;min-width:180px;border-radius:11px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.08);color:#fff;padding:10px 13px;font-size:13px;outline:none}
     .alert-form input::placeholder{color:rgba(255,255,255,.35)}
 
+    /* SHARE */
+    .share-row{display:flex;align-items:center;gap:8px;margin-top:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:8px 12px}
+    .share-url{flex:1;font-size:11px;color:rgba(255,255,255,.55);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .share-copy-btn{font-size:11px;font-weight:700;color:#7dd4f8;background:none;border:none;cursor:pointer;white-space:nowrap}
+    .share-copy-btn.copied{color:#7ff5aa}
+
     /* PDF CTA */
-    .pdf-cta{
-      background:rgba(240,192,64,.07);border:1px solid rgba(240,192,64,.2);
-      border-radius:14px;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;
-      gap:12px;margin-bottom:14px;flex-wrap:wrap;
-    }
-    .pdf-cta p{
-      font-size:13px;color:rgba(255,255,255,.75);line-height:1.5;flex:1;
-    }
-    .res-cta{
-      display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap;margin-top:6px;
-    }
+    .pdf-cta{background:rgba(240,192,64,.07);border:1px solid rgba(240,192,64,.2);border-radius:14px;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+    .pdf-cta p{font-size:13px;color:rgba(255,255,255,.75);line-height:1.5;flex:1}
+    .res-cta{display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap;margin-top:6px}
 
     /* CONTACT */
-    .contact-grid{
-      display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px;
-    }
+    .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
     .cfield{display:grid;gap:5px}
     .cfield.full{grid-column:1/-1}
     .cfield label{font-size:12px;font-weight:700;color:rgba(255,255,255,.65)}
-    .cfield input,.cfield textarea{
-      border-radius:11px;border:1px solid rgba(255,255,255,.1);
-      background:rgba(255,255,255,.07);color:#fff;padding:10px 13px;font-size:14px;outline:none;width:100%;
-    }
+    .cfield input,.cfield textarea{border-radius:11px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.07);color:#fff;padding:10px 13px;font-size:14px;outline:none;width:100%}
     .cfield input::placeholder,.cfield textarea::placeholder{color:rgba(255,255,255,.32)}
     .cfield textarea{min-height:120px;resize:vertical}
-    .contact-actions{
-      margin-top:12px;display:flex;justify-content:flex-end;gap:9px;flex-wrap:wrap;
-    }
+    .contact-actions{margin-top:12px;display:flex;justify-content:flex-end;gap:9px;flex-wrap:wrap}
 
     /* FAQ */
-    .faq-section{
-      background:var(--card);border-radius:24px;border:1px solid var(--line);
-      padding:28px 24px;margin-top:20px;box-shadow:var(--shadow);
-    }
-    .faq-section h2{
-      font-size:22px;font-weight:900;color:var(--ink);margin-bottom:18px;letter-spacing:-.03em;
-    }
+    .faq-section{background:var(--card);border-radius:24px;border:1px solid var(--line);padding:28px 24px;margin-top:20px;box-shadow:var(--shadow)}
+    .faq-section h2{font-size:22px;font-weight:900;color:var(--ink);margin-bottom:18px;letter-spacing:-.03em}
     .faq-item{border-bottom:1px solid var(--line)}
     .faq-item:last-child{border:none}
-    .faq-btn{
-      width:100%;display:flex;justify-content:space-between;align-items:center;padding:15px 0;
-      background:transparent;border:none;cursor:pointer;text-align:left;gap:14px;
-    }
+    .faq-btn{width:100%;display:flex;justify-content:space-between;align-items:center;padding:15px 0;background:transparent;border:none;cursor:pointer;text-align:left;gap:14px}
     .faq-q{font-size:14px;font-weight:700;color:var(--ink)}
-    .faq-icon{
-      width:28px;height:28px;border-radius:8px;background:#e8f6ee;color:var(--brand);
-      display:grid;place-items:center;font-size:18px;font-weight:900;flex:0 0 28px;transition:.2s;
-    }
+    .faq-icon{width:28px;height:28px;border-radius:8px;background:#e8f6ee;color:var(--brand);display:grid;place-items:center;font-size:18px;font-weight:900;flex:0 0 28px;transition:.2s}
     .faq-answer{display:none;padding:0 0 15px;font-size:13px;line-height:1.7;color:var(--muted)}
     .faq-item.open .faq-answer{display:block}
     .faq-item.open .faq-icon{background:var(--brand);color:#fff}
 
     /* RESPONSIVE */
-    @media(max-width:980px){
-      .info-grid{grid-template-columns:1fr 1fr}
-      .two-col{grid-template-columns:1fr}
-      .res-grid{grid-template-columns:1fr}
-      .fund-grid{grid-template-columns:1fr}
-    }
+    @media(max-width:980px){.info-grid{grid-template-columns:1fr 1fr}.two-col,.res-grid,.fund-grid,.mini-grid{grid-template-columns:1fr}}
     @media(max-width:640px){
-      .wrap{padding:12px 10px 32px}
-      .hero{border-radius:20px;padding:36px 14px 30px}
-      .mbox{border-radius:20px}
-      .whead,.wbody{padding:14px 16px}
-      .wfoot{padding:10px 16px;flex-direction:column}
-      .wfoot .right{width:100%}
+      .wrap{padding:12px 10px 32px}.hero{border-radius:20px;padding:36px 14px 30px}
+      .mbox{border-radius:20px}.whead,.wbody{padding:14px 16px}
+      .wfoot{padding:10px 16px;flex-direction:column}.wfoot .right{width:100%}
       .wfoot .right .btn,.wfoot>.btn{width:100%}
-      .contact-grid{grid-template-columns:1fr}
-      .info-grid{grid-template-columns:1fr}
-      .res-top-cta{flex-direction:column}
+      .contact-grid,.info-grid{grid-template-columns:1fr}
+      .res-top-cta{flex-direction:column}.pdf-cta{flex-direction:column}
     }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <section class="hero">
-      <div class="hero-in">
-        <div class="hero-mascot-top">
-          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M16 35c-7 0-11-5-11-11 0-9 8-15 16-15 2-5 7-8 13-8 9 0 16 7 16 16 8 0 14 6 14 14s-6 14-14 14H22c-4 8-9 12-14 14 3-5 5-10 4-15h4Z" fill="#18b45b"/>
-            <ellipse cx="28" cy="27" rx="3.5" ry="6" fill="#fff"/>
-            <ellipse cx="40" cy="27" rx="3.5" ry="6" fill="#fff"/>
-            <ellipse cx="28" cy="28" rx="2" ry="3" fill="#0f2218"/>
-            <ellipse cx="40" cy="28" rx="2" ry="3" fill="#0f2218"/>
-            <path d="M27 39c3 2 7 2 10 0" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
-          </svg>
-        </div>
-
-        <div class="hero-badge"> EcoEvalue 360° — Simulateur gratuit</div>
-        <h1>Votre conformité réglementaire<br><em>évaluée en 3 minutes</em></h1>
-        <p class="hero-sub">
-          18 thématiques analysées, un score personnalisé, un calendrier d’échéances,
-          3 priorités d’action, et un plan de financement indicatif.
-        </p>
-
-        <div class="hero-regs">
-          <span>Décret Tertiaire</span>
-          <span>Décret BACS</span>
-          <span>Loi APER</span>
-          <span>Audit énergétique</span>
-          <span>BEGES</span>
-          <span>CSRD</span>
-          <span>IRVE</span>
-          <span>ENR toiture</span>
-          <span>Amiante</span>
-          <span>DPE / EPBD</span>
-          <span>ISO 50001</span>
-          <span>PFAS</span>
-          <span>Bail Vert</span>
-          <span>Plan Sobriété</span>
-          <span>RE2020</span>
-          <span>Industrie Verte</span>
-          <span>DPE copropriété</span>
-          <span>CEE + autres aides</span>
-        </div>
-
-        <button class="btn btn-brand" id="open-wizard">Démarrer mon évaluation →</button>
-        <p class="hero-note">Outil indicatif · EcoVertaConsul't · La Courneuve (93) · Île-de-France</p>
+<div class="wrap">
+  <section class="hero">
+    <div class="hero-in">
+      <div class="hero-mascot">
+        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16 35c-7 0-11-5-11-11 0-9 8-15 16-15 2-5 7-8 13-8 9 0 16 7 16 16 8 0 14 6 14 14s-6 14-14 14H22c-4 8-9 12-14 14 3-5 5-10 4-15h4Z" fill="#18b45b"/>
+          <ellipse cx="28" cy="27" rx="3.5" ry="6" fill="#fff"/>
+          <ellipse cx="40" cy="27" rx="3.5" ry="6" fill="#fff"/>
+          <ellipse cx="28" cy="28" rx="2" ry="3" fill="#0f2218"/>
+          <ellipse cx="40" cy="28" rx="2" ry="3" fill="#0f2218"/>
+          <path d="M27 39c3 2 7 2 10 0" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
       </div>
-    </section>
-
-    <div class="info-grid">
-      <div class="info-card">
-        <div class="info-icon">🏛️</div>
-        <h3>Conformité</h3>
-        <p>Lecture rapide des principales obligations énergie, bâtiment, reporting et exploitation.</p>
+      <div class="hero-badge">EcoEvalue 360° — V5 · Simulateur gratuit</div>
+      <h1>Votre conformité réglementaire<br><em>évaluée en 3 minutes</em></h1>
+      <p class="hero-sub">28 thématiques analysées, score pondéré sur 3 axes, calendrier d'échéances, priorités d'action, CEE avec codes fiches et plan de financement indicatif.</p>
+      <div class="hero-regs">
+        <span>Décret Tertiaire</span><span>BACS / GTB</span><span>Audit énergétique</span>
+        <span>APER</span><span>IRVE</span><span>RE2020</span><span>Amiante</span>
+        <span>PFAS</span><span>DPE / EPBD</span><span>BEGES</span><span>CSRD</span>
+        <span>ISO 50001</span><span>Bail Vert</span><span>Sobriété</span>
+        <span>Photovoltaïque</span><span>CEE + aides</span>
       </div>
-      <div class="info-card">
-        <div class="info-icon">📅</div>
-        <h3>Échéances</h3>
-        <p>Visualisez les prochaines actions à traiter et les points réglementaires à anticiper.</p>
-      </div>
-      <div class="info-card">
-        <div class="info-icon">💶</div>
-        <h3>Financement</h3>
-        <p>CEE, autres aides mobilisables, niveau de confiance et données à confirmer.</p>
-      </div>
+      <button class="btn btn-brand" id="open-wizard">Démarrer mon évaluation →</button>
+      <p class="hero-note">Outil indicatif · EcoVertaConsul't · La Courneuve (93) · Île-de-France</p>
     </div>
+  </section>
 
-    <div class="local-band">
-      <span style="font-size:28px">📍</span>
-      <p>
-        <strong>EcoVertaConsul't</strong> — Bureau d’études basé à La Courneuve (93),
-        accompagnant les acteurs du tertiaire sur la conformité réglementaire, l’audit énergétique,
-        la GTB/BACS, le photovoltaïque et les plans de financement.
-      </p>
-      <button class="btn btn-dark btn-sm" id="open-wizard-2">Tester l'outil →</button>
-    </div>
-
-    <div class="faq-section">
-      <h2>Questions fréquentes</h2>
-      <div id="faqList">
-        <div class="faq-item open">
-          <button class="faq-btn">
-            <span class="faq-q">Ce simulateur remplace-t-il un audit professionnel ?</span>
-            <span class="faq-icon">+</span>
-          </button>
-          <div class="faq-answer">
-            Non. EcoEvalue 360° est un pré-diagnostic. Les résultats sont indicatifs
-            et doivent être confirmés par une analyse technique détaillée.
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <button class="faq-btn">
-            <span class="faq-q">Le bloc financement donne-t-il un montant exact ?</span>
-            <span class="faq-icon">+</span>
-          </button>
-          <div class="faq-answer">
-            Non. Le moteur donne une fourchette indicative selon le profil du bâtiment,
-            les travaux supposés et les données déclarées. Les règles d’éligibilité,
-            de cumul et les montants finaux doivent être confirmés.
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <button class="faq-btn">
-            <span class="faq-q">À qui s’adresse l’outil ?</span>
-            <span class="faq-icon">+</span>
-          </button>
-          <div class="faq-answer">
-            Aux propriétaires, bailleurs, exploitants, gestionnaires multi-sites,
-            copropriétés tertiaires, collectivités et établissements recevant du public.
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <button class="faq-btn">
-            <span class="faq-q">Peut-on demander un rapport détaillé ?</span>
-            <span class="faq-icon">+</span>
-          </button>
-          <div class="faq-answer">
-            Oui. Le formulaire final préremplit une demande de diagnostic détaillé
-            avec vos résultats, vos priorités et votre plan de financement indicatif.
-          </div>
-        </div>
-      </div>
-    </div>
+  <div class="info-grid">
+    <div class="info-card"><div class="info-icon">🏛️</div><h3>Conformité</h3><p>28 thématiques analysées, score pondéré sur 3 axes, badges sanctions.</p></div>
+    <div class="info-card"><div class="info-icon">📅</div><h3>Échéances</h3><p>Calendrier coloré des prochaines actions urgentes à anticiper.</p></div>
+    <div class="info-card"><div class="info-icon">💶</div><h3>Financement</h3><p>CEE avec codes fiches, autres aides, données à confirmer.</p></div>
   </div>
 
-  <!-- MODAL -->
-  <div class="modal" id="modal-wizard">
-    <div class="mbox">
-      <div class="mbox-in">
-        <div class="whead">
-          <div class="whead-top">
-            <div>
-              <div class="wtitle">EcoEvalue <em>360°</em></div>
-              <div class="wsub">Pré-diagnostic réglementaire + moteur financement</div>
-            </div>
-            <button class="xbtn" id="close-wizard">×</button>
-          </div>
+  <div class="local-band">
+    <span style="font-size:28px">📍</span>
+    <p><strong>EcoVertaConsul't</strong> — Bureau d'études basé à La Courneuve (93), accompagnant les acteurs du tertiaire sur la conformité réglementaire, l'audit énergétique, la GTB/BACS, le photovoltaïque et les plans de financement.</p>
+    <button class="btn btn-dark btn-sm" id="open-wizard-2">Tester l'outil →</button>
+  </div>
 
-          <div class="prog-row">
-            <div class="prog-bg"><div class="prog-fill" id="pFill" style="width:0%"></div></div>
-            <span class="prog-txt" id="pTxt">Étape 1/4</span>
-          </div>
+  <div class="faq-section">
+    <h2>Questions fréquentes</h2>
+    <div class="faq-item open">
+      <button class="faq-btn"><span class="faq-q">Ce simulateur remplace-t-il un audit professionnel ?</span><span class="faq-icon">×</span></button>
+      <div class="faq-answer">Non. EcoEvalue 360° est un pré-diagnostic. Les résultats sont indicatifs et doivent être confirmés par une analyse technique détaillée.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-btn"><span class="faq-q">Le financement affiché est-il exact ?</span><span class="faq-icon">+</span></button>
+      <div class="faq-answer">Non. Les montants sont indicatifs selon le profil et les données déclarées. Les règles d'éligibilité, de cumul et les montants finaux doivent être confirmés par étude technique.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-btn"><span class="faq-q">Puis-je reprendre un diagnostic en cours ?</span><span class="faq-icon">+</span></button>
+      <div class="faq-answer">Oui. Vos réponses sont sauvegardées automatiquement. Vous pouvez aussi partager le lien de résultats avec un collègue ou consultant.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-btn"><span class="faq-q">À qui s'adresse l'outil ?</span><span class="faq-icon">+</span></button>
+      <div class="faq-answer">Aux propriétaires, bailleurs, exploitants, gestionnaires multi-sites, copropriétés tertiaires, collectivités et établissements recevant du public.</div>
+    </div>
+  </div>
+</div>
 
-          <div class="step-title-row">
-            <div class="step-num" id="sNum">1</div>
-            <div class="step-name" id="sName">Votre bâtiment</div>
-            <span class="qcount" id="qCount"></span>
-          </div>
+<!-- MODAL -->
+<div class="modal" id="modal-wizard" role="dialog" aria-modal="true" aria-labelledby="wizard-title">
+  <div class="mbox">
+    <div class="whead">
+      <div class="whead-top">
+        <div>
+          <div class="wtitle" id="wizard-title">EcoEvalue <em>360°</em></div>
+          <div class="wsub">V5 — 28 enjeux, 3 axes, calendrier, CEE et financement</div>
         </div>
+        <button class="xbtn" id="close-wizard" aria-label="Fermer">×</button>
+      </div>
+      <div class="prog-row">
+        <div class="prog-bg"><div class="prog-fill" id="pFill" style="width:0%"></div></div>
+        <span class="prog-txt" id="pTxt" aria-live="polite">Étape 1/4</span>
+      </div>
+      <div class="step-title-row">
+        <div class="step-num" id="sNum">1</div>
+        <div class="step-name" id="sName">Votre bâtiment</div>
+        <span class="qcount" id="qCount"></span>
+      </div>
+    </div>
 
-        <div class="wbody">
-          <!-- STEP 0 -->
-          <div class="step-panel active" id="sp0">
-            <div class="two-col">
-              <div>
-                <div class="qgroup">
-                  <h4>Activité principale du bâtiment</h4>
-                  <div class="chips" id="c-act">
-                    <button class="chip" data-v="bureaux">Bureaux</button>
-                    <button class="chip" data-v="hotellerie">Hôtellerie</button>
-                    <button class="chip" data-v="commerce">Commerce / Retail</button>
-                    <button class="chip" data-v="sante">Santé / Médico-social</button>
-                    <button class="chip" data-v="enseignement">Enseignement</button>
-                    <button class="chip" data-v="collectivite">Collectivité</button>
-                    <button class="chip" data-v="logistique">Logistique / Mixte</button>
-                    <button class="chip" data-v="autre">Autre tertiaire</button>
-                  </div>
-                </div>
+    <div class="wbody">
+      <div id="resume-banner" class="resume-banner" style="display:none">
+        <p>📌 Vous avez un diagnostic en cours. Souhaitez-vous le reprendre ?</p>
+        <button id="resume-btn">Reprendre →</button>
+        <button id="resume-discard">Nouveau diagnostic</button>
+      </div>
 
-                <div class="qgroup">
-                  <h4>Surface tertiaire totale</h4>
-                  <div class="chips" id="c-surf">
-                    <button class="chip" data-v="<500">&lt; 500 m²</button>
-                    <button class="chip" data-v="500-1000">500 à 1 000 m²</button>
-                    <button class="chip" data-v="1000-5000">1 000 à 5 000 m²</button>
-                    <button class="chip" data-v=">5000">&gt; 5 000 m²</button>
-                  </div>
-                </div>
-
-                <div class="qgroup">
-                  <h4>Année de construction</h4>
-                  <div class="chips" id="c-year">
-                    <button class="chip" data-v="avant1997">Avant 1997</button>
-                    <button class="chip" data-v="1997-2010">1997 — 2010</button>
-                    <button class="chip" data-v="apres2010">Après 2010</button>
-                  </div>
-                </div>
-
-                <div class="qgroup">
-                  <h4>Statut du bâtiment <span class="q-opt">(optionnel)</span></h4>
-                  <div class="chips" id="c-statut">
-                    <button class="chip" data-v="proprio-occup">Propriétaire occupant</button>
-                    <button class="chip" data-v="bailleur">Bailleur avec locataires</button>
-                    <button class="chip" data-v="locataire">Locataire</button>
-                    <button class="chip" data-v="copro">Copropriété mixte</button>
-                  </div>
-                </div>
-
-                <div class="qgroup">
-                  <h4>Construction neuve ou rénovation majeure ? <span class="q-opt">(optionnel)</span></h4>
-                  <div class="chips" id="c-neuf">
-                    <button class="chip" data-v="oui-neuf">Oui — construction neuve</button>
-                    <button class="chip" data-v="oui-renov">Oui — rénovation lourde assimilée neuf</button>
-                    <button class="chip" data-v="non">Non</button>
-                  </div>
-                </div>
+      <!-- SP0 -->
+      <div class="step-panel active" id="sp0" role="tabpanel">
+        <div class="two-col">
+          <div>
+            <div class="qgroup">
+              <h4>Activité principale</h4>
+              <div class="chips" id="c-act">
+                <button class="chip" data-v="bureaux">Bureaux</button>
+                <button class="chip" data-v="hotellerie">Hôtellerie</button>
+                <button class="chip" data-v="commerce">Commerce / Retail</button>
+                <button class="chip" data-v="sante">Santé / Médico-social</button>
+                <button class="chip" data-v="enseignement">Enseignement</button>
+                <button class="chip" data-v="collectivite">Collectivité</button>
+                <button class="chip" data-v="logistique">Logistique / Mixte</button>
+                <button class="chip" data-v="autre">Autre tertiaire</button>
               </div>
-
-              <div class="hlp">
-                <div class="hlp-mascot">
-                  <svg viewBox="0 0 64 64" fill="none">
-                    <path d="M16 35c-7 0-11-5-11-11 0-9 8-15 16-15 2-5 7-8 13-8 9 0 16 7 16 16 8 0 14 6 14 14s-6 14-14 14H22c-4 8-9 12-14 14 3-5 5-10 4-15h4Z" fill="#42df74"/>
-                    <ellipse cx="28" cy="27" rx="3.5" ry="6" fill="#fff"/>
-                    <ellipse cx="40" cy="27" rx="3.5" ry="6" fill="#fff"/>
-                    <path d="M27 39c3 2 7 2 10 0" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
-                  </svg>
-                </div>
-                <div class="bubble">
-                  <strong>Votre bâtiment</strong>
-                  <span>Cette étape aide à qualifier le périmètre bâtiment, les enjeux patrimoniaux, la copropriété, la rénovation et certains risques avant travaux.</span>
-                  <span class="bubble-tip">📋 3 réponses obligatoires · 2 optionnelles</span>
-                </div>
+              <div class="field-err" id="err-act">Ce champ est obligatoire</div>
+            </div>
+            <div class="qgroup">
+              <h4>Surface tertiaire totale</h4>
+              <div class="chips" id="c-surf">
+                <button class="chip" data-v="<500">&lt; 500 m²</button>
+                <button class="chip" data-v="500-1000">500 à 1 000 m²</button>
+                <button class="chip" data-v="1000-5000">1 000 à 5 000 m²</button>
+                <button class="chip" data-v=">5000">&gt; 5 000 m²</button>
+              </div>
+              <div class="field-err" id="err-surf">Ce champ est obligatoire</div>
+            </div>
+            <div class="qgroup">
+              <h4>Année de construction</h4>
+              <div class="chips" id="c-year">
+                <button class="chip" data-v="avant1997">Avant 1997</button>
+                <button class="chip" data-v="1997-2012">1997 à 2012</button>
+                <button class="chip" data-v="apres2012">Après 2012</button>
+              </div>
+              <div class="field-err" id="err-year">Ce champ est obligatoire</div>
+            </div>
+            <div class="qgroup">
+              <h4>Statut du bâtiment <span class="q-opt">(optionnel)</span></h4>
+              <div class="chips" id="c-statut">
+                <button class="chip" data-v="proprio-occup">Propriétaire occupant</button>
+                <button class="chip" data-v="bailleur">Bailleur</button>
+                <button class="chip" data-v="locataire">Locataire</button>
+                <button class="chip" data-v="copro">Copropriété</button>
+              </div>
+            </div>
+            <div class="qgroup">
+              <h4>Projet neuf ou rénovation <span class="q-opt">(optionnel)</span></h4>
+              <div class="chips" id="c-neuf">
+                <button class="chip" data-v="oui-neuf">Neuf</button>
+                <button class="chip" data-v="oui-renov">Rénovation lourde assimilée neuf</button>
+                <button class="chip" data-v="non">Non</button>
               </div>
             </div>
           </div>
-
-          <!-- STEP 1 -->
-          <div class="step-panel" id="sp1">
-            <div class="two-col">
-              <div>
-                <div class="qgroup">
-                  <h4>Systèmes techniques présents <span class="q-opt">(optionnel — plusieurs choix)</span></h4>
-                  <div class="chips" id="c-sys">
-                    <button class="chip multi" data-v="chauffage">Chauffage</button>
-                    <button class="chip multi" data-v="clim">Climatisation</button>
-                    <button class="chip multi" data-v="ventilation">Ventilation</button>
-                    <button class="chip multi" data-v="ecs">ECS</button>
-                    <button class="chip multi" data-v="eclairage">Éclairage technique</button>
-                  </div>
-                </div>
-
-                <div class="qgroup">
-                  <h4>Puissance utile totale des systèmes CVC / ECS</h4>
-                  <div class="chips" id="c-power">
-                    <button class="chip" data-v="<70">&lt; 70 kW</button>
-                    <button class="chip" data-v="70-290">70 à 290 kW</button>
-                    <button class="chip" data-v=">290">&gt; 290 kW</button>
-                    <button class="chip" data-v="nspp">Je ne sais pas</button>
-                  </div>
-                </div>
-
-                <div class="qgroup">
-                  <h4>Parking extérieur sur le site ?</h4>
-                  <div class="chips" id="c-park">
-                    <button class="chip" data-v=">1500">Oui — &gt; 1 500 m²</button>
-                    <button class="chip" data-v="<1500">Oui — &lt; 1 500 m²</button>
-                    <button class="chip" data-v="non">Non</button>
-                    <button class="chip" data-v="nspp">Je ne sais pas</button>
-                  </div>
-                </div>
-              </div>
-
-              <div class="hlp">
-                <div class="hlp-mascot">
-                  <svg viewBox="0 0 64 64" fill="none">
-                    <path d="M16 35c-7 0-11-5-11-11 0-9 8-15 16-15 2-5 7-8 13-8 9 0 16 7 16 16 8 0 14 6 14 14s-6 14-14 14H22c-4 8-9 12-14 14 3-5 5-10 4-15h4Z" fill="#42df74"/>
-                    <ellipse cx="28" cy="27" rx="3.5" ry="6" fill="#fff"/>
-                    <ellipse cx="40" cy="27" rx="3.5" ry="6" fill="#fff"/>
-                    <path d="M27 39c3 2 7 2 10 0" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
-                  </svg>
-                </div>
-                <div class="bubble">
-                  <strong>Systèmes et parking</strong>
-                  <span>Cette étape oriente le sujet BACS / GTB, l’analyse du parking, l’IRVE et le potentiel ombrières / photovoltaïque.</span>
-                  <span class="bubble-tip">⚡ Puissance CVC = donnée clé</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- STEP 2 -->
-          <div class="step-panel" id="sp2">
-            <div class="two-col">
-              <div>
-                <div class="qgroup">
-                  <h4>Consommation d'énergie annuelle estimée</h4>
-                  <div class="chips" id="c-conso">
-                    <button class="chip" data-v="<1">&lt; 1 GWh/an</button>
-                    <button class="chip" data-v="1-2.75">1 à 2,75 GWh/an</button>
-                    <button class="chip" data-v=">2.75">&gt; 2,75 GWh/an</button>
-                    <button class="chip" data-v="nspp">Je ne sais pas</button>
-                  </div>
-                </div>
-
-                <div class="qgroup">
-                  <h4>Effectif salarié de l'entreprise</h4>
-                  <div class="chips" id="c-staff">
-                    <button class="chip" data-v="<50">&lt; 50 salariés</button>
-                    <button class="chip" data-v="50-250">50 à 250 salariés</button>
-                    <button class="chip" data-v="250-500">250 à 500 salariés</button>
-                    <button class="chip" data-v=">500">&gt; 500 salariés</button>
-                    <button class="chip" data-v="nspp">Je ne sais pas</button>
-                  </div>
-                </div>
-
-                <div class="qgroup">
-                  <h4>Travaux de rénovation prévus ou en cours ?</h4>
-                  <div class="chips" id="c-trav">
-                    <button class="chip" data-v="oui-lourd">Oui — rénovation lourde</button>
-                    <button class="chip" data-v="oui-leger">Oui — travaux légers</button>
-                    <button class="chip" data-v="non">Non</button>
-                  </div>
-                </div>
-
-                <div class="qgroup">
-                  <h4>Énergie de chauffage principale</h4>
-                  <div class="chips" id="c-chauff">
-                    <button class="chip" data-v="elec">Électricité</button>
-                    <button class="chip" data-v="gaz">Gaz naturel</button>
-                    <button class="chip" data-v="fioul">Fioul</button>
-                    <button class="chip" data-v="rcu">Réseau chaleur urbain</button>
-                    <button class="chip" data-v="mixte">Mixte</button>
-                  </div>
-                </div>
-
-                <div class="qgroup">
-                  <h4>Classe DPE actuelle <span class="q-opt">(optionnel)</span></h4>
-                  <div class="chips" id="c-dpe">
-                    <button class="chip" data-v="AB">A ou B</button>
-                    <button class="chip" data-v="CD">C ou D</button>
-                    <button class="chip" data-v="E">E</button>
-                    <button class="chip" data-v="FG">F ou G</button>
-                    <button class="chip" data-v="nspp">Non réalisé / Ne sais pas</button>
-                  </div>
-                </div>
-
-                <div class="qgroup">
-                  <h4>Certification ISO 50001 en place ?</h4>
-                  <div class="chips" id="c-iso">
-                    <button class="chip" data-v="oui">Oui — certifié</button>
-                    <button class="chip" data-v="non">Non</button>
-                    <button class="chip" data-v="encours">En cours</button>
-                  </div>
-                </div>
-              </div>
-
-              <div class="hlp">
-                <div class="hlp-mascot">
-                  <svg viewBox="0 0 64 64" fill="none">
-                    <path d="M16 35c-7 0-11-5-11-11 0-9 8-15 16-15 2-5 7-8 13-8 9 0 16 7 16 16 8 0 14 6 14 14s-6 14-14 14H22c-4 8-9 12-14 14 3-5 5-10 4-15h4Z" fill="#42df74"/>
-                    <ellipse cx="28" cy="27" rx="3.5" ry="6" fill="#fff"/>
-                    <ellipse cx="40" cy="27" rx="3.5" ry="6" fill="#fff"/>
-                    <path d="M27 39c3 2 7 2 10 0" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
-                  </svg>
-                </div>
-                <div class="bubble">
-                  <strong>Énergie et structure</strong>
-                  <span>Cette étape alimente le moteur audit, DPE, rénovation, reporting et management de l’énergie.</span>
-                  <span class="bubble-tip">📅 Données structurantes pour le financement</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- STEP 3 -->
-          <div class="step-panel" id="sp3">
-            <div class="two-col">
-              <div>
-                <div class="qgroup">
-                  <h4>Niveau de pilotage GTB existant</h4>
-                  <div class="chips" id="c-gtb">
-                    <button class="chip" data-v="aucun">Aucun pilotage structuré</button>
-                    <button class="chip" data-v="partiel">Pilotage partiel</button>
-                    <button class="chip" data-v="gtb">GTB / supervision en place</button>
-                  </div>
-                </div>
-
-                <div class="qgroup">
-                  <h4>Objectif principal</h4>
-                  <div class="chips" id="c-goal">
-                    <button class="chip" data-v="conformite">Sécuriser ma conformité</button>
-                    <button class="chip" data-v="economies">Réduire mes consommations</button>
-                    <button class="chip" data-v="photovoltaique">Étudier le photovoltaïque</button>
-                    <button class="chip" data-v="tout">Les 3 à la fois</button>
-                  </div>
-                </div>
-
-                <div class="qgroup">
-                  <h4>Souhaitez-vous un diagnostic détaillé ?</h4>
-                  <div class="chips" id="c-diag">
-                    <button class="chip" data-v="oui">Oui, je souhaite être contacté</button>
-                    <button class="chip" data-v="non">Non, juste les résultats</button>
-                  </div>
-                </div>
-              </div>
-
-              <div class="hlp">
-                <div class="hlp-mascot">
-                  <svg viewBox="0 0 64 64" fill="none">
-                    <path d="M16 35c-7 0-11-5-11-11 0-9 8-15 16-15 2-5 7-8 13-8 9 0 16 7 16 16 8 0 14 6 14 14s-6 14-14 14H22c-4 8-9 12-14 14 3-5 5-10 4-15h4Z" fill="#42df74"/>
-                    <ellipse cx="28" cy="27" rx="3.5" ry="6" fill="#fff"/>
-                    <ellipse cx="40" cy="27" rx="3.5" ry="6" fill="#fff"/>
-                    <path d="M27 39c3 2 7 2 10 0" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
-                  </svg>
-                </div>
-                <div class="bubble">
-                  <strong>Dernière étape</strong>
-                  <span>On consolide votre lecture réglementaire, le score, le plan de financement, les priorités et les points à confirmer.</span>
-                  <span class="bubble-tip">🎯 Résultats personnalisés</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- STEP 4 : RESULTS -->
-          <div class="step-panel" id="sp4">
-            <div class="res-top-cta">
-              <p>
-                Votre pré-diagnostic est prêt. Pour recevoir un rapport structuré
-                avec recommandations et plan d’action, utilisez le formulaire de contact.
-              </p>
-              <button class="btn btn-brand btn-sm" id="res-contact-top">Recevoir mon rapport →</button>
-            </div>
-
-            <div class="res-grid">
-              <div class="score-box">
-                <div class="score-val" id="scoreVal">—<small>/100</small></div>
-                <div class="score-bar-bg"><div class="score-bar-fill" id="scoreFill" style="width:0%"></div></div>
-                <div class="score-lbl" id="scoreLbl">—</div>
-                <div class="score-desc" id="scoreDesc">
-                  Le score reflète votre niveau d’exposition réglementaire global
-                  et le volume d’actions à structurer.
-                </div>
-              </div>
-              <div class="cats" id="catsGrid"></div>
-            </div>
-
-            <div class="prio-box">
-              <h4>Vos 3 priorités d'action</h4>
-              <div id="prioList"></div>
-            </div>
-
-            <div class="calendar-box" id="calBox" style="display:none">
-              <h4>📅 Vos prochaines échéances à surveiller</h4>
-              <div class="cal-items" id="calItems"></div>
-            </div>
-
-            <div class="cee-estimate" id="ceeBox" style="display:none">
-              <h4>💶 CEE indicatif — estimation rapide</h4>
-              <div id="ceeRows"></div>
-              <div class="cee-total-row">
-                <span class="cee-total-label">CEE estimatif</span>
-                <span class="cee-total-val" id="ceeTotal">—</span>
-              </div>
-            </div>
-
-            <div class="cee-estimate" id="fundingBox" style="display:none">
-              <h4>🏦 Plan de financement indicatif — CEE + autres aides</h4>
-
-              <div class="fund-grid">
-                <div class="fund-mini">
-                  <div class="fund-mini-label">CEE mobilisable estimatif</div>
-                  <div class="fund-mini-val" id="fundingCeeTotal" style="color:#f0c040">—</div>
-                  <div id="fundingConfidence" style="margin-top:6px;font-size:12px;color:rgba(255,255,255,.75)">—</div>
-                </div>
-                <div class="fund-mini">
-                  <div class="fund-mini-label">Autres aides potentielles</div>
-                  <div class="fund-mini-val" id="fundingAidCount" style="color:#7dd4f8">—</div>
-                  <div style="margin-top:6px;font-size:12px;color:rgba(255,255,255,.6)">À confirmer selon projet et cumul</div>
-                </div>
-              </div>
-
-              <div style="margin-top:14px">
-                <div class="fund-section-title" style="color:#f0c040">CEE estimatifs</div>
-                <div id="fundingCeeList"></div>
-              </div>
-
-              <div style="margin-top:14px">
-                <div class="fund-section-title" style="color:#7dd4f8">Autres aides mobilisables</div>
-                <div id="fundingAidList"></div>
-              </div>
-
-              <div style="margin-top:14px">
-                <div class="fund-section-title" style="color:#c4b0f5">Données à confirmer</div>
-                <div id="fundingMissingList"></div>
-              </div>
-
-              <div style="margin-top:14px">
-                <div class="fund-section-title" style="color:#7ff5aa">Prochaines vérifications</div>
-                <div id="fundingChecksList"></div>
-              </div>
-            </div>
-
-            <div class="pdf-cta">
-              <p>
-                📄 <strong>Rapport détaillé sur demande</strong> — synthèse réglementaire,
-                priorités d’action, plan de financement et points à confirmer.
-              </p>
-              <button class="btn btn-gold btn-sm" id="res-pdf">Demander mon rapport →</button>
-            </div>
-
-            <div class="alert-box">
-              <h4>🔔 Rappel email</h4>
-              <div class="alert-form">
-                <input id="alert-email" type="email" placeholder="votre@email.fr" />
-                <button class="btn btn-sm" style="background:rgba(130,100,200,.3);color:#c4b0f5;border:1px solid rgba(130,100,200,.4);font-weight:700;flex:0 0 auto" id="alert-btn">M'alerter</button>
-              </div>
-              <p id="alert-msg" style="font-size:12px;color:rgba(255,255,255,.5);margin-top:6px;display:none"></p>
-            </div>
-
-            <div class="res-cta">
-              <button class="btn btn-outline btn-sm" id="res-restart">Recommencer</button>
-              <button class="btn btn-brand btn-sm" id="res-contact">Recevoir mon diagnostic complet</button>
-            </div>
-          </div>
-
-          <!-- STEP 5 : CONTACT -->
-          <div class="step-panel" id="sp5">
-            <p style="font-size:14px;color:rgba(255,255,255,.65);margin-bottom:4px">
-              Le bouton d'envoi ouvre votre messagerie avec les informations préremplies.
-            </p>
-
-            <div class="contact-grid">
-              <div class="cfield">
-                <label>Nom / Société</label>
-                <input id="cn-n" type="text" placeholder="Société ou nom" />
-              </div>
-              <div class="cfield">
-                <label>Email professionnel</label>
-                <input id="cn-e" type="email" placeholder="nom@entreprise.fr" />
-              </div>
-              <div class="cfield">
-                <label>Téléphone</label>
-                <input id="cn-p" type="tel" placeholder="06 00 00 00 00" />
-              </div>
-              <div class="cfield">
-                <label>Objet</label>
-                <input id="cn-s" type="text" value="Demande diagnostic EcoEvalue 360° — EcoVertaConsul't" />
-              </div>
-              <div class="cfield full">
-                <label>Message</label>
-                <textarea id="cn-m" placeholder="Décrivez votre bâtiment et votre besoin…"></textarea>
-              </div>
-            </div>
-
-            <div class="contact-actions">
-              <button class="btn btn-ghost btn-sm" id="cn-back">← Retour aux résultats</button>
-              <button class="btn btn-brand btn-sm" id="cn-send">Envoyer ma demande</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="wfoot">
-          <button class="btn btn-ghost btn-sm" id="prevBtn" style="display:none">← Précédent</button>
-          <div class="right">
-            <button class="btn btn-brand btn-sm" id="nextBtn">Suivant →</button>
+          <div class="hlp">
+            <div class="hlp-mascot"><svg viewBox="0 0 64 64" fill="none"><path d="M16 35c-7 0-11-5-11-11 0-9 8-15 16-15 2-5 7-8 13-8 9 0 16 7 16 16 8 0 14 6 14 14s-6 14-14 14H22c-4 8-9 12-14 14 3-5 5-10 4-15h4Z" fill="#42df74"/><ellipse cx="28" cy="27" rx="3.5" ry="6" fill="#fff"/><ellipse cx="40" cy="27" rx="3.5" ry="6" fill="#fff"/><path d="M27 39c3 2 7 2 10 0" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/></svg></div>
+            <div class="bubble"><strong>Votre bâtiment</strong><span>On qualifie le profil du site, sa taille, son ancienneté et sa logique patrimoniale.</span><span class="bubble-tip">📋 3 réponses obligatoires · 2 optionnelles</span></div>
           </div>
         </div>
       </div>
+
+      <!-- SP1 -->
+      <div class="step-panel" id="sp1" role="tabpanel">
+        <div class="two-col">
+          <div>
+            <div class="qgroup">
+              <h4>Systèmes présents <span class="q-opt">(plusieurs choix)</span></h4>
+              <div class="chips" id="c-sys">
+                <button class="chip multi" data-v="chauffage">Chauffage</button>
+                <button class="chip multi" data-v="clim">Climatisation</button>
+                <button class="chip multi" data-v="ventilation">Ventilation</button>
+                <button class="chip multi" data-v="ecs">ECS</button>
+                <button class="chip multi" data-v="eclairage">Éclairage technique</button>
+              </div>
+            </div>
+            <div class="qgroup">
+              <h4>Puissance utile CVC / ECS</h4>
+              <div class="chips" id="c-power">
+                <button class="chip" data-v="<70">&lt; 70 kW</button>
+                <button class="chip" data-v="70-290">70 à 290 kW</button>
+                <button class="chip" data-v=">290">&gt; 290 kW</button>
+                <button class="chip" data-v="nspp">Je ne sais pas</button>
+              </div>
+              <div class="field-err" id="err-power">Ce champ est obligatoire</div>
+            </div>
+            <div class="qgroup">
+              <h4>Parking extérieur</h4>
+              <div class="chips" id="c-park">
+                <button class="chip" data-v=">1500">Oui — &gt; 1 500 m²</button>
+                <button class="chip" data-v="<1500">Oui — &lt; 1 500 m²</button>
+                <button class="chip" data-v="non">Non</button>
+                <button class="chip" data-v="nspp">Je ne sais pas</button>
+              </div>
+              <div class="field-err" id="err-park">Ce champ est obligatoire</div>
+            </div>
+          </div>
+          <div class="hlp">
+            <div class="hlp-mascot"><svg viewBox="0 0 64 64" fill="none"><path d="M16 35c-7 0-11-5-11-11 0-9 8-15 16-15 2-5 7-8 13-8 9 0 16 7 16 16 8 0 14 6 14 14s-6 14-14 14H22c-4 8-9 12-14 14 3-5 5-10 4-15h4Z" fill="#42df74"/><ellipse cx="28" cy="27" rx="3.5" ry="6" fill="#fff"/><ellipse cx="40" cy="27" rx="3.5" ry="6" fill="#fff"/><path d="M27 39c3 2 7 2 10 0" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/></svg></div>
+            <div class="bubble"><strong>Systèmes et parking</strong><span>Cette étape oriente BACS / GTB, IRVE, APER, photovoltaïque et quick wins.</span><span class="bubble-tip">⚡ Puissance CVC = donnée clé</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SP2 -->
+      <div class="step-panel" id="sp2" role="tabpanel">
+        <div class="two-col">
+          <div>
+            <div class="qgroup">
+              <h4>Consommation annuelle estimée</h4>
+              <div class="chips" id="c-conso">
+                <button class="chip" data-v="<1">&lt; 1 GWh/an</button>
+                <button class="chip" data-v="1-2.75">1 à 2,75 GWh/an</button>
+                <button class="chip" data-v=">2.75">&gt; 2,75 GWh/an</button>
+                <button class="chip" data-v="nspp">Je ne sais pas</button>
+              </div>
+              <div class="field-err" id="err-conso">Ce champ est obligatoire</div>
+            </div>
+            <div class="qgroup">
+              <h4>Effectif salarié</h4>
+              <div class="chips" id="c-staff">
+                <button class="chip" data-v="<50">&lt; 50 salariés</button>
+                <button class="chip" data-v="50-250">50 à 250 salariés</button>
+                <button class="chip" data-v="250-500">250 à 500 salariés</button>
+                <button class="chip" data-v=">500">&gt; 500 salariés</button>
+              </div>
+              <div class="field-err" id="err-staff">Ce champ est obligatoire</div>
+            </div>
+            <div class="qgroup">
+              <h4>Travaux prévus</h4>
+              <div class="chips" id="c-trav">
+                <button class="chip" data-v="oui-lourd">Rénovation lourde</button>
+                <button class="chip" data-v="oui-leger">Travaux légers</button>
+                <button class="chip" data-v="non">Non</button>
+              </div>
+              <div class="field-err" id="err-trav">Ce champ est obligatoire</div>
+            </div>
+            <div class="qgroup">
+              <h4>Énergie de chauffage</h4>
+              <div class="chips" id="c-chauff">
+                <button class="chip" data-v="elec">Électricité</button>
+                <button class="chip" data-v="gaz">Gaz naturel</button>
+                <button class="chip" data-v="fioul">Fioul</button>
+                <button class="chip" data-v="rcu">Réseau de chaleur</button>
+                <button class="chip" data-v="mixte">Mixte</button>
+              </div>
+              <div class="field-err" id="err-chauff">Ce champ est obligatoire</div>
+            </div>
+            <div class="qgroup">
+              <h4>Certification ISO 50001</h4>
+              <div class="chips" id="c-iso">
+                <button class="chip" data-v="oui">Oui — certifié</button>
+                <button class="chip" data-v="non">Non</button>
+                <button class="chip" data-v="encours">En cours</button>
+              </div>
+              <div class="field-err" id="err-iso">Ce champ est obligatoire</div>
+            </div>
+            <div class="qgroup">
+              <h4>Classe DPE <span class="q-opt">(optionnel)</span></h4>
+              <div class="chips" id="c-dpe">
+                <button class="chip" data-v="AB">A ou B</button>
+                <button class="chip" data-v="CD">C ou D</button>
+                <button class="chip" data-v="E">E</button>
+                <button class="chip" data-v="FG">F ou G</button>
+                <button class="chip" data-v="nspp">Non réalisé / Ne sais pas</button>
+              </div>
+            </div>
+          </div>
+          <div class="hlp">
+            <div class="hlp-mascot"><svg viewBox="0 0 64 64" fill="none"><path d="M16 35c-7 0-11-5-11-11 0-9 8-15 16-15 2-5 7-8 13-8 9 0 16 7 16 16 8 0 14 6 14 14s-6 14-14 14H22c-4 8-9 12-14 14 3-5 5-10 4-15h4Z" fill="#42df74"/><ellipse cx="28" cy="27" rx="3.5" ry="6" fill="#fff"/><ellipse cx="40" cy="27" rx="3.5" ry="6" fill="#fff"/><path d="M27 39c3 2 7 2 10 0" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/></svg></div>
+            <div class="bubble"><strong>Énergie et structure</strong><span>On alimente le score, le financement et les enjeux cœur de conformité.</span><span class="bubble-tip">📅 Données structurantes pour le financement</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SP3 -->
+      <div class="step-panel" id="sp3" role="tabpanel">
+        <div class="two-col">
+          <div>
+            <div class="qgroup">
+              <h4>Niveau de pilotage GTB existant</h4>
+              <div class="chips" id="c-gtb">
+                <button class="chip" data-v="aucun">Aucun pilotage structuré</button>
+                <button class="chip" data-v="partiel">Pilotage partiel</button>
+                <button class="chip" data-v="gtb">GTB / supervision en place</button>
+              </div>
+              <div class="field-err" id="err-gtb">Ce champ est obligatoire</div>
+            </div>
+            <div class="qgroup">
+              <h4>Objectif principal</h4>
+              <div class="chips" id="c-goal">
+                <button class="chip" data-v="conformite">Sécuriser ma conformité</button>
+                <button class="chip" data-v="economies">Réduire mes consommations</button>
+                <button class="chip" data-v="photovoltaique">Étudier le photovoltaïque</button>
+                <button class="chip" data-v="tout">Les 3 à la fois</button>
+              </div>
+              <div class="field-err" id="err-goal">Ce champ est obligatoire</div>
+            </div>
+            <div class="qgroup">
+              <h4>Niveau de données disponible</h4>
+              <div class="chips" id="c-data">
+                <button class="chip" data-v="faible">Très faible</button>
+                <button class="chip" data-v="moyenne">Moyenne</button>
+                <button class="chip" data-v="bonne">Bonne</button>
+              </div>
+              <div class="field-err" id="err-data">Ce champ est obligatoire</div>
+            </div>
+            <div class="qgroup">
+              <h4>Souhaitez-vous être contacté ?</h4>
+              <div class="chips" id="c-diag">
+                <button class="chip" data-v="oui">Oui, je souhaite être contacté</button>
+                <button class="chip" data-v="non">Non, juste les résultats</button>
+              </div>
+              <div class="field-err" id="err-diag">Ce champ est obligatoire</div>
+            </div>
+          </div>
+          <div class="hlp">
+            <div class="hlp-mascot"><svg viewBox="0 0 64 64" fill="none"><path d="M16 35c-7 0-11-5-11-11 0-9 8-15 16-15 2-5 7-8 13-8 9 0 16 7 16 16 8 0 14 6 14 14s-6 14-14 14H22c-4 8-9 12-14 14 3-5 5-10 4-15h4Z" fill="#42df74"/><ellipse cx="28" cy="27" rx="3.5" ry="6" fill="#fff"/><ellipse cx="40" cy="27" rx="3.5" ry="6" fill="#fff"/><path d="M27 39c3 2 7 2 10 0" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/></svg></div>
+            <div class="bubble"><strong>Dernière étape</strong><span>On consolide le score pondéré, le plan de financement, les priorités et les échéances clés.</span><span class="bubble-tip">🎯 Résultats personnalisés</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SP4 RÉSULTATS -->
+      <div class="step-panel" id="sp4" role="tabpanel" aria-live="polite">
+        <div class="res-top-cta">
+          <p>Votre pré-diagnostic V5 est prêt. Pour recevoir un rapport structuré avec recommandations, utilisez le formulaire de contact.</p>
+          <button class="btn btn-brand btn-sm" id="res-contact-top">Recevoir mon rapport →</button>
+        </div>
+
+        <div class="res-grid">
+          <div class="score-box">
+            <div class="score-val" id="scoreVal">—<small>/100</small></div>
+            <div class="score-bar-bg"><div class="score-bar-fill" id="scoreFill" style="width:0%"></div></div>
+            <div class="score-lbl" id="scoreLbl">—</div>
+            <div class="score-desc">Score combinant exposition réglementaire, potentiel ROI/financement et qualité des données.</div>
+            <div class="axes">
+              <div class="axis"><div class="axis-top"><strong>Conformité</strong><span id="axC">—</span></div><div class="axis-bar"><div class="axis-fill c" id="axCf" style="width:0%"></div></div></div>
+              <div class="axis"><div class="axis-top"><strong>ROI / Financement</strong><span id="axR">—</span></div><div class="axis-bar"><div class="axis-fill r" id="axRf" style="width:0%"></div></div></div>
+              <div class="axis"><div class="axis-top"><strong>Maturité data</strong><span id="axD">—</span></div><div class="axis-bar"><div class="axis-fill d" id="axDf" style="width:0%"></div></div></div>
+            </div>
+            <div class="mini-grid">
+              <div class="mini"><div class="mini-label">Mission recommandée</div><div class="mini-val" id="missionVal">—</div></div>
+              <div class="mini"><div class="mini-label"><span class="reliability-tip">Fiabilité <span style="opacity:.5;font-size:10px">ⓘ</span><span class="tip-box" id="reliabilityTip">—</span></span></div><div class="mini-val" id="reliabilityVal">—</div></div>
+            </div>
+          </div>
+
+          <div class="cats" id="catsGrid"></div>
+        </div>
+
+        <div class="section-box"><h4>Lecture synthétique</h4><div id="summaryText" style="font-size:13px;line-height:1.6;color:rgba(255,255,255,.82)"></div></div>
+        <div class="section-box"><h4>Vos 3 priorités d'action</h4><div id="prioList"></div></div>
+        <div class="section-box"><h4>Plan d'action 90 jours</h4><div id="plan90List"></div></div>
+
+        <div class="calendar-box" id="calBox" style="display:none">
+          <h4>📅 Prochaines échéances à surveiller</h4>
+          <div class="cal-items" id="calItems"></div>
+        </div>
+
+        <!-- CEE RAPIDE -->
+        <div class="cee-box" id="ceeBox" style="display:none">
+          <h4>💶 CEE estimatif rapide</h4>
+          <div id="ceeRows"></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0 0;margin-top:3px">
+            <span style="font-size:13px;font-weight:800;color:#fff">CEE estimatif total</span>
+            <span style="font-size:22px;font-weight:900;color:var(--gold2);letter-spacing:-.03em" id="ceeTotal">—</span>
+          </div>
+        </div>
+
+        <!-- PLAN FINANCEMENT -->
+        <div class="cee-box" id="fundingBox" style="display:none">
+          <h4>🏦 Plan de financement indicatif — CEE + autres aides</h4>
+          <div class="fund-disclaimer" id="fundDisclaimer">⚠️ Montants indicatifs à confirmer par étude technique. Les CEE dépendent des kWh cumac réels (fiches BAT). Les règles de cumul entre aides sont à vérifier.</div>
+          <div class="fund-grid">
+            <div class="fund-mini"><div class="fund-mini-label">CEE mobilisable estimatif</div><div class="fund-mini-val" id="fundCeeTotal" style="color:#f0c040">—</div><div id="fundConfidence" style="margin-top:6px;font-size:12px;color:rgba(255,255,255,.75)">—</div></div>
+            <div class="fund-mini"><div class="fund-mini-label">Autres aides potentielles</div><div class="fund-mini-val" id="fundAidCount" style="color:#7dd4f8">—</div><div style="margin-top:6px;font-size:12px;color:rgba(255,255,255,.6)">À confirmer selon projet et cumul</div></div>
+          </div>
+          <div style="margin-top:14px"><div class="fund-section-title" style="color:#f0c040">CEE estimatifs — fiches BAT</div><div id="fundCeeList"></div></div>
+          <div style="margin-top:14px"><div class="fund-section-title" style="color:#7dd4f8">Autres aides mobilisables</div><div id="fundAidList"></div></div>
+          <div style="margin-top:14px"><div class="fund-section-title" style="color:#c4b0f5">Données à confirmer</div><div id="fundMissing"></div></div>
+          <div style="margin-top:14px"><div class="fund-section-title" style="color:#7ff5aa">Prochaines vérifications</div><div id="fundChecks"></div></div>
+        </div>
+
+        <div class="alert-box">
+          <h4>🔔 Rappel email</h4>
+          <div class="alert-form">
+            <input id="alert-email" type="email" placeholder="votre@email.fr" />
+            <button class="btn btn-sm" style="background:rgba(130,100,200,.3);color:#c4b0f5;border:1px solid rgba(130,100,200,.4);font-weight:700" id="alert-btn">M'alerter</button>
+          </div>
+          <p id="alert-msg" style="font-size:12px;color:rgba(255,255,255,.5);margin-top:6px;display:none"></p>
+        </div>
+
+        <div class="section-box">
+          <h4>Partager ce diagnostic</h4>
+          <p style="font-size:12px;color:rgba(255,255,255,.55);margin-bottom:8px">Ce lien encode vos réponses — envoyez-le à un collègue ou consultant.</p>
+          <div class="share-row">
+            <span class="share-url" id="shareUrl">—</span>
+            <button class="share-copy-btn" id="shareCopyBtn">Copier</button>
+          </div>
+        </div>
+
+        <div class="pdf-cta">
+          <p>📄 <strong>Rapport détaillé sur demande</strong> — synthèse réglementaire, priorités, financement et points à confirmer.</p>
+          <button class="btn btn-gold btn-sm" id="res-pdf">Demander mon rapport →</button>
+        </div>
+
+        <div class="res-cta">
+          <button class="btn btn-outline btn-sm" id="res-restart">Recommencer</button>
+          <button class="btn btn-brand btn-sm" id="res-contact">Recevoir mon diagnostic complet</button>
+        </div>
+      </div>
+
+      <!-- SP5 CONTACT -->
+      <div class="step-panel" id="sp5" role="tabpanel">
+        <p style="font-size:14px;color:rgba(255,255,255,.65);margin-bottom:4px">Le bouton d'envoi ouvre votre messagerie avec le résumé prérempli.</p>
+        <div class="contact-grid">
+          <div class="cfield"><label>Nom / Société</label><input id="cn-n" type="text" placeholder="Société ou nom" /></div>
+          <div class="cfield"><label>Email professionnel</label><input id="cn-e" type="email" placeholder="nom@entreprise.fr" /></div>
+          <div class="cfield"><label>Téléphone</label><input id="cn-p" type="tel" placeholder="06 00 00 00 00" /></div>
+          <div class="cfield"><label>Objet</label><input id="cn-s" type="text" value="Demande diagnostic EcoEvalue 360° V5 — EcoVertaConsul't" /></div>
+          <div class="cfield full"><label>Message</label><textarea id="cn-m"></textarea></div>
+        </div>
+        <div class="contact-actions">
+          <button class="btn btn-ghost btn-sm" id="cn-back">← Retour aux résultats</button>
+          <button class="btn btn-brand btn-sm" id="cn-send">Envoyer ma demande</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="wfoot">
+      <button class="btn btn-ghost btn-sm" id="prevBtn" style="display:none">← Précédent</button>
+      <div class="right"><button class="btn btn-brand btn-sm" id="nextBtn">Suivant →</button></div>
     </div>
   </div>
+</div>
 
-  <script>
-    (function() {
-      var EMAIL = 'contact@ecovertaconsult.fr';
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const EMAIL = "contact@ecovertaconsult.fr";
+  const STORAGE_KEY = "ecoevalue_v5_state";
 
-      function el(id){ return document.getElementById(id); }
-      function qs(sel){ return document.querySelector(sel); }
-      function qsa(sel){ return Array.prototype.slice.call(document.querySelectorAll(sel)); }
+  // ── VALIDATION SCHÉMA ────────────────────────────────────────────────────
+  const FIELD_SCHEMA = {
+    act:    { allowed:["bureaux","hotellerie","commerce","sante","enseignement","collectivite","logistique","autre"], required:true },
+    surf:   { allowed:["<500","500-1000","1000-5000",">5000"], required:true },
+    year:   { allowed:["avant1997","1997-2012","apres2012"], required:true },
+    statut: { allowed:["proprio-occup","bailleur","locataire","copro"], required:false },
+    neuf:   { allowed:["oui-neuf","oui-renov","non"], required:false },
+    power:  { allowed:["<70","70-290",">290","nspp"], required:true },
+    park:   { allowed:[">1500","<1500","non","nspp"], required:true },
+    conso:  { allowed:["<1","1-2.75",">2.75","nspp"], required:true },
+    staff:  { allowed:["<50","50-250","250-500",">500"], required:true },
+    trav:   { allowed:["oui-lourd","oui-leger","non"], required:true },
+    chauff: { allowed:["elec","gaz","fioul","rcu","mixte"], required:true },
+    iso:    { allowed:["oui","non","encours"], required:true },
+    dpe:    { allowed:["AB","CD","E","FG","nspp"], required:false },
+    gtb:    { allowed:["aucun","partiel","gtb"], required:true },
+    goal:   { allowed:["conformite","economies","photovoltaique","tout"], required:true },
+    data:   { allowed:["faible","moyenne","bonne"], required:true },
+    diag:   { allowed:["oui","non"], required:true },
+    sys:    { multi:true, allowed:["chauffage","clim","ventilation","ecs","eclairage"] }
+  };
 
-      var st = {
-        step:0,
-        act:null,
-        surf:null,
-        year:null,
-        sys:[],
-        power:null,
-        park:null,
-        conso:null,
-        staff:null,
-        trav:null,
-        gtb:null,
-        goal:null,
-        diag:null,
-        chauff:null,
-        iso:null,
-        statut:null,
-        neuf:null,
-        dpe:null
+  const VALID_SYS = ["chauffage","clim","ventilation","ecs","eclairage"];
+
+  function validateField(key, value) {
+    const schema = FIELD_SCHEMA[key];
+    if(!schema) return true;
+    if(schema.multi) return true;
+    if(!schema.required && (value === null || value === undefined)) return true;
+    if(schema.required && !value) return false;
+    return schema.allowed.includes(value);
+  }
+
+  function el(id){ return document.getElementById(id); }
+  function qsa(sel){ return Array.from(document.querySelectorAll(sel)); }
+
+  // ── ÉTAT ─────────────────────────────────────────────────────────────────
+  function emptyState() {
+    return { step:0, act:null, surf:null, year:null, statut:null, neuf:null,
+      sys:[], power:null, park:null, conso:null, staff:null, trav:null,
+      chauff:null, iso:null, dpe:null, gtb:null, goal:null, data:null, diag:null };
+  }
+  let st = emptyState();
+
+  // ── PERSISTANCE ───────────────────────────────────────────────────────────
+  function saveState() { try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(st)); } catch(e){} }
+
+  function loadState() {
+    try {
+      const raw = sessionStorage.getItem(STORAGE_KEY);
+      if(!raw) return null;
+      const parsed = JSON.parse(raw);
+      const clean = emptyState();
+      Object.keys(clean).forEach(k => {
+        if(k === "sys") {
+          clean.sys = Array.isArray(parsed.sys) ? parsed.sys.filter(v => VALID_SYS.includes(v)) : [];
+        } else if(k === "step") {
+          clean.step = (typeof parsed.step === "number" && parsed.step >= 0 && parsed.step <= 5) ? parsed.step : 0;
+        } else if(parsed[k] !== undefined) {
+          clean[k] = validateField(k, parsed[k]) ? parsed[k] : null;
+        }
+      });
+      return clean;
+    } catch(e) { return null; }
+  }
+  function clearSavedState() { try { sessionStorage.removeItem(STORAGE_KEY); } catch(e){} }
+
+  // ── LIEN DE PARTAGE (bug C3 corrigé) ─────────────────────────────────────
+  function stateToShareUrl(state) {
+    try {
+      const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(state))));
+      return window.location.href.split('?')[0] + '?d=' + encoded;
+    } catch(e) { return window.location.href; }
+  }
+
+  function stateFromUrl() {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const d = params.get('d');
+      if(!d) return null;
+      const raw = JSON.parse(decodeURIComponent(escape(atob(d))));
+      const clean = emptyState();
+      Object.keys(clean).forEach(k => {
+        if(k === "sys") { clean.sys = Array.isArray(raw.sys) ? raw.sys.filter(v => VALID_SYS.includes(v)) : []; }
+        else if(k === "step") { clean.step = 4; }
+        else if(raw[k] !== undefined) { clean[k] = validateField(k, raw[k]) ? raw[k] : null; }
+      });
+      return clean;
+    } catch(e) { return null; }
+  }
+
+  // ── TITRES / COMPTES ─────────────────────────────────────────────────────
+  const TITLES = ["Votre bâtiment","Systèmes & Parking","Énergie & Structure","Objectif & Pilotage","Vos résultats","Nous contacter"];
+  const QCOUNTS = ["3 obligatoires · 2 optionnelles","2 obligatoires","5 obligatoires · 1 optionnelle","4 obligatoires","",""];
+
+  // ── CATÉGORIES AFFICHAGE ──────────────────────────────────────────────────
+  const CATS = [
+    { id:"energie",   label:"Énergie & Performance", color:"rgba(24,180,91,.18)",   border:"rgba(24,180,91,.3)",    text:"#7ff5aa" },
+    { id:"co2",       label:"CO₂ & Reporting",       color:"rgba(130,100,200,.15)", border:"rgba(130,100,200,.28)", text:"#c4b0f5" },
+    { id:"mobilite",  label:"Mobilité & ENR",        color:"rgba(58,159,212,.15)",  border:"rgba(58,159,212,.28)",  text:"#7dd4f8" },
+    { id:"immobilier",label:"Baux & Immobilier",     color:"rgba(240,192,64,.12)",  border:"rgba(240,192,64,.25)", text:"#f0c040" },
+    { id:"sante",     label:"Santé & Sécurité",      color:"rgba(232,80,60,.12)",   border:"rgba(232,80,60,.25)",  text:"#ffaaa6" },
+    { id:"pilotage",  label:"Data & Pilotage",       color:"rgba(74,167,220,.1)",   border:"rgba(74,167,220,.22)", text:"#7dd4f8" }
+  ];
+
+  // ── RÈGLES DÉCLARATIVES (28 règles) ─────────────────────────────────────
+  function r(status, label, message, sanction) { return { status, label, message, sanction: sanction||null }; }
+
+  const REGS = [
+    // ÉNERGIE
+    { id:"decret_tertiaire", cat:"energie", label:"Décret Tertiaire", weight:10, axes:{c:1,r:.2,d:.2},
+      eval:s=>["1000-5000",">5000"].includes(s.surf)?r("ok","Concerné","Surface importante : le Décret Tertiaire doit être cadré et piloté."):
+        s.surf==="500-1000"?r("warn","À vérifier","Le périmètre exact reste à confirmer."):r("no","Faible exposition","Sous le seuil principal.") },
+    { id:"bacs_gtb", cat:"energie", label:"Décret BACS / GTB", weight:10, axes:{c:1,r:.7,d:.6},
+      eval:s=>(s.neuf==="oui-neuf"||s.power===">290")?r("ok","Prioritaire","Puissance élevée ou neuf : GTB / BACS à traiter en priorité.","Vérifier l'obligation exacte et le niveau d'équipement requis"):
+        (s.power==="70-290"||s.power==="nspp")?r("warn","À anticiper","Préparer la montée en conformité GTB / BACS."):r("no","Faible exposition","Puissance a priori sous le seuil principal.") },
+    { id:"audit_energetique", cat:"energie", label:"Audit énergétique", weight:9, axes:{c:1,r:.2,d:.5},
+      eval:s=>(s.conso===">2.75"&&s.iso!=="oui")?r("ok","À cadrer","Consommation élevée : audit réglementaire à vérifier rapidement."):
+        (s.conso==="1-2.75"||(s.conso===">2.75"&&s.iso==="oui"))?r("warn","Seuil proche","Consolider les données énergétiques."):r("no","Faible exposition","Pas d'exposition forte.") },
+    { id:"dpe", cat:"energie", label:"DPE / trajectoire", weight:6, axes:{c:.6,r:.6,d:.5},
+      eval:s=>s.dpe==="FG"?r("ok","Prioritaire","Classe F ou G : trajectoire de rénovation à construire."):
+        s.dpe==="E"?r("warn","À surveiller","Anticiper les exigences et le plan d'amélioration."):
+        s.chauff==="elec"?r("warn","À analyser","Chauffage électrique : lecture DPE et scénario travaux à approfondir."):r("no","Situation correcte","Pas d'alerte forte.") },
+    { id:"iso50001", cat:"energie", label:"ISO 50001", weight:4, axes:{c:.1,r:.4,d:.4},
+      eval:s=>s.iso==="oui"?r("no","Structuré","Management de l'énergie déjà structuré."):
+        s.iso==="encours"?r("warn","En cours","La certification est en préparation."):
+        s.conso===">2.75"?r("ok","À étudier","ISO 50001 peut être pertinente sur ce profil énergétique."):r("no","Optionnel","Pas une priorité absolue à ce stade.") },
+    { id:"epbd", cat:"energie", label:"EPBD / Performance bâtiment", weight:4, axes:{c:.5,r:.3,d:.2},
+      eval:s=>s.dpe==="FG"?r("ok","Exposé","Performance à prioriser."):s.dpe==="E"?r("warn","À surveiller","Amélioration nécessaire."):r("no","Situation correcte","Pas d'alerte EPBD forte.") },
+    { id:"sobriete", cat:"energie", label:"Plan de sobriété énergétique", weight:4, axes:{c:.2,r:.5,d:.3},
+      eval:s=>s.staff===">500"?r("ok","À structurer","Plan de sobriété = sujet de gouvernance."):
+        (s.staff==="250-500"||["economies","tout"].includes(s.goal))?r("warn","À anticiper","Structurer le pilotage énergétique."):r("no","Non prioritaire","Pas de signal fort.") },
+
+    // CO2
+    { id:"beges", cat:"co2", label:"BEGES", weight:5, axes:{c:.5,r:0,d:.2},
+      eval:s=>(s.staff===">500"||s.staff==="250-500")?r("ok","À vérifier","Effectif important : obligations de reporting carbone à examiner."):
+        s.staff==="50-250"?r("warn","À surveiller","Peut devenir structurant."):r("no","Non prioritaire","Pas d'exposition forte.") },
+    { id:"csrd", cat:"co2", label:"CSRD / Reporting", weight:5, axes:{c:.5,r:0,d:.3},
+      eval:s=>(s.staff===">500"||s.staff==="250-500")?r("ok","Potentiel","Vérifier les seuils de taille et le périmètre du reporting."):r("no","Faible exposition","Sous les grands seuils.") },
+
+    // MOBILITÉ
+    { id:"aper", cat:"mobilite", label:"Loi APER / Ombrières PV", weight:8, axes:{c:.8,r:1,d:.5},
+      eval:s=>s.park===">1500"?r("ok","À traiter","Parking important : ombrières photovoltaïques à étudier."):
+        s.park==="<1500"?r("warn","Hors seuil probable","Parking présent mais vraisemblablement sous le seuil."):
+        s.park==="non"?r("no","Non concerné","Pas de parking identifié."):r("warn","À qualifier","Surface du parking à confirmer.") },
+    { id:"irve", cat:"mobilite", label:"IRVE", weight:7, axes:{c:.8,r:.6,d:.2},
+      eval:s=>(s.park===">1500"||s.park==="<1500")?r("ok","À vérifier","Parking présent : IRVE à vérifier selon le nombre de places."):r("no","Non concerné","Pas de parking identifié.") },
+    { id:"enr_toiture", cat:"mobilite", label:"ENR Toiture", weight:7, axes:{c:.7,r:.6,d:.2},
+      eval:s=>s.trav==="oui-lourd"?r("ok","À intégrer","Rénovation lourde : toiture / ENR à intégrer au scénario."):
+        s.trav==="oui-leger"?r("warn","À préciser","Qualifier précisément la nature des travaux."):r("no","Non déclenché","Pas de rénovation lourde identifiée.") },
+    { id:"re2020", cat:"mobilite", label:"RE2020", weight:8, axes:{c:1,r:.2,d:.2},
+      eval:s=>s.neuf==="oui-neuf"?r("ok","Applicable","Exigences environnementales à intégrer dès la conception."):
+        s.neuf==="oui-renov"?r("warn","À qualifier","Vérifier si l'opération bascule dans le champ assimilé neuf."):r("no","Non applicable","Pas de construction neuve identifiée.") },
+    { id:"pv_strategie", cat:"mobilite", label:"Photovoltaïque / stratégie site", weight:6, axes:{c:.1,r:1,d:.3},
+      eval:s=>(s.goal==="photovoltaique"||s.park===">1500")?r("ok","Prioritaire","Le PV doit être étudié en priorité."):
+        s.goal==="tout"?r("warn","À qualifier","Piste cohérente à qualifier."):r("no","Secondaire","Pas de signal fort.") },
+
+    // IMMOBILIER
+    { id:"bail_vert", cat:"immobilier", label:"Bail Vert / Annexe env.", weight:5, axes:{c:.7,r:.2,d:.4},
+      eval:s=>(s.statut==="bailleur"&&["1000-5000",">5000"].includes(s.surf))?r("ok","À examiner","Bailleur avec grande surface : annexe environnementale à vérifier."):
+        s.statut==="locataire"?r("warn","À relire","Vérifier les engagements du bail."):
+        s.statut==="bailleur"?r("warn","À qualifier","Périmètre exact à confirmer."):r("no","Non prioritaire","Pas d'alerte forte.") },
+    { id:"epbd_copro", cat:"immobilier", label:"DPE Copropriété", weight:4, axes:{c:.3,r:.3,d:.2},
+      eval:s=>s.statut==="copro"?r("ok","À vérifier","DPE collectif et stratégie de rénovation à vérifier."):r("no","Non concerné","Pas de copropriété identifiée.") },
+    { id:"industrie_verte", cat:"immobilier", label:"Industrie Verte / marchés publics", weight:3, axes:{c:.2,r:.2,d:.1},
+      eval:s=>s.act==="collectivite"?r("warn","À anticiper","Critères environnementaux dans les marchés publics plus structurants."):r("no","Impact indirect","Impact surtout indirect.") },
+
+    // SANTÉ
+    { id:"amiante", cat:"sante", label:"Amiante / repérage avant travaux", weight:9, axes:{c:1,r:0,d:.2},
+      eval:s=>(s.year==="avant1997"&&["oui-lourd","oui-leger"].includes(s.trav))?r("ok","Prioritaire","Bâtiment ancien + travaux : repérage avant travaux obligatoire.","Vérifier la mission réglementaire avant toute intervention"):
+        s.year==="avant1997"?r("warn","Vigilance","Vigilance avant toute intervention future."):r("no","Risque réduit","Bâtiment plus récent.") },
+    { id:"pfas", cat:"sante", label:"PFAS", weight:4, axes:{c:.4,r:0,d:.1},
+      eval:s=>(s.year==="avant1997"&&["oui-lourd","oui-leger"].includes(s.trav))?r("ok","À vérifier","Travaux sur bâtiment ancien : vigilance PFAS selon équipements."):
+        s.year==="avant1997"?r("warn","Présence possible","Une vérification peut être utile."):r("no","Risque réduit","Pas d'exposition forte.") },
+    { id:"qai", cat:"sante", label:"Qualité de l'air intérieur", weight:4, axes:{c:.4,r:0,d:.2},
+      eval:s=>["enseignement","sante"].includes(s.act)?r("warn","À surveiller","QAI mérite une vérification dans l'exploitation."):r("no","Faible signal","Pas de signal majeur.") },
+    { id:"securite_incendie", cat:"sante", label:"Sécurité incendie ERP", weight:6, axes:{c:.7,r:0,d:0},
+      eval:s=>["hotellerie","sante","enseignement","commerce","collectivite"].includes(s.act)?r("warn","À vérifier","Sécurité incendie à vérifier dans l'exploitation."):r("no","Hors signal","Pas de signal fort.") },
+
+    // PILOTAGE
+    { id:"sous_comptage", cat:"pilotage", label:"Sous-comptage / instrumentation", weight:7, axes:{c:.1,r:.7,d:1},
+      eval:s=>s.data==="faible"?r("ok","Prioritaire","Manque de données : sous-comptage à structurer en priorité."):
+        s.data==="moyenne"?r("warn","À améliorer","Finesse des données à renforcer."):r("no","Base exploitable","Socle déjà exploitable.") },
+    { id:"smart_readiness", cat:"pilotage", label:"Smart readiness / pilotage", weight:4, axes:{c:.1,r:.6,d:.5},
+      eval:s=>s.gtb==="aucun"?r("ok","À structurer","Absence de pilotage : modernisation et optimisation à lancer."):
+        s.gtb==="partiel"?r("warn","À consolider","Pilotage partiel à fiabiliser."):r("no","Socle présent","GTB déjà en place.") },
+    { id:"pemd", cat:"pilotage", label:"PEMD / déchets matériaux", weight:4, axes:{c:.4,r:0,d:.1},
+      eval:s=>s.trav==="oui-lourd"?r("warn","À intégrer","Déchets et dépose à cadrer dans le scénario travaux."):r("no","Non prioritaire","Pas de rénovation lourde.") },
+    { id:"accessibilite", cat:"pilotage", label:"Accessibilité / usage", weight:5, axes:{c:.7,r:0,d:0},
+      eval:s=>["hotellerie","sante","enseignement","commerce","collectivite"].includes(s.act)?r("warn","À revoir","Accessibilité à revoir dans la lecture patrimoniale."):r("no","Faible signal","Pas de priorité forte.") },
+    { id:"contrats_exploit", cat:"pilotage", label:"Contrats d'exploitation / performance", weight:4, axes:{c:.1,r:.7,d:.1},
+      eval:s=>(["gaz","fioul"].includes(s.chauff)&&["economies","tout"].includes(s.goal))?r("ok","À structurer","Contrats d'exploitation et clauses performance très pertinents."):
+        ["gaz","fioul"].includes(s.chauff)?r("warn","À examiner","Lecture ciblée des contrats recommandée."):r("no","Secondaire","Pas de signal fort.") },
+    { id:"reeemploi", cat:"pilotage", label:"Réemploi / circularité", weight:3, axes:{c:.1,r:0,d:.1},
+      eval:s=>s.trav==="oui-lourd"?r("warn","À étudier","Réemploi à intégrer au montage travaux."):r("no","Non prioritaire","Pas de rénovation lourde.") },
+    { id:"radon", cat:"pilotage", label:"Radon", weight:3, axes:{c:.3,r:0,d:0},
+      eval:s=>["enseignement","sante"].includes(s.act)?r("warn","À vérifier","Vérification selon la localisation réelle."):r("no","Faible signal","Pas de signal spécifique.") }
+  ];
+
+  // ── MOTEUR DE SCORING PONDÉRÉ ─────────────────────────────────────────────
+  // FIX C1/C2/M5 : toutes les fonctions reçoivent state en paramètre
+  function getAllResults(state) {
+    return REGS.map(reg => ({ ...reg, result: reg.eval(state) }));
+  }
+
+  function computeAxes(results) {
+    let cR=0,rR=0,dR=0,cM=0,rM=0,dM=0;
+    results.forEach(reg => {
+      const pts = reg.result.status==="ok"?reg.weight:reg.result.status==="warn"?reg.weight*0.5:0;
+      cR+=pts*reg.axes.c; rR+=pts*reg.axes.r; dR+=pts*reg.axes.d;
+      cM+=reg.weight*reg.axes.c; rM+=reg.weight*reg.axes.r; dM+=reg.weight*reg.axes.d;
+    });
+    return {
+      compliance: cM ? Math.round((cR/cM)*100) : 0,
+      roi:        rM ? Math.round((rR/rM)*100) : 0,
+      data:       dM ? Math.round((dR/dM)*100) : 0
+    };
+  }
+
+  function computeGlobalScore(ax) { return Math.round(ax.compliance*0.5 + ax.roi*0.3 + ax.data*0.2); }
+
+  function buildMission(state, axisScores, results) {
+    const okCore = results.filter(r => r.result.status==="ok").length;
+    if(axisScores.data < 45) return "Audit flash / cadrage";
+    if(state.goal==="photovoltaique" || state.park===">1500") return "Étude faisabilité PV";
+    if(state.trav==="oui-lourd") return "AMO travaux / audit";
+    if(okCore >= 4) return "Audit réglementaire ciblé";
+    if(state.goal==="economies") return "Diagnostic exploitation";
+    return "Diagnostic détaillé";
+  }
+
+  function buildReliabilityInfo(state) {
+    let pts=0, reasons=[];
+    if(state.data==="bonne"){pts+=2;reasons.push("données déclarées bonnes");}
+    if(state.power&&state.power!=="nspp"){pts+=1;reasons.push("puissance renseignée");}
+    if(state.conso&&state.conso!=="nspp"){pts+=1;reasons.push("consommation renseignée");}
+    if(state.dpe&&state.dpe!=="nspp"){pts+=1;reasons.push("DPE renseigné");}
+    if(state.gtb){pts+=1;reasons.push("GTB renseigné");}
+    return {
+      label: pts>=5?"Élevée":pts>=3?"Moyenne":"Faible",
+      tip: reasons.length ? "Basée sur : "+reasons.join(", ") : "Peu de données confirmées"
+    };
+  }
+
+  function buildSummaryText(state, score, results) {
+    const ok = results.filter(r=>r.result.status==="ok").length;
+    const warn = results.filter(r=>r.result.status==="warn").length;
+    if(score>=65) return "Le site présente une exposition réglementaire significative, avec "+ok+" enjeu(x) prioritaire(s) et "+warn+" point(s) à vérifier. Structurer rapidement une feuille de route conformité + financement est prioritaire.";
+    if(score>=40) return "Plusieurs sujets à cadrer : "+ok+" enjeu(x) prioritaire(s) et "+warn+" vigilance(s). Un cadrage ciblé permettra de sécuriser les obligations probables.";
+    return "Pas de concentration très forte à ce stade. L'enjeu principal porte sur la qualité des données et la préparation des évolutions futures.";
+  }
+
+  // ── ACTIONS DÉCLARATIVES ──────────────────────────────────────────────────
+  const ACTIONS = [
+    { id:"a_amiante", prio:true, p90:false, trigger:s=>s.year==="avant1997"&&["oui-lourd","oui-leger"].includes(s.trav), text:"Lancer les vérifications avant travaux (amiante, PFAS) avant toute intervention." },
+    { id:"a_gtb", prio:true, p90:true, trigger:s=>s.neuf==="oui-neuf"||s.power===">290"||(s.power==="70-290"&&s.gtb==="aucun"), text:"Structurer le projet GTB / BACS en priorité et confirmer la puissance utile." },
+    { id:"a_decret", prio:true, p90:true, trigger:s=>["1000-5000",">5000"].includes(s.surf)||(s.surf==="500-1000"&&s.conso!=="<1"), text:"Sécuriser le périmètre Décret Tertiaire et consolider les données de consommation." },
+    { id:"a_audit", prio:true, p90:true, trigger:s=>s.conso===">2.75"&&s.iso!=="oui", text:"Fiabiliser les consommations et cadrer le besoin d'audit énergétique réglementaire." },
+    { id:"a_pv", prio:true, p90:true, trigger:s=>s.park===">1500"||s.goal==="photovoltaique"||s.goal==="tout", text:"Traiter parking, IRVE et ombrières dans une seule étude ROI." },
+    { id:"a_data", prio:true, p90:true, trigger:s=>s.data==="faible", text:"Structurer la donnée énergétique avant toute décision lourde." },
+    { id:"a_decarb", prio:true, p90:true, trigger:s=>["gaz","fioul"].includes(s.chauff)&&["economies","tout"].includes(s.goal), text:"Engager une étude décarbonation chaleur (PAC, réseau) avec volet CEE." },
+    { id:"a_bail", prio:true, p90:false, trigger:s=>s.statut==="bailleur"&&["1000-5000",">5000"].includes(s.surf), text:"Mettre à jour le cadre bail / exploitation / partage des données." },
+    { id:"a_route", prio:true, p90:false, trigger:()=>true, text:"Construire une feuille de route unique : conformité, travaux, financement." },
+    // Plan 90j
+    { id:"p_puissance", prio:false, p90:true, trigger:s=>!s.power||s.power==="nspp", text:"Mesurer ou confirmer la puissance utile totale CVC / ECS." },
+    { id:"p_conso", prio:false, p90:true, trigger:s=>!s.conso||s.conso==="nspp", text:"Consolider les consommations annuelles réelles sur factures." },
+    { id:"p_histo", prio:false, p90:true, trigger:s=>s.data==="faible", text:"Centraliser les factures et constituer un historique exploitable sur 12 à 36 mois." },
+    { id:"p_parking", prio:false, p90:true, trigger:s=>s.park!=="non", text:"Qualifier le parking : surfaces, nombre de places, potentiel IRVE / PV." },
+    { id:"p_travaux", prio:false, p90:true, trigger:s=>s.trav!=="non", text:"Formaliser un scénario travaux poste par poste avec phasage." },
+    { id:"p_quickwin", prio:false, p90:true, trigger:s=>s.trav==="non", text:"Identifier 3 quick wins d'exploitation à lancer rapidement." },
+    { id:"p_pv", prio:false, p90:true, trigger:s=>s.goal==="photovoltaique"||s.goal==="tout", text:"Évaluer le potentiel toiture / ombrières et la puissance PV cible." },
+  ];
+
+  function buildPrios(state) {
+    return ACTIONS.filter(a=>a.prio&&a.trigger(state)).map(a=>a.text).slice(0,3);
+  }
+  function buildPlan90(state) {
+    return ACTIONS.filter(a=>a.p90&&a.trigger(state)).map(a=>a.text).slice(0,4);
+  }
+
+  // ── CALENDRIER ────────────────────────────────────────────────────────────
+  function buildCalendar(state, results) {
+    const has = (id, status) => results.some(r=>r.id===id&&r.result.status===status);
+    const items = [];
+    if(has("amiante","ok")||has("pfas","ok")) items.push({dot:"urgent",date:"Avant travaux",label:"Diagnostics et repérages préalables obligatoires"});
+    if(has("audit_energetique","ok")) items.push({dot:"urgent",date:"Court terme",label:"Cadrer rapidement le besoin d'audit énergétique"});
+    if(has("decret_tertiaire","ok")) items.push({dot:"soon",date:"Annuel",label:"Structurer les données de consommation et la trajectoire"});
+    if(has("bacs_gtb","ok")) items.push({dot:"soon",date:"Prioritaire",label:"Qualifier la mise en conformité GTB / BACS"});
+    if(has("re2020","ok")) items.push({dot:"soon",date:"Conception",label:"Intégrer les exigences RE2020 dès l'amont"});
+    if(has("bail_vert","ok")) items.push({dot:"soon",date:"Prochain bail",label:"Mettre à jour l'annexe environnementale"});
+    if(has("sobriete","ok")) items.push({dot:"soon",date:"Pilotage",label:"Structurer indicateurs et plan de sobriété"});
+    if(has("enr_toiture","ok")) items.push({dot:"medium",date:"Projet",label:"Étudier toiture / ENR dans le scénario de rénovation"});
+    if(has("aper","ok")) items.push({dot:"medium",date:"Étude",label:"Analyser ombrières photovoltaïques et parking"});
+    if(has("epbd","ok")) items.push({dot:"medium",date:"Trajectoire",label:"Programmer une rénovation énergétique cohérente"});
+    if(has("bacs_gtb","warn")) items.push({dot:"long",date:"À anticiper",label:"Préparer la montée en conformité BACS"});
+    return items.slice(0,8);
+  }
+
+  // ── MOTEUR FINANCEMENT UNIFIÉ ─────────────────────────────────────────────
+  const AREA_REF = {"<500":300,"500-1000":750,"1000-5000":2500,">5000":8000};
+  const CEE_PRICE = {low:0.0042, mid:0.0052, high:0.0064};
+
+  // Matrice CEE avec codes fiches + kWh cumac/m² de base
+  const CEE_CATALOG = [
+    { id:"cee_gtb", label:"GTB / BACS", code:"BAT-TH-116", kwhPerUnit:130,
+      trigger:s=>s.power==="70-290"||s.power===">290",
+      conf:s=>s.gtb==="aucun"?"high":"medium",
+      basis:s=>AREA_REF[s.surf]||1000,
+      mult:s=>1+(s.power===">290"?0.20:0)+(s.gtb==="aucun"?0.15:0),
+      why:s=>s.power===">290"?"Systèmes CVC élevés : GTB / BACS prioritaire.":"Puissance intermédiaire : montée en conformité à anticiper.",
+      missing:s=>s.power==="nspp"?["Puissance utile totale CVC / ECS"]:[]
+    },
+    { id:"cee_led", label:"LED / relamping", code:"BAT-EQ-127", kwhPerUnit:45,
+      trigger:s=>s.sys.includes("eclairage")||s.act==="bureaux"||s.act==="commerce",
+      conf:s=>s.sys.includes("eclairage")?"medium":"low",
+      basis:s=>AREA_REF[s.surf]||1000,
+      mult:s=>1+(["commerce","enseignement","bureaux"].includes(s.act)?0.10:0),
+      why:()=>"L'éclairage performant est un levier fréquent en tertiaire.",
+      missing:()=>[]
+    },
+    { id:"cee_pac", label:"Pompe à chaleur", code:"BAT-TH-113", kwhPerUnit:220,
+      trigger:s=>["gaz","fioul"].includes(s.chauff),
+      conf:s=>s.chauff==="fioul"?"high":"medium",
+      basis:s=>Math.round((AREA_REF[s.surf]||1000)*0.85),
+      mult:s=>1+(s.chauff==="fioul"?0.18:s.chauff==="gaz"?0.08:0),
+      why:s=>s.chauff==="fioul"?"Substitution fioul : levier fort de décarbonation.":"PAC pertinente en substitution d'un système gaz.",
+      missing:()=>[]
+    },
+    { id:"cee_isolation", label:"Isolation enveloppe / toiture", code:"BAT-EN-101", kwhPerUnit:95,
+      trigger:s=>s.trav==="oui-lourd"||s.trav==="oui-leger",
+      conf:s=>s.trav==="oui-lourd"?"high":"medium",
+      basis:s=>Math.round((AREA_REF[s.surf]||1000)*0.65),
+      mult:s=>1+(s.year==="avant1997"?0.12:0),
+      why:s=>s.trav==="oui-lourd"?"Rénovation lourde : isolation très pertinente.":"Isolation surtout pertinente dans un scénario de rénovation.",
+      missing:()=>[]
+    },
+  ];
+
+  const AID_CATALOG = [
+    { id:"fonds_chaleur", name:"ADEME – Fonds Chaleur", trigger:s=>["gaz","fioul"].includes(s.chauff), conf:()=>"high", range:s=>rba(s,8,28,60), why:()=>"Décarbonation de la chaleur.", variance:"±40%" },
+    { id:"fonds_vert", name:"Fonds Vert (collectivités)", trigger:s=>s.act==="collectivite", conf:()=>"high", range:s=>rba(s,10,35,90), why:()=>"Rénovation bâtiments publics.", variance:"±30%" },
+    { id:"bdt", name:"Banque des Territoires", trigger:()=>true, conf:s=>s.act==="collectivite"?"high":"medium", range:()=>({low:50000,mid:500000,high:5000000}), why:()=>"Ingénierie et financement long terme.", variance:"Variable" },
+    { id:"bpifrance", name:"Bpifrance – Diag Eco-Flux", trigger:s=>s.act!=="collectivite", conf:()=>"medium", range:()=>({low:5000,mid:15000,high:30000}), why:()=>"Accompagnement entreprise.", variance:"±20%" },
+    { id:"regional", name:"Aides régionales énergie", trigger:()=>true, conf:()=>"medium", range:s=>rba(s,4,16,45), why:()=>"Couche régionale à confirmer.", variance:"±50%" },
+    { id:"local", name:"Aides locales / syndicats d'énergie", trigger:()=>true, conf:()=>"medium", range:s=>rba(s,2,10,30), why:()=>"Aides-territoires ou acteurs locaux.", variance:"±60%" },
+    { id:"feder", name:"FEDER", trigger:s=>s.trav==="oui-lourd", conf:s=>s.act==="collectivite"?"high":"medium", range:()=>({low:20000,mid:100000,high:500000}), why:()=>"Rénovations lourdes via programmes régionaux.", variance:"±50%" },
+    { id:"elena", name:"ELENA – BEI assistance technique", trigger:s=>s.surf===">5000", conf:()=>"medium", range:()=>({low:10000,mid:100000,high:1000000}), why:()=>"Patrimoines importants ou multi-sites.", variance:"±40%" },
+    { id:"ppa_pv", name:"PV – Tiers-investissement / PPA", trigger:s=>s.goal==="photovoltaique"||s.goal==="tout"||s.park===">1500", conf:()=>"high", range:s=>rba(s,12,35,100), why:()=>"Lever le CAPEX photovoltaïque.", variance:"±45%" },
+    { id:"cpe", name:"Contrat de performance énergétique", trigger:s=>s.goal==="economies"||s.goal==="tout", conf:()=>"high", range:s=>rba(s,5,20,70), why:()=>"Sécuriser les résultats énergétiques.", variance:"±40%" },
+    { id:"copro_reno", name:"Aides copropriété / rénovation collective", trigger:s=>s.statut==="copro", conf:()=>"medium", range:s=>rba(s,15,32,60), why:()=>"Statut copropriété : aides dédiées.", variance:"±35%" },
+    { id:"amo", name:"Études / AMO / ingénierie", trigger:s=>s.diag==="oui"||s.goal==="tout"||s.trav==="oui-lourd", conf:s=>s.diag==="oui"||s.trav==="oui-lourd"?"medium":"low", range:s=>rba(s,2,5,9), why:()=>"Faisabilité ou AMO selon le projet.", variance:"±30%" },
+  ];
+
+  function rba(s,a,b,c){ const area=AREA_REF[s.surf]||1000; return {low:Math.round(area*a),mid:Math.round(area*b),high:Math.round(area*c)}; }
+
+  function confLabel(l){ return l==="high"?"Élevé":l==="medium"?"Moyen":"Faible"; }
+  function confScore(l){ return l==="high"?1:l==="medium"?0.66:0.33; }
+  function fmt(low,high){ return "~ "+low.toLocaleString("fr-FR")+" à "+high.toLocaleString("fr-FR")+" €"; }
+  function unique(arr){ const s={}; return arr.filter(v=>v&&!s[v]&&(s[v]=1)); }
+
+  function buildFundingPlan(state) {
+    const cee = CEE_CATALOG.filter(op=>op.trigger(state)).map(op=>{
+      const basis = op.basis(state);
+      const mult = op.mult(state);
+      const kwh = Math.round(op.kwhPerUnit * basis * mult);
+      return {
+        id:op.id, label:op.label, code:op.code,
+        confidence:op.conf(state), confidenceLabel:confLabel(op.conf(state)),
+        why:op.why(state),
+        low:Math.round(kwh*CEE_PRICE.low), mid:Math.round(kwh*CEE_PRICE.mid), high:Math.round(kwh*CEE_PRICE.high),
+        kwhcumac:kwh,
+        missing:unique(op.missing(state))
       };
+    });
 
-      var TITLES = [
-        'Votre bâtiment',
-        'Systèmes & Parking',
-        'Énergie & Structure',
-        'Objectif & Pilotage',
-        'Vos résultats',
-        'Nous contacter'
-      ];
+    const aids = AID_CATALOG.filter(a=>a.trigger(state)).map(a=>{
+      const rng = a.range(state);
+      return { id:a.id, name:a.name, confidence:a.conf(state), confidenceLabel:confLabel(a.conf(state)), why:a.why(state), variance:a.variance, low:rng.low, mid:rng.mid, high:rng.high };
+    });
 
-      var QCOUNTS = [
-        '3 réponses obligatoires · 2 optionnelles',
-        '2 réponses obligatoires',
-        '5 réponses obligatoires · 1 optionnelle',
-        '2 réponses obligatoires',
-        '',
-        ''
-      ];
+    const ceeTotals = cee.reduce((acc,i)=>({low:acc.low+i.low,mid:acc.mid+i.mid,high:acc.high+i.high}),{low:0,mid:0,high:0});
 
-      /* -------------------------
-         OUVERTURE / FERMETURE
-      ------------------------- */
-      function openW(){
-        el('modal-wizard').classList.add('open');
-        document.body.style.overflow = 'hidden';
-      }
+    const allItems = [...cee,...aids];
+    const avgConf = allItems.length ? allItems.reduce((a,i)=>a+confScore(i.confidence),0)/allItems.length : 0;
+    const overallConf = avgConf>=.82?"high":avgConf>=.55?"medium":"low";
 
-      function closeW(){
-        el('modal-wizard').classList.remove('open');
-        document.body.style.overflow = '';
-      }
+    // Missing data + checks
+    let missing = [];
+    if(!state.surf) missing.push("Confirmer la surface réellement traitée.");
+    if(state.power==="nspp"||!state.power) missing.push("Mesurer la puissance utile totale CVC / ECS.");
+    if(state.conso==="nspp"||!state.conso) missing.push("Consolider les consommations annuelles réelles.");
+    if(!state.sys.length) missing.push("Inventorier les systèmes techniques présents.");
+    cee.forEach(c=>c.missing.forEach(m=>missing.push(m)));
+    missing = unique(missing).slice(0,8);
 
-      el('open-wizard').addEventListener('click', openW);
-      el('open-wizard-2').addEventListener('click', openW);
-      el('close-wizard').addEventListener('click', closeW);
+    let checks = [];
+    if(state.trav==="oui-lourd"||state.goal==="tout") checks.push("Formaliser un scénario travaux poste par poste.");
+    if(state.statut==="copro") checks.push("Qualifier le statut copropriété et le périmètre de décision.");
+    if(state.act==="collectivite") checks.push("Vérifier le montage de maîtrise d'ouvrage publique.");
+    if(state.goal==="photovoltaique"||state.park===">1500") checks.push("Évaluer le potentiel toiture / ombrières et la puissance PV cible.");
+    if(cee.length) checks.push("Vérifier l'éligibilité technique exacte des fiches CEE retenues.");
+    if(aids.length) checks.push("Vérifier les règles de cumul entre CEE et aides complémentaires.");
+    checks = unique(checks).slice(0,6);
 
-      document.addEventListener('keydown', function(e){
-        if(e.key === 'Escape') closeW();
+    return { cee, aids, ceeTotals, overallConf, overallConfLabel:confLabel(overallConf), missing, checks };
+  }
+
+  function buildMissingData(state) {
+    let out=[];
+    if(!state.power||state.power==="nspp") out.push("Confirmer la puissance utile totale CVC / ECS.");
+    if(!state.conso||state.conso==="nspp") out.push("Consolider les consommations annuelles réelles.");
+    if(state.data==="faible") out.push("Centraliser un historique énergétique exploitable.");
+    if(state.park==="nspp") out.push("Qualifier la surface et le nombre de places du parking.");
+    if(!state.sys.length) out.push("Inventorier les systèmes techniques réellement présents.");
+    if(!state.statut) out.push("Préciser le statut d'occupation du bâtiment.");
+    return unique(out).length ? unique(out) : ["Aucune donnée critique manquante détectée."];
+  }
+
+  // ── FONCTION PURE CENTRALE ─────────────────────────────────────────────────
+  function computeDiagnostic(state) {
+    const results = getAllResults(state);
+    const axisScores = computeAxes(results);
+    const score = computeGlobalScore(axisScores);
+    const mission = buildMission(state, axisScores, results);
+    const reliability = buildReliabilityInfo(state);
+    const funding = buildFundingPlan(state);
+    const summary = buildSummaryText(state, score, results);
+    const prios = buildPrios(state);
+    const plan90 = buildPlan90(state);
+    const missing = buildMissingData(state);
+    const calendar = buildCalendar(state, results);
+    return { results, axisScores, score, mission, reliability, funding, summary, prios, plan90, missing, calendar };
+  }
+
+  function buildEmailBody(diag) {
+    const { results, axisScores, score, mission, reliability, funding, prios, plan90, missing } = diag;
+    const s = st; // état courant — copie explicite pour éviter le couplage
+    const lines = [
+      "Bonjour,\n\nJe souhaite recevoir un diagnostic complet suite à mon évaluation EcoEvalue 360° V5.\n",
+      "--- Profil bâtiment ---",
+      `Activité : ${s.act||"—"}`, `Surface : ${s.surf||"—"}`, `Année : ${s.year||"—"}`,
+      `Statut : ${s.statut||"—"}`, `Projet neuf : ${s.neuf||"—"}`,
+      `Puissance CVC : ${s.power||"—"}`, `Parking : ${s.park||"—"}`,
+      `Systèmes : ${s.sys.length?s.sys.join(", "):"—"}`, `Consommation : ${s.conso||"—"}`,
+      `Effectif : ${s.staff||"—"}`, `Travaux : ${s.trav||"—"}`, `Chauffage : ${s.chauff||"—"}`,
+      `ISO 50001 : ${s.iso||"—"}`, `DPE : ${s.dpe||"—"}`, `GTB : ${s.gtb||"—"}`,
+      `Objectif : ${s.goal||"—"}`, `Données : ${s.data||"—"}`,
+      "\n--- Résultats ---",
+      `Score global : ${score}/100`, `Conformité : ${axisScores.compliance}/100`,
+      `ROI / Financement : ${axisScores.roi}/100`, `Maturité data : ${axisScores.data}/100`,
+      `Mission recommandée : ${mission}`, `Fiabilité diagnostic : ${reliability.label}`,
+      "\n--- 3 priorités ---",
+    ];
+    prios.forEach((p,i)=>lines.push(`${i+1}. ${p}`));
+    lines.push("\n--- Plan 90 jours ---");
+    plan90.forEach((p,i)=>lines.push(`${i+1}. ${p}`));
+    lines.push(`\n--- CEE estimatif ---\nTotal : ${fmt(funding.ceeTotals.low,funding.ceeTotals.high)}\nConfiance : ${funding.overallConfLabel}`);
+    funding.cee.forEach(c=>lines.push(`- ${c.label} (${c.code}) : ${fmt(c.low,c.high)} — ${c.kwhcumac.toLocaleString("fr-FR")} kWh cumac`));
+    lines.push("\n--- Autres aides ---");
+    funding.aids.forEach(a=>lines.push(`- ${a.name} : ${fmt(a.low,a.high)} (variance ${a.variance})`));
+    lines.push("\n--- Données à confirmer ---");
+    missing.forEach(m=>lines.push(`- ${m}`));
+    lines.push("\n--- Enjeux analysés ---");
+    results.forEach(r=>lines.push(`- ${r.label} : ${r.result.label}`));
+    return lines.join("\n");
+  }
+
+  // ── BINDINGS CHIPS ────────────────────────────────────────────────────────
+  const STEP_REQUIRED = { 0:["act","surf","year"], 1:["power","park"], 2:["conso","staff","trav","chauff","iso"], 3:["gtb","goal","data","diag"] };
+
+  function bindSingle(id, key) {
+    const c = el(id); if(!c) return;
+    c.querySelectorAll("[data-v]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        c.querySelectorAll("[data-v]").forEach(b=>b.classList.remove("on"));
+        btn.classList.add("on");
+        st[key] = btn.getAttribute("data-v");
+        const errEl = el("err-"+key); if(errEl) errEl.classList.remove("show");
+        saveState(); updateNext();
       });
+    });
+  }
 
-      /* -------------------------
-         BIND SINGLE / MULTI
-      ------------------------- */
-      function bindSingle(id, key){
-        var c = el(id);
-        if(!c) return;
-
-        Array.prototype.forEach.call(c.querySelectorAll('[data-v]'), function(btn){
-          btn.addEventListener('click', function(){
-            Array.prototype.forEach.call(c.querySelectorAll('[data-v]'), function(b){
-              b.classList.remove('on');
-            });
-            btn.classList.add('on');
-            st[key] = btn.getAttribute('data-v');
-            updateNext();
-          });
-        });
-      }
-
-      function bindMulti(id, key){
-        var c = el(id);
-        if(!c) return;
-
-        Array.prototype.forEach.call(c.querySelectorAll('[data-v]'), function(btn){
-          btn.addEventListener('click', function(){
-            btn.classList.toggle('on');
-            var v = btn.getAttribute('data-v');
-            var idx = st[key].indexOf(v);
-            if(idx >= 0) st[key].splice(idx, 1);
-            else st[key].push(v);
-          });
-        });
-      }
-
-      bindSingle('c-act', 'act');
-      bindSingle('c-surf', 'surf');
-      bindSingle('c-year', 'year');
-      bindSingle('c-power', 'power');
-      bindSingle('c-park', 'park');
-      bindSingle('c-conso', 'conso');
-      bindSingle('c-staff', 'staff');
-      bindSingle('c-trav', 'trav');
-      bindSingle('c-gtb', 'gtb');
-      bindSingle('c-goal', 'goal');
-      bindSingle('c-diag', 'diag');
-      bindSingle('c-chauff', 'chauff');
-      bindSingle('c-iso', 'iso');
-      bindSingle('c-statut', 'statut');
-      bindSingle('c-neuf', 'neuf');
-      bindSingle('c-dpe', 'dpe');
-      bindMulti('c-sys', 'sys');
-
-      /* -------------------------
-         NAVIGATION
-      ------------------------- */
-      function canNext(){
-        if(st.step === 0) return !!(st.act && st.surf && st.year);
-        if(st.step === 1) return !!(st.power && st.park);
-        if(st.step === 2) return !!(st.conso && st.staff && st.trav && st.chauff && st.iso);
-        if(st.step === 3) return !!(st.gtb && st.goal);
-        return true;
-      }
-
-      function updateNext(){
-        var ok = canNext();
-        var btn = el('nextBtn');
-        var wasDisabled = btn.disabled;
-        btn.disabled = !ok;
-        if(ok && wasDisabled){
-          btn.classList.add('pulse');
-          setTimeout(function(){ btn.classList.remove('pulse'); }, 1500);
-        }
-      }
-
-      function goToStep(s){
-        st.step = s;
-
-        qsa('.step-panel').forEach(function(p, i){
-          p.classList.toggle('active', i === s);
-        });
-
-        el('prevBtn').style.display = (s > 0 && s !== 5) ? 'inline-flex' : 'none';
-
-        var nxt = el('nextBtn');
-        if(s === 4 || s === 5){
-          nxt.style.display = 'none';
-        } else {
-          nxt.style.display = 'inline-flex';
-          nxt.disabled = !canNext();
-          nxt.textContent = s === 3 ? 'Voir mes résultats →' : 'Suivant →';
-        }
-
-        el('pFill').style.width = Math.round((Math.min(s, 3) / 3) * 100) + '%';
-        el('pTxt').textContent = 'Étape ' + (Math.min(s, 3) + 1) + '/4';
-        el('sNum').textContent = Math.min(s + 1, 4);
-        el('sName').textContent = TITLES[s];
-        el('qCount').textContent = QCOUNTS[s] || '';
-
-        if(s === 4) renderResults();
-      }
-
-      el('nextBtn').addEventListener('click', function(){
-        if(!canNext()) return;
-        goToStep(st.step + 1);
+  function bindMulti(id, key) {
+    const c = el(id); if(!c) return;
+    c.querySelectorAll("[data-v]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        btn.classList.toggle("on");
+        const v = btn.getAttribute("data-v");
+        const idx = st[key].indexOf(v);
+        if(idx>=0) st[key].splice(idx,1); else st[key].push(v);
+        saveState();
       });
+    });
+  }
 
-      el('prevBtn').addEventListener('click', function(){
-        goToStep(st.step - 1);
+  ["act","surf","year","statut","neuf","power","park","conso","staff","trav","chauff","iso","dpe","gtb","goal","data","diag"].forEach(k=>bindSingle("c-"+k,k));
+  bindMulti("c-sys","sys");
+
+  function canNext() {
+    const req = STEP_REQUIRED[st.step];
+    if(!req) return true;
+    return req.every(k=>!!st[k]);
+  }
+
+  function showValidationErrors() {
+    (STEP_REQUIRED[st.step]||[]).forEach(k=>{ if(!st[k]){ const e=el("err-"+k); if(e){e.classList.add("show");e.closest(".qgroup")&&(e.closest(".qgroup").style.animation="shake .3s ease");setTimeout(()=>e.closest(".qgroup")&&(e.closest(".qgroup").style.animation=""),400);}}});
+  }
+
+  function updateNext() {
+    const btn = el("nextBtn"); if(!btn) return;
+    const ok = canNext();
+    const wasDisabled = btn.disabled;
+    btn.disabled = !ok;
+    if(ok && wasDisabled){ btn.classList.add("pulse"); setTimeout(()=>btn.classList.remove("pulse"),1500); }
+  }
+
+  // ── RESTAURATION ──────────────────────────────────────────────────────────
+  function restoreChips(groupId, key) {
+    const c = el(groupId); if(!c) return;
+    const val = st[key];
+    c.querySelectorAll("[data-v]").forEach(btn => {
+      btn.classList.toggle("on", Array.isArray(val) ? val.includes(btn.getAttribute("data-v")) : btn.getAttribute("data-v")===val);
+    });
+  }
+
+  function restoreAllChips() {
+    ["act","surf","year","statut","neuf","power","park","conso","staff","trav","chauff","iso","dpe","gtb","goal","data","diag"].forEach(k=>restoreChips("c-"+k,k));
+    restoreChips("c-sys","sys");
+  }
+
+  // ── RENDU RÉSULTATS ───────────────────────────────────────────────────────
+  let currentFilter = "all";
+  let currentResults = [];
+
+  function renderList(id, items) {
+    const root = el(id); if(!root) return;
+    root.innerHTML = "";
+    items.forEach((t,i)=>{ const d=document.createElement("div"); d.className="row-item"; d.innerHTML=`<span class="row-n">${i+1}</span><span class="row-text">${t}</span>`; root.appendChild(d); });
+  }
+
+  function renderAccordion(results) {
+    const grid = el("catsGrid"); if(!grid) return;
+    grid.innerHTML = "";
+    CATS.forEach(cat => {
+      const regsInCat = results.filter(r=>r.cat===cat.id);
+      const okCount = regsInCat.filter(r=>r.result.status==="ok").length;
+      const warnCount = regsInCat.filter(r=>r.result.status==="warn").length;
+      const badge = okCount>0?`${okCount} priorité(s)`:warnCount>0?`${warnCount} à vérifier`:"RAS";
+      const badgeBg = okCount>0?"rgba(24,180,91,.22)":warnCount>0?"rgba(232,128,10,.22)":"rgba(80,80,80,.22)";
+      const badgeTxt = okCount>0?"#7ff5aa":warnCount>0?"#ffd280":"rgba(255,255,255,.45)";
+
+      const itemsHTML = regsInCat.map(r=>{
+        const sanction = r.result.sanction ? `<div class="sanction-badge">⚠ ${r.result.sanction}</div>` : "";
+        return `<div class="reg-item"><div><div class="reg-name">${r.label}</div><div class="reg-desc">${r.result.message}</div>${sanction}</div><span class="reg-pill ${r.result.status}">${r.result.label}</span></div>`;
+      }).join("");
+
+      const div = document.createElement("div");
+      div.className = "cat-block";
+      div.innerHTML = `<div class="cat-header" style="background:${cat.color};border-bottom:1px solid ${cat.border}"><span class="cat-title" style="color:${cat.text}">${cat.label}</span><div style="display:flex;align-items:center;gap:8px"><span class="cat-badge" style="background:${badgeBg};color:${badgeTxt}">${badge}</span><span class="cat-toggle" style="color:${cat.text}">▼</span></div></div><div class="cat-items">${itemsHTML}</div>`;
+      div.querySelector(".cat-header").addEventListener("click",()=>div.classList.toggle("open"));
+      if(okCount>0||warnCount>0) div.classList.add("open");
+      grid.appendChild(div);
+    });
+  }
+
+  function renderCalendar(items) {
+    const box = el("calBox");
+    if(!items.length){ box.style.display="none"; return; }
+    box.style.display="block";
+    const cl = el("calItems"); cl.innerHTML="";
+    items.forEach(item=>{ const d=document.createElement("div"); d.className="cal-item"; d.innerHTML=`<div class="cal-dot ${item.dot}"></div><span class="cal-date">${item.date}</span><span class="cal-label">${item.label}</span>`; cl.appendChild(d); });
+  }
+
+  function renderFunding(funding) {
+    // CEE rapide
+    const ceeBox = el("ceeBox");
+    if(funding.cee.length){ ceeBox.style.display="block";
+      const rows=el("ceeRows"); rows.innerHTML="";
+      funding.cee.forEach(c=>{ const d=document.createElement("div"); d.className="cee-row"; d.innerHTML=`<span class="cee-label">${c.label}<span class="cee-code">${c.code}</span></span><span class="cee-val">~ ${c.low.toLocaleString("fr-FR")} à ${c.high.toLocaleString("fr-FR")} €</span>`; rows.appendChild(d); });
+      el("ceeTotal").textContent=fmt(funding.ceeTotals.low,funding.ceeTotals.high);
+    } else { ceeBox.style.display="none"; }
+
+    // Plan financement
+    const fBox=el("fundingBox"); fBox.style.display="block";
+    el("fundCeeTotal").textContent=fmt(funding.ceeTotals.low,funding.ceeTotals.high);
+    el("fundConfidence").textContent="Confiance globale : "+funding.overallConfLabel;
+    el("fundAidCount").textContent=funding.aids.length+" aide(s)";
+
+    function renderFundList(containerId, items, colorStyle) {
+      const root=el(containerId); if(!root) return; root.innerHTML="";
+      if(!items.length){ root.innerHTML=`<div style="font-size:12px;color:rgba(255,255,255,.55)">Aucun levier détecté à ce stade.</div>`; return; }
+      items.forEach(item=>{
+        const d=document.createElement("div"); d.className="fund-card";
+        const isCee = item.code !== undefined;
+        const amtColor = isCee?"#f0c040":"#7dd4f8";
+        const subLine = isCee?`${item.kwhcumac.toLocaleString("fr-FR")} kWh cumac — ${item.code}`:item.variance?`Variance : ${item.variance}`:"";
+        d.innerHTML=`<div class="fund-card-top"><div><div class="fund-card-title">${isCee?item.label:item.name}</div><div class="fund-card-desc">${item.why}</div><div class="fund-card-meta">Confiance : ${item.confidenceLabel}</div>${!isCee&&item.variance?`<span class="fund-variance">Variance : ${item.variance}</span>`:""}</div><div class="fund-card-amt"><div class="fund-card-amt-main" style="color:${amtColor}">${fmt(item.low,item.high)}</div><div class="fund-card-amt-sub">${subLine}</div></div></div>`;
+        root.appendChild(d);
       });
-
-      /* -------------------------
-         EVAL FUNCTIONS
-      ------------------------- */
-      function evalDT(){
-        if(st.surf === '1000-5000' || st.surf === '>5000'){
-          return {s:'ok', l:'Concerné', t:'Surface tertiaire importante : le Décret Tertiaire doit être cadré et piloté.'};
-        }
-        if(st.surf === '500-1000'){
-          return {s:'warn', l:'À vérifier', t:'Le périmètre exact reste à confirmer selon le patrimoine et les regroupements.'};
-        }
-        return {s:'no', l:'Faible exposition', t:'Sous le seuil principal à première lecture.'};
-      }
-
-      function evalBACS(){
-        if(st.power === '>290'){
-          return {s:'ok', l:'Prioritaire', t:'Puissance CVC élevée : le sujet GTB / BACS doit être traité en priorité.', sanction:'Vérifier l’obligation exacte et le niveau d’équipement requis'};
-        }
-        if(st.power === '70-290'){
-          return {s:'warn', l:'À anticiper', t:'Puissance intermédiaire : préparer la montée en conformité GTB / BACS.'};
-        }
-        if(st.power === '<70'){
-          return {s:'no', l:'Faible exposition', t:'Puissance a priori sous le seuil principal du sujet BACS.'};
-        }
-        return {s:'warn', l:'À qualifier', t:'La puissance utile totale CVC / ECS doit être confirmée.'};
-      }
-
-      function evalAPER(){
-        if(st.park === '>1500'){
-          return {s:'ok', l:'À traiter', t:'Parking important détecté : ombrières photovoltaïques à étudier en priorité.'};
-        }
-        if(st.park === '<1500'){
-          return {s:'warn', l:'Hors seuil probable', t:'Parking présent mais vraisemblablement sous le seuil principal.'};
-        }
-        if(st.park === 'non'){
-          return {s:'no', l:'Non concerné', t:'Pas de parking extérieur identifié.'};
-        }
-        return {s:'warn', l:'À qualifier', t:'La surface exacte du parking reste à confirmer.'};
-      }
-
-      function evalDDADUE(){
-        if(st.iso === 'oui' && st.conso === '>2.75'){
-          return {s:'no', l:'À confirmer', t:'La certification ISO 50001 peut modifier le besoin d’audit réglementaire.'};
-        }
-        if(st.conso === '>2.75'){
-          return {s:'ok', l:'À cadrer', t:'Consommation élevée : audit énergétique réglementaire à vérifier rapidement.'};
-        }
-        if(st.conso === '1-2.75'){
-          return {s:'warn', l:'Seuil proche', t:'Consolider les données énergétiques et surveiller le franchissement du seuil.'};
-        }
-        if(st.conso === '<1'){
-          return {s:'no', l:'Faible exposition', t:'Consommation sous le seuil principal à première lecture.'};
-        }
-        return {s:'warn', l:'À mesurer', t:'La consommation annuelle reste à consolider.'};
-      }
-
-      function evalBEGES(){
-        if(st.staff === '>500' || st.staff === '250-500'){
-          return {s:'ok', l:'À vérifier', t:'Effectif élevé : obligations de reporting carbone à examiner.'};
-        }
-        if(st.staff === '50-250'){
-          return {s:'warn', l:'À surveiller', t:'Le sujet carbone peut devenir structurant selon l’organisation.'};
-        }
-        return {s:'no', l:'Non prioritaire', t:'Pas d’exposition forte identifiée à ce stade.'};
-      }
-
-      function evalCSRD(){
-        if(st.staff === '>500' || st.staff === '250-500'){
-          return {s:'ok', l:'Potentiel', t:'Vérifier les seuils de taille, de chiffre d’affaires et le périmètre du reporting.'};
-        }
-        return {s:'no', l:'Faible exposition', t:'Sous les grands seuils de taille à première lecture.'};
-      }
-
-      function evalIRVE(){
-        if(st.park === '>1500' || st.park === '<1500'){
-          return {s:'ok', l:'À vérifier', t:'Présence d’un parking : le sujet IRVE mérite une vérification selon le nombre de places.'};
-        }
-        return {s:'no', l:'Non concerné', t:'Pas de parking identifié.'};
-      }
-
-      function evalENR(){
-        if(st.trav === 'oui-lourd'){
-          return {s:'ok', l:'À intégrer', t:'La rénovation lourde peut déclencher des obligations ou opportunités sur toiture / ENR.'};
-        }
-        if(st.trav === 'oui-leger'){
-          return {s:'warn', l:'À préciser', t:'Qualifier précisément la nature des travaux.'};
-        }
-        return {s:'no', l:'Non déclenché', t:'Aucune rénovation lourde identifiée.'};
-      }
-
-      function evalAmiante(){
-        if(st.year === 'avant1997' && (st.trav === 'oui-leger' || st.trav === 'oui-lourd')){
-          return {s:'ok', l:'Prioritaire', t:'Bâtiment ancien + travaux : repérage avant travaux à anticiper.', sanction:'Vérifier la mission réglementaire avant intervention'};
-        }
-        if(st.year === 'avant1997'){
-          return {s:'warn', l:'Vigilance', t:'Bâtiment ancien : vigilance avant toute intervention future.'};
-        }
-        return {s:'no', l:'Risque réduit', t:'Bâtiment plus récent.'};
-      }
-
-      function evalDPE(){
-        if(st.dpe === 'FG'){
-          return {s:'ok', l:'Prioritaire', t:'Classe F ou G : construire une trajectoire de rénovation devient stratégique.'};
-        }
-        if(st.dpe === 'E'){
-          return {s:'warn', l:'À surveiller', t:'Classe E : anticiper les exigences et le plan d’amélioration.'};
-        }
-        if(st.chauff === 'elec'){
-          return {s:'warn', l:'À analyser', t:'Le chauffage électrique justifie une lecture plus fine du DPE et du scénario travaux.'};
-        }
-        return {s:'no', l:'Situation correcte', t:'Pas d’alerte DPE forte à ce stade.'};
-      }
-
-      function evalISO50001(){
-        if(st.iso === 'oui'){
-          return {s:'no', l:'Structuré', t:'Management de l’énergie déjà structuré.'};
-        }
-        if(st.iso === 'encours'){
-          return {s:'warn', l:'En cours', t:'La certification est en préparation.'};
-        }
-        if(st.conso === '>2.75'){
-          return {s:'ok', l:'À étudier', t:'ISO 50001 peut être pertinente sur ce profil énergétique.'};
-        }
-        return {s:'no', l:'Optionnel', t:'Pas une priorité absolue à ce stade.'};
-      }
-
-      function evalPFAS(){
-        if(st.year === 'avant1997' && (st.trav === 'oui-lourd' || st.trav === 'oui-leger')){
-          return {s:'ok', l:'À vérifier', t:'Travaux sur bâtiment ancien : vigilance PFAS selon les équipements et usages.'};
-        }
-        if(st.year === 'avant1997'){
-          return {s:'warn', l:'Présence possible', t:'Bâtiment ancien : une vérification peut être utile selon les installations.'};
-        }
-        return {s:'no', l:'Risque réduit', t:'Pas d’exposition forte identifiée à ce stade.'};
-      }
-
-      function evalBailVert(){
-        if(st.statut === 'bailleur' && (st.surf === '1000-5000' || st.surf === '>5000')){
-          return {s:'ok', l:'À examiner', t:'Bailleur avec surface importante : vérifier l’annexe environnementale et les obligations associées.'};
-        }
-        if(st.statut === 'locataire'){
-          return {s:'warn', l:'À relire', t:'Vérifier les engagements du bail et de l’annexe environnementale.'};
-        }
-        if(st.statut === 'bailleur'){
-          return {s:'warn', l:'À qualifier', t:'Le statut bailleur est identifié, mais le périmètre exact reste à confirmer.'};
-        }
-        if(!st.statut){
-          return {s:'warn', l:'Non renseigné', t:'Le statut d’occupation reste à préciser.'};
-        }
-        return {s:'no', l:'Non prioritaire', t:'Pas d’alerte forte identifiée à ce stade.'};
-      }
-
-      function evalSobriete(){
-        if(st.staff === '>500'){
-          return {s:'ok', l:'À structurer', t:'Un plan de sobriété énergétique devient un sujet de gouvernance important.'};
-        }
-        if(st.staff === '250-500'){
-          return {s:'warn', l:'À anticiper', t:'Structurer le pilotage énergétique et les indicateurs devient recommandé.'};
-        }
-        return {s:'no', l:'Non prioritaire', t:'Pas de signal fort à ce stade.'};
-      }
-
-      function evalRE2020(){
-        if(st.neuf === 'oui-neuf'){
-          return {s:'ok', l:'Applicable', t:'Projet neuf : les exigences environnementales doivent être intégrées dès la conception.'};
-        }
-        if(st.neuf === 'oui-renov'){
-          return {s:'warn', l:'À qualifier', t:'Vérifier si l’opération bascule dans le champ assimilé neuf.'};
-        }
-        if(!st.neuf){
-          return {s:'warn', l:'Non renseigné', t:'Le caractère neuf / assimilé neuf n’est pas précisé.'};
-        }
-        return {s:'no', l:'Non applicable', t:'Pas de construction neuve identifiée.'};
-      }
-
-      function evalEPBD(){
-        if(st.dpe === 'FG'){
-          return {s:'ok', l:'Exposé', t:'La performance énergétique du bâtiment doit être priorisée.'};
-        }
-        if(st.dpe === 'E'){
-          return {s:'warn', l:'À surveiller', t:'Une trajectoire d’amélioration énergétique peut être nécessaire.'};
-        }
-        return {s:'no', l:'Situation correcte', t:'Pas d’alerte EPBD forte identifiée à ce stade.'};
-      }
-
-      function evalIndustrieVerte(){
-        if(st.act === 'collectivite'){
-          return {s:'warn', l:'À anticiper', t:'Les critères environnementaux dans les marchés publics deviennent plus structurants.'};
-        }
-        return {s:'no', l:'Impact indirect', t:'Impact surtout indirect selon vos marchés et vos clients.'};
-      }
-
-      function evalDPECopro(){
-        if(st.statut === 'copro'){
-          return {s:'ok', l:'À vérifier', t:'Le statut copropriété justifie une vérification sur le DPE collectif et la stratégie de rénovation.'};
-        }
-        return {s:'no', l:'Non concerné', t:'Pas de copropriété identifiée.'};
-      }
-
-      var CATS = [
-        {
-          id:'energie',
-          label:'Énergie & Performance',
-          color:'rgba(24,180,91,.18)',
-          border:'rgba(24,180,91,.3)',
-          text:'#7ff5aa'
-        },
-        {
-          id:'co2',
-          label:'CO2 & Reporting',
-          color:'rgba(130,100,200,.15)',
-          border:'rgba(130,100,200,.28)',
-          text:'#c4b0f5'
-        },
-        {
-          id:'mobilite',
-          label:'Mobilité & ENR',
-          color:'rgba(58,159,212,.15)',
-          border:'rgba(58,159,212,.28)',
-          text:'#7dd4f8'
-        },
-        {
-          id:'immobilier',
-          label:'Baux & Immobilier',
-          color:'rgba(240,192,64,.12)',
-          border:'rgba(240,192,64,.25)',
-          text:'#f0c040'
-        },
-        {
-          id:'sante',
-          label:'Santé & Sécurité',
-          color:'rgba(232,80,60,.12)',
-          border:'rgba(232,80,60,.25)',
-          text:'#ffaaa6'
-        }
-      ];
-
-      var ALL_REGS = [
-        {cat:'energie',   name:'Décret Tertiaire',      fn:evalDT},
-        {cat:'energie',   name:'Décret BACS',           fn:evalBACS},
-        {cat:'mobilite',  name:'Loi APER',              fn:evalAPER},
-        {cat:'energie',   name:'Audit énergétique',     fn:evalDDADUE},
-        {cat:'co2',       name:'BEGES',                 fn:evalBEGES},
-        {cat:'co2',       name:'CSRD',                  fn:evalCSRD},
-        {cat:'mobilite',  name:'IRVE',                  fn:evalIRVE},
-        {cat:'mobilite',  name:'ENR Toiture',           fn:evalENR},
-        {cat:'sante',     name:'Amiante',               fn:evalAmiante},
-        {cat:'energie',   name:'DPE',                   fn:evalDPE},
-        {cat:'energie',   name:'ISO 50001',             fn:evalISO50001},
-        {cat:'sante',     name:'PFAS',                  fn:evalPFAS},
-        {cat:'immobilier',name:'Bail Vert',             fn:evalBailVert},
-        {cat:'energie',   name:'Plan Sobriété',         fn:evalSobriete},
-        {cat:'mobilite',  name:'RE2020',                fn:evalRE2020},
-        {cat:'immobilier',name:'EPBD / DPE',            fn:evalEPBD},
-        {cat:'sante',     name:'Industrie Verte',       fn:evalIndustrieVerte},
-        {cat:'immobilier',name:'DPE Copropriété',       fn:evalDPECopro}
-      ];
-
-      function calcScore(){
-        var s = 16;
-        ALL_REGS.forEach(function(r){
-          var e = r.fn();
-          if(e.s === 'ok') s += 5;
-          else if(e.s === 'warn') s += 2;
-        });
-        if(st.goal === 'tout') s += 3;
-        if(st.conso === '>2.75') s += 3;
-        if(st.surf === '>5000') s += 3;
-        if(st.power === '>290') s += 2;
-        return Math.min(Math.max(s, 12), 96);
-      }
-
-      /* -------------------------
-         MOTEUR FINANCEMENT V2
-      ------------------------- */
-      var FUNDING_CONFIG = {
-        ceeValuePerKwhcumac: { low:0.0042, mid:0.0052, high:0.0064 },
-        areaRef: { '<500':300, '500-1000':750, '1000-5000':2500, '>5000':8000 }
-      };
-
-      var WORK_CATALOG = {
-        gtb_bacs: {
-          label:'GTB / BACS',
-          type:'cee',
-          family:'pilotage',
-          ceeCode:'BAT-TH-116',
-          baseKwhcumacPerUnit:130,
-          defaultEligibility:function(ctx){
-            return ctx.power === '>290' || ctx.power === '70-290';
-          },
-          confidence:function(ctx){
-            if(ctx.power === 'nspp') return 'low';
-            if(ctx.gtb === 'aucun' || ctx.gtb === 'partiel') return 'high';
-            return 'medium';
-          },
-          multiplier:function(ctx){
-            var m = 1;
-            if(ctx.power === '>290') m += 0.20;
-            if(ctx.gtb === 'aucun') m += 0.15;
-            return m;
-          },
-          amountBasis:function(ctx){
-            return getReferenceArea(ctx);
-          },
-          why:function(ctx){
-            if(ctx.power === '>290') return 'Systèmes CVC élevés : le sujet GTB / BACS est prioritaire.';
-            if(ctx.power === '70-290') return 'Puissance intermédiaire : la montée en conformité GTB / BACS est à anticiper.';
-            return 'La puissance reste à confirmer.';
-          },
-          missingData:function(ctx){
-            var out = [];
-            if(ctx.power === 'nspp' || !ctx.power) out.push('Puissance utile totale CVC / ECS');
-            if(!ctx.surf) out.push('Surface réellement concernée par le pilotage');
-            return out;
-          }
-        },
-
-        led: {
-          label:'LED / relamping',
-          type:'cee',
-          family:'eclairage',
-          ceeCode:'BAT-EQ-127',
-          baseKwhcumacPerUnit:45,
-          defaultEligibility:function(){ return true; },
-          confidence:function(ctx){
-            return ctx.sys.indexOf('eclairage') >= 0 ? 'medium' : 'low';
-          },
-          multiplier:function(ctx){
-            var m = 1;
-            if(ctx.act === 'commerce' || ctx.act === 'enseignement' || ctx.act === 'bureaux') m += 0.10;
-            return m;
-          },
-          amountBasis:function(ctx){
-            return getReferenceArea(ctx);
-          },
-          why:function(){
-            return 'L’éclairage performant reste un poste de gains fréquent en tertiaire.';
-          },
-          missingData:function(ctx){
-            var out = [];
-            if(ctx.sys.indexOf('eclairage') < 0) out.push('Part réellement concernée par l’éclairage');
-            if(!ctx.surf) out.push('Surface réellement traitée');
-            return out;
-          }
-        },
-
-        roof_insulation: {
-          label:'Isolation toiture',
-          type:'cee',
-          family:'enveloppe',
-          ceeCode:'BAT-EN-101',
-          baseKwhcumacPerUnit:95,
-          defaultEligibility:function(ctx){
-            return ctx.trav === 'oui-lourd';
-          },
-          confidence:function(ctx){
-            if(ctx.trav === 'oui-lourd') return 'high';
-            if(ctx.trav === 'oui-leger') return 'medium';
-            return 'low';
-          },
-          multiplier:function(ctx){
-            var m = 1;
-            if(ctx.year === 'avant1997') m += 0.12;
-            return m;
-          },
-          amountBasis:function(ctx){
-            return Math.round(getReferenceArea(ctx) * 0.65);
-          },
-          why:function(ctx){
-            return ctx.trav === 'oui-lourd'
-              ? 'La rénovation lourde rend l’isolation de toiture particulièrement pertinente.'
-              : 'L’isolation devient surtout pertinente dans un scénario de rénovation structurant.';
-          },
-          missingData:function(ctx){
-            var out = [];
-            if(!ctx.trav) out.push('Nature exacte des travaux');
-            if(!ctx.surf) out.push('Surface de toiture / surface traitée');
-            return out;
-          }
-        },
-
-        heat_pump: {
-          label:'Pompe à chaleur',
-          type:'cee',
-          family:'chaleur',
-          ceeCode:'BAT-TH-113',
-          baseKwhcumacPerUnit:220,
-          defaultEligibility:function(ctx){
-            return ctx.trav === 'oui-lourd' || ctx.goal === 'economies' || ctx.goal === 'tout';
-          },
-          confidence:function(ctx){
-            if(ctx.chauff === 'gaz' || ctx.chauff === 'fioul') return 'high';
-            if(ctx.chauff === 'elec' || ctx.chauff === 'mixte') return 'medium';
-            return 'low';
-          },
-          multiplier:function(ctx){
-            var m = 1;
-            if(ctx.chauff === 'fioul') m += 0.18;
-            if(ctx.chauff === 'gaz') m += 0.08;
-            return m;
-          },
-          amountBasis:function(ctx){
-            return Math.round(getReferenceArea(ctx) * 0.85);
-          },
-          why:function(ctx){
-            if(ctx.chauff === 'fioul') return 'Substitution d’un chauffage fioul : levier fort de décarbonation.';
-            if(ctx.chauff === 'gaz') return 'PAC pertinente en substitution ou hybridation d’un système gaz.';
-            return 'La PAC est à confirmer selon le scénario retenu.';
-          },
-          missingData:function(ctx){
-            var out = [];
-            if(!ctx.chauff) out.push('Énergie de chauffage existante');
-            if(!ctx.trav) out.push('Nature du projet travaux');
-            return out;
-          }
-        },
-
-        photovoltaic: {
-          label:'Photovoltaïque',
-          type:'other',
-          family:'solaire',
-          aidName:'Photovoltaïque / dispositifs complémentaires / tiers-investissement',
-          defaultEligibility:function(ctx){
-            return ctx.goal === 'photovoltaique' || ctx.goal === 'tout' || ctx.park === '>1500';
-          },
-          confidence:function(ctx){
-            if(ctx.park === '>1500') return 'high';
-            if(ctx.goal === 'photovoltaique' || ctx.goal === 'tout') return 'medium';
-            return 'low';
-          },
-          why:function(ctx){
-            if(ctx.park === '>1500') return 'Parking important : les ombrières photovoltaïques doivent être étudiées.';
-            return 'Le photovoltaïque semble cohérent avec l’objectif déclaré.';
-          },
-          amountRange:function(ctx){
-            var ref = getReferenceArea(ctx);
-            return { low:Math.round(ref * 8), mid:Math.round(ref * 14), high:Math.round(ref * 22), unit:'€ indicatifs à confirmer' };
-          },
-          missingData:function(){
-            return ['Surface de toiture disponible', 'Potentiel ombrières / toiture', 'Puissance photovoltaïque cible'];
-          }
-        },
-
-        fonds_vert_public: {
-          label:'Fonds Vert — rénovation énergétique bâtiments publics',
-          type:'other',
-          family:'public',
-          aidName:'Fonds Vert',
-          defaultEligibility:function(ctx){
-            return ctx.act === 'collectivite' && (ctx.trav === 'oui-lourd' || ctx.goal === 'economies' || ctx.goal === 'tout');
-          },
-          confidence:function(ctx){
-            if(ctx.act === 'collectivite' && ctx.trav === 'oui-lourd') return 'high';
-            if(ctx.act === 'collectivite') return 'medium';
-            return 'low';
-          },
-          why:function(){
-            return 'Projet public local potentiellement compatible avec un financement public complémentaire.';
-          },
-          amountRange:function(ctx){
-            var ref = getReferenceArea(ctx);
-            return { low:Math.round(ref * 12), mid:Math.round(ref * 28), high:Math.round(ref * 55), unit:'€ indicatifs à confirmer' };
-          },
-          missingData:function(ctx){
-            if(ctx.act !== 'collectivite') return [];
-            return ['Gain énergétique projeté', 'Montant prévisionnel des travaux', 'Montage de maîtrise d’ouvrage'];
-          }
-        },
-
-        chaleur_renouvelable: {
-          label:'Aides chaleur renouvelable / récupération de chaleur',
-          type:'other',
-          family:'chaleur',
-          aidName:'Aides chaleur renouvelable (à confirmer)',
-          defaultEligibility:function(ctx){
-            return ctx.goal === 'economies' || ctx.goal === 'tout' || ctx.chauff === 'fioul' || ctx.chauff === 'gaz';
-          },
-          confidence:function(ctx){
-            if(ctx.chauff === 'fioul' || ctx.chauff === 'gaz') return 'medium';
-            return 'low';
-          },
-          why:function(ctx){
-            if(ctx.chauff === 'fioul' || ctx.chauff === 'gaz') return 'Substitution d’un système fossile : piste de financement chaleur renouvelable à étudier.';
-            return 'Le projet peut justifier une étude chaleur renouvelable selon le scénario technique.';
-          },
-          amountRange:function(ctx){
-            var ref = getReferenceArea(ctx);
-            return { low:Math.round(ref * 10), mid:Math.round(ref * 24), high:Math.round(ref * 48), unit:'€ indicatifs à confirmer' };
-          },
-          missingData:function(){
-            return ['Scénario technique retenu', 'Besoins thermiques', 'Étude de faisabilité'];
-          }
-        },
-
-        copro_renovation: {
-          label:'Aides copropriété / rénovation collective',
-          type:'other',
-          family:'copro',
-          aidName:'Aides copropriété (à confirmer)',
-          defaultEligibility:function(ctx){
-            return ctx.statut === 'copro';
-          },
-          confidence:function(ctx){
-            return ctx.statut === 'copro' ? 'medium' : 'low';
-          },
-          why:function(){
-            return 'Le statut copropriété peut ouvrir des aides dédiées à la rénovation collective.';
-          },
-          amountRange:function(ctx){
-            var ref = getReferenceArea(ctx);
-            return { low:Math.round(ref * 15), mid:Math.round(ref * 32), high:Math.round(ref * 60), unit:'€ indicatifs à confirmer' };
-          },
-          missingData:function(){
-            return ['Nombre de lots', 'Nature exacte de la copropriété', 'Gain énergétique projeté', 'Programme de travaux collectif'];
-          }
-        },
-
-        amo_studies: {
-          label:'Études / AMO / ingénierie',
-          type:'other',
-          family:'engineering',
-          aidName:'Études / ingénierie (à confirmer)',
-          defaultEligibility:function(ctx){
-            return ctx.diag === 'oui' || ctx.goal === 'tout' || ctx.trav === 'oui-lourd';
-          },
-          confidence:function(ctx){
-            if(ctx.diag === 'oui' || ctx.trav === 'oui-lourd') return 'medium';
-            return 'low';
-          },
-          why:function(){
-            return 'Le profil du projet justifie potentiellement une étude, une faisabilité ou une AMO.';
-          },
-          amountRange:function(ctx){
-            var ref = getReferenceArea(ctx);
-            return { low:Math.round(ref * 2), mid:Math.round(ref * 5), high:Math.round(ref * 9), unit:'€ indicatifs à confirmer' };
-          },
-          missingData:function(){
-            return ['Niveau de maturité du projet', 'Besoin d’étude / AMO', 'Budget prévisionnel'];
-          }
-        }
-      };
-
-      function getReferenceArea(ctx){
-        return FUNDING_CONFIG.areaRef[ctx.surf] || 1000;
-      }
-
-      function getConfidenceLabel(level){
-        if(level === 'high') return 'Élevé';
-        if(level === 'medium') return 'Moyen';
-        return 'Faible';
-      }
-
-      function uniqueList(arr){
-        var map = {};
-        return arr.filter(function(x){
-          if(!x) return false;
-          if(map[x]) return false;
-          map[x] = true;
-          return true;
-        });
-      }
-
-      function estimateCeeRange(operation, ctx){
-        var basis = operation.amountBasis(ctx);
-        var multiplier = operation.multiplier(ctx);
-        var kwhcumac = operation.baseKwhcumacPerUnit * basis * multiplier;
-
-        return {
-          low: Math.round(kwhcumac * FUNDING_CONFIG.ceeValuePerKwhcumac.low),
-          mid: Math.round(kwhcumac * FUNDING_CONFIG.ceeValuePerKwhcumac.mid),
-          high: Math.round(kwhcumac * FUNDING_CONFIG.ceeValuePerKwhcumac.high),
-          kwhcumac: Math.round(kwhcumac)
-        };
-      }
-
-      function inferWorkPlan(ctx){
-        var works = [];
-
-        Object.keys(WORK_CATALOG).forEach(function(key){
-          var op = WORK_CATALOG[key];
-          if(op.defaultEligibility(ctx)){
-            works.push({
-              id:key,
-              label:op.label,
-              type:op.type,
-              family:op.family,
-              confidence:op.confidence(ctx),
-              why:op.why(ctx),
-              missingData:uniqueList(op.missingData(ctx))
-            });
-          }
-        });
-
-        return works;
-      }
-
-      function buildFundingChecks(ctx, cee, other){
-        var checks = [];
-
-        if(!ctx.surf) checks.push('Confirmer la surface réellement traitée par poste.');
-        if(ctx.power === 'nspp' || !ctx.power) checks.push('Mesurer la puissance utile totale CVC / ECS.');
-        if(ctx.conso === 'nspp' || !ctx.conso) checks.push('Consolider les consommations annuelles réelles.');
-        if(ctx.trav === 'oui-lourd' || ctx.goal === 'tout') checks.push('Formaliser un scénario travaux poste par poste.');
-        if(ctx.statut === 'copro') checks.push('Qualifier le statut copropriété et le périmètre de décision.');
-        if(ctx.act === 'collectivite') checks.push('Vérifier le montage de maîtrise d’ouvrage publique.');
-        if((ctx.goal === 'photovoltaique' || ctx.park === '>1500')) checks.push('Évaluer le potentiel toiture / ombrières et la puissance PV cible.');
-        if(cee.length) checks.push('Vérifier l’éligibilité technique exacte des fiches CEE retenues.');
-        if(other.length) checks.push('Vérifier les règles de cumul entre CEE et aides complémentaires.');
-
-        return uniqueList(checks).slice(0, 6);
-      }
-
-      function buildFundingPlan(ctx){
-        var works = inferWorkPlan(ctx);
-        var cee = [];
-        var other = [];
-        var missing = [];
-
-        works.forEach(function(w){
-          var op = WORK_CATALOG[w.id];
-
-          if(op.type === 'cee'){
-            var range = estimateCeeRange(op, ctx);
-            cee.push({
-              id:w.id,
-              label:op.label,
-              code:op.ceeCode || '',
-              confidence:w.confidence,
-              confidenceLabel:getConfidenceLabel(w.confidence),
-              why:w.why,
-              low:range.low,
-              mid:range.mid,
-              high:range.high,
-              kwhcumac:range.kwhcumac,
-              missingData:w.missingData
-            });
-          } else {
-            var otherRange = op.amountRange(ctx);
-            other.push({
-              id:w.id,
-              label:op.label,
-              aidName:op.aidName || op.label,
-              confidence:w.confidence,
-              confidenceLabel:getConfidenceLabel(w.confidence),
-              why:w.why,
-              low:otherRange.low,
-              mid:otherRange.mid,
-              high:otherRange.high,
-              unit:otherRange.unit || '€',
-              missingData:w.missingData
-            });
-          }
-
-          missing = missing.concat(w.missingData);
-        });
-
-        var ceeTotal = cee.reduce(function(acc, item){
-          acc.low += item.low;
-          acc.mid += item.mid;
-          acc.high += item.high;
-          return acc;
-        }, {low:0, mid:0, high:0});
-
-        var allItems = cee.concat(other);
-        var avgConfidenceScore = 0;
-
-        if(allItems.length){
-          avgConfidenceScore = allItems.reduce(function(acc, item){
-            if(item.confidence === 'high') return acc + 1;
-            if(item.confidence === 'medium') return acc + 0.66;
-            return acc + 0.33;
-          }, 0) / allItems.length;
-        }
-
-        var overallConfidence =
-          avgConfidenceScore >= 0.82 ? 'high' :
-          avgConfidenceScore >= 0.55 ? 'medium' : 'low';
-
-        return {
-          cee: cee,
-          ceeTotal: ceeTotal,
-          otherAids: other,
-          overallConfidence: overallConfidence,
-          overallConfidenceLabel: getConfidenceLabel(overallConfidence),
-          missingData: uniqueList(missing).slice(0, 8),
-          nextChecks: buildFundingChecks(ctx, cee, other)
-        };
-      }
-
-      /* -------------------------
-         PRIORITIES / CALENDAR
-      ------------------------- */
-      function buildCalendar(){
-        var items = [];
-
-        if(evalAmiante().s === 'ok') items.push({dot:'urgent', date:'Avant travaux', label:'Repérage avant travaux / diagnostics préalables'});
-        if(evalPFAS().s === 'ok') items.push({dot:'urgent', date:'Avant travaux', label:'Vérifications complémentaires avant intervention'});
-        if(evalDDADUE().s === 'ok') items.push({dot:'urgent', date:'Court terme', label:'Cadrer rapidement le besoin d’audit énergétique'});
-        if(evalDT().s === 'ok') items.push({dot:'soon', date:'Annuel', label:'Structurer les données de consommation et la trajectoire'});
-        if(evalBACS().s === 'ok') items.push({dot:'soon', date:'Prioritaire', label:'Qualifier la mise en conformité GTB / BACS'});
-        if(evalRE2020().s === 'ok') items.push({dot:'soon', date:'Conception', label:'Intégrer les exigences environnementales dès l’amont'});
-        if(evalBailVert().s === 'ok') items.push({dot:'soon', date:'Prochain bail', label:'Mettre à jour l’annexe environnementale et les engagements'});
-        if(evalSobriete().s === 'ok') items.push({dot:'soon', date:'Pilotage', label:'Structurer indicateurs, plan de sobriété et gouvernance'});
-        if(evalENR().s === 'ok') items.push({dot:'medium', date:'Projet', label:'Étudier toiture / ENR dans le scénario de rénovation'});
-        if(evalAPER().s === 'ok') items.push({dot:'medium', date:'Étude', label:'Analyser ombrières photovoltaïques et parking'});
-        if(evalEPBD().s === 'ok') items.push({dot:'medium', date:'Trajectoire', label:'Programmer une rénovation énergétique cohérente'});
-        if(evalBACS().s === 'warn') items.push({dot:'long', date:'À anticiper', label:'Préparer la montée en conformité BACS'});
-
-        return items.slice(0, 8);
-      }
-
-      function buildPrios(){
-        var out = [];
-
-        if(evalAmiante().s === 'ok') out.push('Lancer les vérifications avant travaux avant toute intervention sur le bâtiment.');
-        if(evalDDADUE().s === 'ok') out.push('Fiabiliser les consommations et cadrer rapidement votre besoin d’audit énergétique.');
-        if(evalBACS().s === 'ok') out.push('Structurer le projet GTB / BACS en priorité.');
-        if(evalBACS().s === 'warn') out.push('Anticiper le sujet BACS avant qu’il ne devienne bloquant.');
-        if(evalDT().s === 'ok' || evalDT().s === 'warn') out.push('Sécuriser le périmètre Décret Tertiaire et consolider les données de consommation.');
-        if(evalAPER().s === 'ok' || evalIRVE().s === 'ok') out.push('Traiter parking, IRVE et ombrières dans une seule étude ROI.');
-        if(evalEPBD().s === 'ok') out.push('Construire une trajectoire de rénovation cohérente avec la performance du bâtiment.');
-        if(evalBailVert().s === 'ok') out.push('Mettre à jour le cadre bail / exploitation / partage des données.');
-        if(st.goal === 'economies' || st.goal === 'tout') out.push('Identifier les actions rapides à fort impact sur l’exploitation.');
-        if(out.length < 3) out.push('Construire une feuille de route unique : conformité, travaux, financement.');
-        return out.slice(0, 3);
-      }
-
-      /* -------------------------
-         RENDER FUNDING
-      ------------------------- */
-      function renderFundingPlan(plan){
-        var fundingBox = el('fundingBox');
-        fundingBox.style.display = 'block';
-
-        el('fundingCeeTotal').textContent =
-          '~ ' + plan.ceeTotal.low.toLocaleString('fr-FR') +
-          ' à ' + plan.ceeTotal.high.toLocaleString('fr-FR') + ' €';
-
-        el('fundingConfidence').textContent =
-          'Niveau de confiance global : ' + plan.overallConfidenceLabel;
-
-        el('fundingAidCount').textContent = plan.otherAids.length + ' aide(s)';
-
-        var ceeList = el('fundingCeeList');
-        ceeList.innerHTML = '';
-        if(!plan.cee.length){
-          ceeList.innerHTML = '<div style="font-size:12px;color:rgba(255,255,255,.55)">Aucune piste CEE forte détectée à ce stade.</div>';
-        } else {
-          plan.cee.forEach(function(item){
-            var d = document.createElement('div');
-            d.className = 'fund-card';
-            d.innerHTML =
-              '<div class="fund-card-top">' +
-                '<div>' +
-                  '<div class="fund-card-title">' + item.label + ' <span style="color:#f0c040">(' + item.code + ')</span></div>' +
-                  '<div class="fund-card-desc">' + item.why + '</div>' +
-                  '<div class="fund-card-meta">Confiance : ' + item.confidenceLabel + '</div>' +
-                '</div>' +
-                '<div class="fund-card-amt">' +
-                  '<div class="fund-card-amt-main" style="color:#f0c040">~ ' + item.low.toLocaleString('fr-FR') + ' à ' + item.high.toLocaleString('fr-FR') + ' €</div>' +
-                  '<div class="fund-card-amt-sub">' + item.kwhcumac.toLocaleString('fr-FR') + ' kWh cumac</div>' +
-                '</div>' +
-              '</div>';
-            ceeList.appendChild(d);
-          });
-        }
-
-        var aidList = el('fundingAidList');
-        aidList.innerHTML = '';
-        if(!plan.otherAids.length){
-          aidList.innerHTML = '<div style="font-size:12px;color:rgba(255,255,255,.55)">Aucune aide complémentaire prioritaire détectée à ce stade.</div>';
-        } else {
-          plan.otherAids.forEach(function(item){
-            var d = document.createElement('div');
-            d.className = 'fund-card';
-            d.innerHTML =
-              '<div class="fund-card-top">' +
-                '<div>' +
-                  '<div class="fund-card-title">' + item.aidName + '</div>' +
-                  '<div class="fund-card-desc">' + item.why + '</div>' +
-                  '<div class="fund-card-meta">Confiance : ' + item.confidenceLabel + '</div>' +
-                '</div>' +
-                '<div class="fund-card-amt">' +
-                  '<div class="fund-card-amt-main" style="color:#7dd4f8">~ ' + item.low.toLocaleString('fr-FR') + ' à ' + item.high.toLocaleString('fr-FR') + ' €</div>' +
-                  '<div class="fund-card-amt-sub">' + item.unit + '</div>' +
-                '</div>' +
-              '</div>';
-            aidList.appendChild(d);
-          });
-        }
-
-        var missing = el('fundingMissingList');
-        missing.innerHTML = '';
-        if(!plan.missingData.length){
-          missing.innerHTML = '<div style="font-size:12px;color:rgba(255,255,255,.55)">Aucune donnée critique manquante détectée.</div>';
-        } else {
-          plan.missingData.forEach(function(item){
-            var d = document.createElement('div');
-            d.style.fontSize = '12px';
-            d.style.color = 'rgba(255,255,255,.78)';
-            d.style.lineHeight = '1.5';
-            d.style.marginBottom = '6px';
-            d.innerHTML = '• ' + item;
-            missing.appendChild(d);
-          });
-        }
-
-        var checks = el('fundingChecksList');
-        checks.innerHTML = '';
-        if(!plan.nextChecks.length){
-          checks.innerHTML = '<div style="font-size:12px;color:rgba(255,255,255,.55)">Aucune vérification complémentaire suggérée.</div>';
-        } else {
-          plan.nextChecks.forEach(function(item){
-            var d = document.createElement('div');
-            d.style.fontSize = '12px';
-            d.style.color = 'rgba(255,255,255,.82)';
-            d.style.lineHeight = '1.5';
-            d.style.marginBottom = '6px';
-            d.innerHTML = '• ' + item;
-            checks.appendChild(d);
-          });
-        }
-      }
-
-      /* -------------------------
-         SUMMARY
-      ------------------------- */
-      function buildSummary(forPDF){
-        var results = ALL_REGS.map(function(r){
-          return r.name + ' : ' + r.fn().l;
-        });
-
-        var p = buildPrios();
-        var fundingPlan = buildFundingPlan(st);
-
-        var fundingLines = [];
-        fundingLines.push('--- Financements mobilisables ---');
-        fundingLines.push('CEE estimatif : ~ ' +
-          fundingPlan.ceeTotal.low.toLocaleString('fr-FR') + ' à ' +
-          fundingPlan.ceeTotal.high.toLocaleString('fr-FR') + ' €');
-        fundingLines.push('Niveau de confiance global : ' + fundingPlan.overallConfidenceLabel);
-
-        if(fundingPlan.cee.length){
-          fundingPlan.cee.forEach(function(item){
-            fundingLines.push('- CEE ' + item.label + ' (' + item.code + ') : ~ ' +
-              item.low.toLocaleString('fr-FR') + ' à ' +
-              item.high.toLocaleString('fr-FR') + ' € — confiance ' + item.confidenceLabel);
-          });
-        }
-
-        if(fundingPlan.otherAids.length){
-          fundingPlan.otherAids.forEach(function(item){
-            fundingLines.push('- ' + item.aidName + ' : ~ ' +
-              item.low.toLocaleString('fr-FR') + ' à ' +
-              item.high.toLocaleString('fr-FR') + ' € — confiance ' + item.confidenceLabel);
-          });
-        }
-
-        if(fundingPlan.missingData.length){
-          fundingLines.push('');
-          fundingLines.push('--- Données à confirmer ---');
-          fundingPlan.missingData.forEach(function(item){
-            fundingLines.push('- ' + item);
-          });
-        }
-
-        var prefix = forPDF
-          ? 'Bonjour,\n\nJe souhaite recevoir le rapport complet de mon diagnostic EcoEvalue 360°.\n\n'
-          : 'Bonjour,\n\nJe souhaite recevoir un diagnostic complet suite à mon évaluation EcoEvalue 360°.\n\n';
-
-        return [prefix,
-          '--- Mon bâtiment ---',
-          'Activité : ' + (st.act || '—'),
-          'Surface : ' + (st.surf || '—'),
-          'Année : ' + (st.year || '—'),
-          'Statut : ' + (st.statut || '—'),
-          'Construction neuve : ' + (st.neuf || '—'),
-          'Puissance CVC : ' + (st.power || '—'),
-          'Parking : ' + (st.park || '—'),
-          'Consommation : ' + (st.conso || '—'),
-          'Effectif : ' + (st.staff || '—'),
-          'Travaux : ' + (st.trav || '—'),
-          'Chauffage : ' + (st.chauff || '—'),
-          'Classe DPE : ' + (st.dpe || '—'),
-          'ISO 50001 : ' + (st.iso || '—'),
-          '',
-          '--- Résultats réglementaires ---'
-        ].concat(results).concat([
-          '',
-          '--- 3 priorités ---',
-          '1. ' + (p[0] || '—'),
-          '2. ' + (p[1] || '—'),
-          '3. ' + (p[2] || '—'),
-          ''
-        ]).concat(fundingLines).join('\n');
-      }
-
-      /* -------------------------
-         RENDER RESULTS
-      ------------------------- */
-      function renderResults(){
-        var score = calcScore();
-        el('scoreVal').innerHTML = score + '<small>/100</small>';
-
-        var fill = el('scoreFill');
-        fill.style.width = score + '%';
-        fill.style.background =
-          score >= 65 ? 'linear-gradient(90deg,#42df74,#18b45b)' :
-          score >= 40 ? 'linear-gradient(90deg,#f0c040,#c8960e)' :
-          'linear-gradient(90deg,#ff7060,#e03c2c)';
-
-        el('scoreLbl').textContent =
-          score >= 65 ? 'Exposition réglementaire forte' :
-          score >= 40 ? 'Plusieurs obligations à traiter' :
-          'Exposition modérée';
-
-        var grid = el('catsGrid');
-        grid.innerHTML = '';
-
-        CATS.forEach(function(cat){
-          var regsInCat = ALL_REGS.filter(function(r){ return r.cat === cat.id; });
-          var okCount = regsInCat.filter(function(r){ return r.fn().s === 'ok'; }).length;
-          var warnCount = regsInCat.filter(function(r){ return r.fn().s === 'warn'; }).length;
-
-          var badge = okCount > 0 ? okCount + ' priorité(s)' : warnCount > 0 ? warnCount + ' à vérifier' : 'RAS';
-          var badgeBg = okCount > 0 ? 'rgba(24,180,91,.22)' : warnCount > 0 ? 'rgba(232,128,10,.22)' : 'rgba(80,80,80,.22)';
-          var badgeTxt = okCount > 0 ? '#7ff5aa' : warnCount > 0 ? '#ffd280' : 'rgba(255,255,255,.45)';
-
-          var div = document.createElement('div');
-          div.className = 'cat-block';
-
-          var itemsHTML = regsInCat.map(function(r){
-            var e = r.fn();
-            var sanction = e.sanction ? '<div class="sanction-badge">⚠ ' + e.sanction + '</div>' : '';
-            return '<div class="reg-item"><div><div class="reg-name">' + r.name + '</div><div class="reg-desc">' + e.t + '</div>' + sanction + '</div><span class="reg-pill ' + e.s + '">' + e.l + '</span></div>';
-          }).join('');
-
-          div.innerHTML =
-            '<div class="cat-header" style="background:' + cat.color + ';border-bottom:1px solid ' + cat.border + '">' +
-              '<span class="cat-title" style="color:' + cat.text + '">' + cat.label + '</span>' +
-              '<div style="display:flex;align-items:center;gap:8px">' +
-                '<span class="cat-badge" style="background:' + badgeBg + ';color:' + badgeTxt + '">' + badge + '</span>' +
-                '<span class="cat-toggle" style="color:' + cat.text + '">▼</span>' +
-              '</div>' +
-            '</div>' +
-            '<div class="cat-items">' + itemsHTML + '</div>';
-
-          div.querySelector('.cat-header').addEventListener('click', function(){
-            div.classList.toggle('open');
-          });
-
-          if(okCount > 0 || warnCount > 0) div.classList.add('open');
-          grid.appendChild(div);
-        });
-
-        var pl = el('prioList');
-        pl.innerHTML = '';
-        buildPrios().forEach(function(t, i){
-          var d = document.createElement('div');
-          d.className = 'prio-item';
-          d.innerHTML = '<span class="prio-n">' + (i + 1) + '</span><span class="prio-t">' + t + '</span>';
-          pl.appendChild(d);
-        });
-
-        var calItems = buildCalendar();
-        if(calItems.length > 0){
-          el('calBox').style.display = 'block';
-          var cl = el('calItems');
-          cl.innerHTML = '';
-          calItems.forEach(function(item){
-            var d = document.createElement('div');
-            d.className = 'cal-item';
-            d.innerHTML =
-              '<div class="cal-dot ' + item.dot + '"></div>' +
-              '<span class="cal-date">' + item.date + '</span>' +
-              '<span class="cal-label">' + item.label + '</span>';
-            cl.appendChild(d);
-          });
-        } else {
-          el('calBox').style.display = 'none';
-        }
-
-        /* Bloc CEE rapide */
-        var fundingPlan = buildFundingPlan(st);
-
-        if(fundingPlan.cee.length > 0){
-          el('ceeBox').style.display = 'block';
-          var rows = el('ceeRows');
-          rows.innerHTML = '';
-          fundingPlan.cee.forEach(function(c){
-            var d = document.createElement('div');
-            d.className = 'cee-row';
-            d.innerHTML =
-              '<span class="cee-label">' + c.label + ' (' + c.code + ')</span>' +
-              '<span class="cee-val">~ ' + c.low.toLocaleString('fr-FR') + ' à ' + c.high.toLocaleString('fr-FR') + ' €</span>';
-            rows.appendChild(d);
-          });
-          el('ceeTotal').textContent = '~ ' + fundingPlan.ceeTotal.low.toLocaleString('fr-FR') + ' à ' + fundingPlan.ceeTotal.high.toLocaleString('fr-FR') + ' €';
-        } else {
-          el('ceeBox').style.display = 'none';
-        }
-
-        renderFundingPlan(fundingPlan);
-
-        if(st.diag === 'oui'){
-          el('cn-m').value = buildSummary(false);
-        }
-      }
-
-      /* -------------------------
-         RESTART / CONTACT
-      ------------------------- */
-      el('res-restart').addEventListener('click', function(){
-        st = {
-          step:0, act:null, surf:null, year:null, sys:[], power:null, park:null,
-          conso:null, staff:null, trav:null, gtb:null, goal:null, diag:null,
-          chauff:null, iso:null, statut:null, neuf:null, dpe:null
-        };
-
-        qsa('.chip.on').forEach(function(c){ c.classList.remove('on'); });
-        el('ceeBox').style.display = 'none';
-        el('calBox').style.display = 'none';
-        el('fundingBox').style.display = 'none';
-        el('cn-m').value = '';
-        goToStep(0);
+    }
+
+    renderFundList("fundCeeList", funding.cee, "#f0c040");
+    renderFundList("fundAidList", funding.aids, "#7dd4f8");
+
+    function renderTextList(id, items) {
+      const root=el(id); if(!root) return; root.innerHTML="";
+      if(!items.length){ root.innerHTML=`<div style="font-size:12px;color:rgba(255,255,255,.55)">Aucun élément.</div>`; return; }
+      items.forEach(item=>{ const d=document.createElement("div"); d.style.cssText="font-size:12px;color:rgba(255,255,255,.82);line-height:1.5;margin-bottom:6px"; d.innerHTML="• "+item; root.appendChild(d); });
+    }
+    renderTextList("fundMissing", funding.missing);
+    renderTextList("fundChecks", funding.checks);
+  }
+
+  function renderShareLink() {
+    const url = stateToShareUrl(st);
+    if(el("shareUrl")) el("shareUrl").textContent = url;
+    const copyBtn = el("shareCopyBtn");
+    if(copyBtn) {
+      const newBtn = copyBtn.cloneNode(true); // FIX H2: éviter fuite closure
+      copyBtn.parentNode.replaceChild(newBtn, copyBtn);
+      newBtn.addEventListener("click", () => {
+        if(navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(url).then(()=>{
+            newBtn.textContent="Copié ✓"; newBtn.classList.add("copied");
+            setTimeout(()=>{ newBtn.textContent="Copier"; newBtn.classList.remove("copied"); },2000);
+          }).catch(()=>fallbackCopy(url));
+        } else { fallbackCopy(url); }
       });
+    }
+  }
 
-      function openContact(forPDF){
-        el('cn-s').value = (forPDF ? 'Demande rapport EcoEvalue 360°' : 'Demande diagnostic EcoEvalue 360°') + ' — EcoVertaConsul\'t';
-        el('cn-m').value = buildSummary(forPDF);
-        goToStep(5);
+  function fallbackCopy(text) { // FIX M3: fallback clipboard
+    const inp = document.createElement("input"); inp.value=text; inp.style.position="fixed"; inp.style.opacity="0";
+    document.body.appendChild(inp); inp.select(); document.execCommand("copy"); document.body.removeChild(inp);
+    const btn=el("shareCopyBtn")||document.querySelector(".share-copy-btn");
+    if(btn){btn.textContent="Copié ✓";setTimeout(()=>btn.textContent="Copier",2000);}
+  }
+
+  function renderResults() {
+    const diag = computeDiagnostic(st);
+    currentResults = diag.results;
+
+    if(el("scoreVal")) el("scoreVal").innerHTML=diag.score+`<small>/100</small>`;
+    if(el("scoreFill")){ el("scoreFill").style.width=diag.score+"%"; el("scoreFill").style.background=diag.score>=65?"linear-gradient(90deg,#42df74,#18b45b)":diag.score>=40?"linear-gradient(90deg,#f0c040,#c8960e)":"linear-gradient(90deg,#ff7060,#e03c2c)"; }
+    if(el("scoreLbl")) el("scoreLbl").textContent=diag.score>=65?"Exposition réglementaire forte":diag.score>=40?"Plusieurs obligations à traiter":"Exposition modérée";
+
+    if(el("axC")) el("axC").textContent=diag.axisScores.compliance+"/100";
+    if(el("axR")) el("axR").textContent=diag.axisScores.roi+"/100";
+    if(el("axD")) el("axD").textContent=diag.axisScores.data+"/100";
+    if(el("axCf")) el("axCf").style.width=diag.axisScores.compliance+"%";
+    if(el("axRf")) el("axRf").style.width=diag.axisScores.roi+"%";
+    if(el("axDf")) el("axDf").style.width=diag.axisScores.data+"%";
+
+    if(el("missionVal")) el("missionVal").textContent=diag.mission;
+    if(el("reliabilityVal")) el("reliabilityVal").textContent=diag.reliability.label;
+    if(el("reliabilityTip")) el("reliabilityTip").textContent=diag.reliability.tip;
+    if(el("summaryText")) el("summaryText").textContent=diag.summary;
+
+    renderAccordion(diag.results);
+    renderList("prioList", diag.prios);
+    renderList("plan90List", diag.plan90);
+    renderCalendar(diag.calendar);
+    renderFunding(diag.funding);
+    renderShareLink();
+
+    // FIX M2: titre dynamique
+    const regCount = REGS.length;
+    document.querySelectorAll(".cat-block").length; // accordéon déjà rendu
+
+    if(el("cn-m")) el("cn-m").value = buildEmailBody(diag);
+  }
+
+  // ── NAVIGATION ────────────────────────────────────────────────────────────
+  function goToStep(s) {
+    st.step = s; saveState();
+    qsa(".step-panel").forEach((p,i)=>p.classList.toggle("active",i===s));
+    if(el("prevBtn")) el("prevBtn").style.display=(s>0&&s!==5)?"inline-flex":"none";
+    const nxt = el("nextBtn");
+    if(nxt){
+      if(s===4||s===5){ nxt.style.display="none"; } else {
+        nxt.style.display="inline-flex"; nxt.disabled=!canNext();
+        nxt.textContent=s===3?"Voir mes résultats →":"Suivant →";
       }
+    }
+    if(el("pFill")) el("pFill").style.width=Math.round((Math.min(s,3)/3)*100)+"%";
+    if(el("pTxt")) el("pTxt").textContent="Étape "+(Math.min(s,3)+1)+"/4";
+    if(el("sNum")) el("sNum").textContent=Math.min(s+1,4);
+    if(el("sName")) el("sName").textContent=TITLES[s];
+    if(el("qCount")) el("qCount").textContent=QCOUNTS[s]||"";
+    if(s===4){ currentFilter="all"; renderResults(); }
+  }
 
-      el('res-contact').addEventListener('click', function(){ openContact(false); });
-      el('res-contact-top').addEventListener('click', function(){ openContact(true); });
-      el('res-pdf').addEventListener('click', function(){ openContact(true); });
+  function resetState() {
+    st=emptyState(); clearSavedState(); currentFilter="all";
+    qsa(".chip.on").forEach(c=>c.classList.remove("on"));
+    qsa(".field-err.show").forEach(e=>e.classList.remove("show"));
+    goToStep(0); updateNext();
+  }
 
-      el('cn-back').addEventListener('click', function(){
-        goToStep(4);
-      });
+  // ── MODAL (accessibilité + focus trap corrigé H4) ─────────────────────────
+  let previousFocus = null;
 
-      el('cn-send').addEventListener('click', function(){
-        var n = el('cn-n').value.trim();
-        var e = el('cn-e').value.trim();
-        var p = el('cn-p').value.trim();
-        var s = el('cn-s').value.trim();
-        var m = el('cn-m').value.trim();
+  function openModal() {
+    previousFocus = document.activeElement;
+    el("modal-wizard").classList.add("open");
+    document.body.style.overflow="hidden";
+    setTimeout(()=>{ const t=el("wizard-title"); if(t){t.tabIndex=-1;t.focus();} },100);
+  }
 
-        var body =
-          'Nom / Société : ' + (n || '—') + '\n' +
-          'Email : ' + (e || '—') + '\n' +
-          'Téléphone : ' + (p || '—') + '\n\n' +
-          (m || '—');
+  function closeModal() {
+    el("modal-wizard").classList.remove("open");
+    document.body.style.overflow="";
+    if(previousFocus) previousFocus.focus();
+  }
 
-        window.location.href =
-          'mailto:' + encodeURIComponent(EMAIL) +
-          '?subject=' + encodeURIComponent(s || 'Diagnostic EcoEvalue 360°') +
-          '&body=' + encodeURIComponent(body);
-      });
+  // FIX H4: focus trap corrigé — querySelectorAll sur modal-wizard directement
+  el("modal-wizard").addEventListener("keydown", e=>{
+    if(e.key!=="Tab") return;
+    const focusable = Array.from(el("modal-wizard").querySelectorAll('button:not([disabled]),input,textarea,select,[tabindex]:not([tabindex="-1"])'));
+    if(!focusable.length) return;
+    const first=focusable[0], last=focusable[focusable.length-1];
+    if(e.shiftKey){ if(document.activeElement===first){e.preventDefault();last.focus();} }
+    else { if(document.activeElement===last){e.preventDefault();first.focus();} }
+  });
 
-      /* -------------------------
-         ALERT
-      ------------------------- */
-      el('alert-btn').addEventListener('click', function(){
-        var email = el('alert-email').value.trim();
-        var msg = el('alert-msg');
-
-        if(!email || email.indexOf('@') === -1){
-          msg.style.display = 'block';
-          msg.textContent = 'Veuillez saisir une adresse email valide.';
-          return;
-        }
-
-        window.location.href =
-          'mailto:' + encodeURIComponent(EMAIL) +
-          '?subject=' + encodeURIComponent('Demande de rappel EcoEvalue 360° — EcoVertaConsul\'t') +
-          '&body=' + encodeURIComponent(
-            'Bonjour,\n\nJe souhaite recevoir un rappel réglementaire suite à mon diagnostic EcoEvalue 360°.\n\nEmail : ' +
-            email + '\n\n' + buildSummary(false)
-          );
-
-        msg.style.display = 'block';
-        msg.textContent = 'Votre messagerie va s’ouvrir pour finaliser l’envoi.';
-      });
-
-      /* -------------------------
-         FAQ
-      ------------------------- */
-      qsa('.faq-btn').forEach(function(btn){
-        btn.addEventListener('click', function(){
-          var item = btn.parentNode;
-          var isOpen = item.classList.contains('open');
-
-          qsa('.faq-item').forEach(function(i){
-            i.classList.remove('open');
-            var ic = i.querySelector('.faq-icon');
-            if(ic) ic.textContent = '+';
-          });
-
-          if(!isOpen){
-            item.classList.add('open');
-            var ic = item.querySelector('.faq-icon');
-            if(ic) ic.textContent = '×';
-          }
-        });
-      });
-
-      goToStep(0);
+  // ── ÉVÉNEMENTS ────────────────────────────────────────────────────────────
+  el("open-wizard").addEventListener("click",()=>{
+    const fromUrl = stateFromUrl();
+    if(fromUrl){ st=fromUrl; restoreAllChips(); openModal(); goToStep(4); return; }
+    const saved=loadState();
+    if(saved&&saved.step>0){
+      st=saved; restoreAllChips(); openModal();
+      // FIX H5: updateNext() après restauration
       updateNext();
-    })();
-  </script>
+      if(el("resume-banner")) el("resume-banner").style.display="flex";
+    } else { openModal(); goToStep(0); updateNext(); }
+  });
+
+  el("open-wizard-2")&&el("open-wizard-2").addEventListener("click",()=>el("open-wizard").click());
+  el("resume-btn").addEventListener("click",()=>{ el("resume-banner").style.display="none"; goToStep(st.step); });
+  el("resume-discard").addEventListener("click",()=>{ el("resume-banner").style.display="none"; resetState(); });
+  el("close-wizard").addEventListener("click",closeModal);
+  document.addEventListener("keydown",e=>{if(e.key==="Escape"&&el("modal-wizard").classList.contains("open"))closeModal();});
+  el("modal-wizard").addEventListener("click",e=>{if(e.target===el("modal-wizard"))closeModal();});
+
+  el("nextBtn").addEventListener("click",()=>{ if(!canNext()){showValidationErrors();return;} goToStep(st.step+1); });
+  el("prevBtn").addEventListener("click",()=>goToStep(st.step-1));
+
+  function openContact(forPdf) {
+    el("cn-s").value=(forPdf?"Demande rapport":"Demande diagnostic")+" EcoEvalue 360° V5 — EcoVertaConsul't";
+    goToStep(5);
+  }
+
+  el("res-restart").addEventListener("click",resetState);
+  el("res-contact").addEventListener("click",()=>openContact(false));
+  el("res-contact-top").addEventListener("click",()=>openContact(false));
+  el("res-pdf").addEventListener("click",()=>openContact(true));
+  el("cn-back").addEventListener("click",()=>goToStep(4));
+
+  el("cn-send").addEventListener("click",()=>{
+    const n=el("cn-n").value.trim(),e=el("cn-e").value.trim(),p=el("cn-p").value.trim(),s=el("cn-s").value.trim(),m=el("cn-m").value.trim();
+    const body=`Nom / Société : ${n||"—"}\nEmail : ${e||"—"}\nTéléphone : ${p||"—"}\n\n${m||"—"}`;
+    window.location.href=`mailto:${encodeURIComponent(EMAIL)}?subject=${encodeURIComponent(s||"Diagnostic EcoEvalue 360° V5")}&body=${encodeURIComponent(body)}`;
+  });
+
+  el("alert-btn").addEventListener("click",()=>{
+    const email=el("alert-email").value.trim();
+    const msg=el("alert-msg");
+    if(!email||!email.includes("@")){ msg.style.display="block"; msg.textContent="Veuillez saisir une adresse email valide."; return; }
+    const diag=computeDiagnostic(st);
+    window.location.href=`mailto:${encodeURIComponent(EMAIL)}?subject=${encodeURIComponent("Rappel EcoEvalue 360° V5 — EcoVertaConsul't")}&body=${encodeURIComponent("Bonjour,\n\nJe souhaite recevoir un rappel réglementaire.\n\nEmail : "+email+"\n\n"+buildEmailBody(diag))}`;
+    msg.style.display="block"; msg.textContent="Votre messagerie va s'ouvrir pour finaliser l'envoi.";
+  });
+
+  // FAQ
+  qsa(".faq-btn").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      const item=btn.parentNode; const isOpen=item.classList.contains("open");
+      qsa(".faq-item").forEach(i=>{i.classList.remove("open");const ic=i.querySelector(".faq-icon");if(ic)ic.textContent="+";});
+      if(!isOpen){item.classList.add("open");const ic=item.querySelector(".faq-icon");if(ic)ic.textContent="×";}
+    });
+  });
+
+  // Init
+  goToStep(0); updateNext();
+});
+</script>
 </body>
 </html>
