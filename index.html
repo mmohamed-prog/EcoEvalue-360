@@ -717,6 +717,8 @@
 document.addEventListener("DOMContentLoaded", function() {
   const EMAIL = "contact@ecovertaconsult.fr";
   const STORAGE_KEY = "ecoevalue_v5_state";
+  // ↓ Coller ici l'URL webhook Make une fois créé
+  const MAKE_WEBHOOK = "https://hook.eu1.make.com/xjhr34besdxrqwfnmzlzzzufrj0xag";
 
   // ── VALIDATION SCHÉMA ────────────────────────────────────────────────────
   const FIELD_SCHEMA = {
@@ -1385,61 +1387,93 @@ document.addEventListener("DOMContentLoaded", function() {
     // Gate : vérifier si email déjà capturé dans cette session
     const capturedEmail = sessionStorage.getItem("ecoevalue_gate_email");
     if(capturedEmail) {
-      unlockFunding(capturedEmail, diag);
+      unlockFunding(capturedEmail, diag, false); // false = déjà capturé, ne pas renvoyer à Make
     }
     // Sinon gate reste verrouillé (état initial)
   }
 
   // ── GATE EMAIL ─────────────────────────────────────────────────────────────
-  function unlockFunding(email, diag) {
+
+  // Envoie les données de capture vers Make → Brevo (sans bloquer l'UI)
+  function sendToMake(email, diag) {
+    if(!MAKE_WEBHOOK || MAKE_WEBHOOK === "VOTRE_URL_WEBHOOK_MAKE_ICI") return;
+    try {
+      fetch(MAKE_WEBHOOK, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email:         email,
+          score:         diag.score,
+          activite:      st.act   || "",
+          surface:       st.surf  || "",
+          annee:         st.year  || "",
+          chauffage:     st.chauff|| "",
+          travaux:       st.trav  || "",
+          objectif:      st.goal  || "",
+          parking:       st.park  || "",
+          cee_low:       diag.funding.ceeTotals.low,
+          cee_high:      diag.funding.ceeTotals.high,
+          cee_label:     formatRange(diag.funding.ceeTotals.low, diag.funding.ceeTotals.high),
+          nb_aides:      diag.funding.aids.length,
+          mission:       diag.mission,
+          fiabilite:     diag.reliability.label,
+          conformite:    diag.axisScores.compliance,
+          roi:           diag.axisScores.roi,
+          maturite_data: diag.axisScores.data,
+          date:          new Date().toISOString(),
+          source:        window.location.hostname
+        })
+      }).catch(()=>{}); // Erreur silencieuse — ne jamais bloquer l'UI
+    } catch(e){}
+  }
+
+  function unlockFunding(email, diag, isNew) {
     if(el("gate-locked")) el("gate-locked").style.display="none";
     if(el("gate-unlocked")) el("gate-unlocked").style.display="block";
     if(el("gate-email-display")) el("gate-email-display").textContent=email;
 
-    // Calcul financement et rendu
     if(!diag) diag = computeDiagnostic(st);
     renderFunding(diag.funding);
 
-    // Pré-remplir email contact
-    if(el("cn-e")&&!el("cn-e").value) el("cn-e").value=email;
-    if(el("cn-m")) el("cn-m").value=buildEmailBody(diag);
+    // Pré-remplir formulaire de contact
+    if(el("cn-e") && !el("cn-e").value) el("cn-e").value = email;
+    if(el("cn-m")) el("cn-m").value = buildEmailBody(diag);
 
-    // Envoi mailto de capture en arrière-plan (silencieux — pas de redirect)
-    try {
-      const body = encodeURIComponent(
-        "Capture gate email EcoEvalue 360° V5\n\nEmail : "+email+
-        "\nScore : "+diag.score+"/100\n"+
-        "Activité : "+(st.act||"—")+"\n"+
-        "Surface : "+(st.surf||"—")+"\n"+
-        "CEE estimatif : "+formatRange(diag.funding.ceeTotals.low, diag.funding.ceeTotals.high)
-      );
-      const subject = encodeURIComponent("Lead EcoEvalue — "+email);
-      // Crée un lien invisible et le clique silencieusement
-      const a = document.createElement("a");
-      a.href = "mailto:"+encodeURIComponent(EMAIL)+"?subject="+subject+"&body="+body;
-      a.style.display="none";
-      document.body.appendChild(a);
-      // Ne pas déclencher automatiquement — juste préremplir cn-m
-      document.body.removeChild(a);
-    } catch(e){}
+    // Envoyer vers Make uniquement à la première capture (pas à chaque rechargement)
+    if(isNew) sendToMake(email, diag);
   }
 
-  // Logique du bouton gate
+  // Bouton "Débloquer mon plan"
   if(el("gate-submit")) {
     el("gate-submit").addEventListener("click", ()=>{
       const email = (el("gate-email")||{}).value?.trim()||"";
-      if(!email || !email.includes("@") || !email.includes(".")) {
+
+      // Validation email
+      if(!email || !email.includes("@") || email.indexOf(".")<email.indexOf("@")+2) {
         if(el("gate-err")) el("gate-err").style.display="block";
+        if(el("gate-email")) el("gate-email").focus();
         return;
       }
       if(el("gate-err")) el("gate-err").style.display="none";
-      // Persister l'email dans la session
+
+      // Feedback visuel immédiat sur le bouton
+      const btn = el("gate-submit");
+      btn.textContent = "Chargement…";
+      btn.disabled = true;
+
+      // Persister l'email en session
       try { sessionStorage.setItem("ecoevalue_gate_email", email); } catch(e){}
-      unlockFunding(email, null);
+
+      // Déverrouiller et envoyer (isNew = true → déclenche Make)
+      setTimeout(()=>{
+        unlockFunding(email, null, true);
+        btn.textContent = "Débloquer mon plan →";
+        btn.disabled = false;
+      }, 300); // Petit délai pour rendre le feedback visible
     });
   }
 
-  // Permettre Enter dans le champ email du gate
+  // Valider avec la touche Entrée
   if(el("gate-email")) {
     el("gate-email").addEventListener("keydown", e=>{ if(e.key==="Enter") el("gate-submit")?.click(); });
   }
