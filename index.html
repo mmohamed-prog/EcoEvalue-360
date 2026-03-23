@@ -636,7 +636,7 @@
             </div>
             <p class="gate-cta-label">Entrez votre email professionnel pour débloquer instantanément votre plan de financement :</p>
             <div class="gate-form">
-              <input id="gate-email" type="email" placeholder="votre@email.fr" autocomplete="email" />
+              <input id="gate-email" type="email" placeholder="votre@email.com" autocomplete="email" />
               <button class="btn btn-gold btn-sm" id="gate-submit">Débloquer mon plan →</button>
             </div>
             <p id="gate-err" style="font-size:11px;color:#ff8a7a;margin-top:6px;display:none">Veuillez saisir une adresse email valide.</p>
@@ -696,7 +696,7 @@
           <div class="cfield"><label>Nom / Société</label><input id="cn-n" type="text" placeholder="Société ou nom" /></div>
           <div class="cfield"><label>Email professionnel</label><input id="cn-e" type="email" placeholder="nom@entreprise.fr" /></div>
           <div class="cfield"><label>Téléphone</label><input id="cn-p" type="tel" placeholder="06 00 00 00 00" /></div>
-          <div class="cfield"><label>Objet</label><input id="cn-s" type="text" value="Demande diagnostic EcoEvalue 360° V5 — EcoVertaConsul't" /></div>
+          <div class="cfield"><label>Objet</label><input id="cn-s" type="text" value="Demande diagnostic EcoEvalue 360° — EcoVertaConsul't" /></div>
           <div class="cfield full"><label>Message</label><textarea id="cn-m"></textarea></div>
         </div>
         <div class="contact-actions">
@@ -1448,8 +1448,9 @@ document.addEventListener("DOMContentLoaded", function() {
     el("gate-submit").addEventListener("click", ()=>{
       const email = (el("gate-email")||{}).value?.trim()||"";
 
-      // Validation email
-      if(!email || !email.includes("@") || email.indexOf(".")<email.indexOf("@")+2) {
+      // Validation email simple et robuste
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if(!email || !emailRegex.test(email)) {
         if(el("gate-err")) el("gate-err").style.display="block";
         if(el("gate-email")) el("gate-email").focus();
         return;
@@ -1560,7 +1561,7 @@ document.addEventListener("DOMContentLoaded", function() {
   el("prevBtn").addEventListener("click",()=>goToStep(st.step-1));
 
   function openContact(forPdf) {
-    el("cn-s").value=(forPdf?"Demande rapport":"Demande diagnostic")+" EcoEvalue 360° V5 — EcoVertaConsul't";
+    el("cn-s").value=(forPdf?"Demande rapport":"Demande diagnostic")+" EcoEvalue 360° — EcoVertaConsul't";
     goToStep(5);
   }
 
@@ -1573,7 +1574,7 @@ document.addEventListener("DOMContentLoaded", function() {
   el("cn-send").addEventListener("click",()=>{
     const n=el("cn-n").value.trim(),e=el("cn-e").value.trim(),p=el("cn-p").value.trim(),s=el("cn-s").value.trim(),m=el("cn-m").value.trim();
     const body=`Nom / Société : ${n||"—"}\nEmail : ${e||"—"}\nTéléphone : ${p||"—"}\n\n${m||"—"}`;
-    window.location.href=`mailto:${encodeURIComponent(EMAIL)}?subject=${encodeURIComponent(s||"Diagnostic EcoEvalue 360° V5")}&body=${encodeURIComponent(body)}`;
+    window.location.href=`mailto:${encodeURIComponent(EMAIL)}?subject=${encodeURIComponent(s||"Diagnostic EcoEvalue 360°")}&body=${encodeURIComponent(body)}`;
   });
 
   // FAQ
