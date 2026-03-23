@@ -332,7 +332,7 @@
     </div>
     <div class="faq-item">
       <button class="faq-btn"><span class="faq-q">Puis-je reprendre un diagnostic en cours ?</span><span class="faq-icon">+</span></button>
-      <div class="faq-answer">Oui. Vos réponses sont sauvegardées automatiquement. Vous pouvez aussi partager le lien de résultats avec un collègue ou consultant.</div>
+      <div class="faq-answer">Oui. Vos réponses sont sauvegardées automatiquement dans votre navigateur. Si vous fermez la fenêtre, vous pourrez reprendre là où vous en étiez à votre prochaine visite sur le même appareil.</div>
     </div>
     <div class="faq-item">
       <button class="faq-btn"><span class="faq-q">À qui s'adresse l'outil ?</span><span class="faq-icon">+</span></button>
@@ -1070,7 +1070,7 @@ document.addEventListener("DOMContentLoaded", function() {
     { id:"ppa_pv", name:"PV – Tiers-investissement / PPA", trigger:s=>s.goal==="photovoltaique"||s.goal==="tout"||s.park===">1500", conf:()=>"high", range:s=>rba(s,12,35,100), why:()=>"Lever le CAPEX photovoltaïque.", variance:"±45%" },
     { id:"cpe", name:"Contrat de performance énergétique", trigger:s=>s.goal==="economies"||s.goal==="tout", conf:()=>"high", range:s=>rba(s,5,20,70), why:()=>"Sécuriser les résultats énergétiques.", variance:"±40%" },
     { id:"copro_reno", name:"Aides copropriété / rénovation collective", trigger:s=>s.statut==="copro", conf:()=>"medium", range:s=>rba(s,15,32,60), why:()=>"Statut copropriété : aides dédiées.", variance:"±35%" },
-    { id:"amo", name:"Études / AMO / ingénierie", trigger:s=>s.diag==="oui"||s.goal==="tout"||s.trav==="oui-lourd", conf:s=>s.diag==="oui"||s.trav==="oui-lourd"?"medium":"low", range:s=>rba(s,2,5,9), why:()=>"Faisabilité ou AMO selon le projet.", variance:"±30%" },
+    { id:"amo", name:"Études / AMO / ingénierie", trigger:s=>s.goal==="tout"||s.trav==="oui-lourd", conf:s=>s.trav==="oui-lourd"?"medium":"low", range:s=>rba(s,2,5,9), why:()=>"Faisabilité ou AMO selon le projet.", variance:"±30%" },
   ];
 
   function rba(s,a,b,c){ const area=AREA_REF[s.surf]||1000; return {low:Math.round(area*a),mid:Math.round(area*b),high:Math.round(area*c)}; }
@@ -1158,7 +1158,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const { results, axisScores, score, mission, reliability, funding, prios, plan90, missing } = diag;
     const s = st; // état courant — copie explicite pour éviter le couplage
     const lines = [
-      "Bonjour,\n\nJe souhaite recevoir un diagnostic complet suite à mon évaluation EcoEvalue 360°.\n",
+      "Bonjour,\n\nJe souhaite recevoir un diagnostic complet suite à mon évaluation EcoEvalue 360° .\n",
       "--- Profil bâtiment ---",
       `Activité : ${s.act||"—"}`, `Surface : ${s.surf||"—"}`, `Année : ${s.year||"—"}`,
       `Statut : ${s.statut||"—"}`, `Projet neuf : ${s.neuf||"—"}`,
@@ -1247,7 +1247,7 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   function restoreAllChips() {
-    ["act","surf","year","statut","neuf","power","park","conso","staff","trav","chauff","iso","dpe","gtb","goal","data","diag"].forEach(k=>restoreChips("c-"+k,k));
+    ["act","surf","year","statut","neuf","power","park","conso","staff","trav","chauff","iso","dpe","gtb","goal","data"].forEach(k=>restoreChips("c-"+k,k));
     restoreChips("c-sys","sys");
   }
 
@@ -1335,21 +1335,7 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   function renderShareLink() {
-    const url = stateToShareUrl(st);
-    if(el("shareUrl")) el("shareUrl").textContent = url;
-    const copyBtn = el("shareCopyBtn");
-    if(copyBtn) {
-      const newBtn = copyBtn.cloneNode(true); // FIX H2: éviter fuite closure
-      copyBtn.parentNode.replaceChild(newBtn, copyBtn);
-      newBtn.addEventListener("click", () => {
-        if(navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(url).then(()=>{
-            newBtn.textContent="Copié ✓"; newBtn.classList.add("copied");
-            setTimeout(()=>{ newBtn.textContent="Copier"; newBtn.classList.remove("copied"); },2000);
-          }).catch(()=>fallbackCopy(url));
-        } else { fallbackCopy(url); }
-      });
-    }
+    // Section partage supprimée du HTML — fonction désactivée
   }
 
   function fallbackCopy(text) { // FIX M3: fallback clipboard
@@ -1411,7 +1397,7 @@ document.addEventListener("DOMContentLoaded", function() {
           travaux:       st.trav   || "—",
           objectif:      st.goal   || "—",
           parking:       st.park   || "—",
-          cee_estimatif: formatRange(diag.funding.ceeTotals.low, diag.funding.ceeTotals.high),
+          cee_estimatif: fmt(diag.funding.ceeTotals.low, diag.funding.ceeTotals.high),
           nb_aides:      diag.funding.aids.length + " aide(s)",
           mission:       diag.mission,
           fiabilite:     diag.reliability.label,
