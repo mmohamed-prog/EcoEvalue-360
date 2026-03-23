@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EcoEvalue 360° — V5 | EcoVertaConsul't</title>
+  <title>EcoEvalue 360° — | EcoVertaConsul't</title>
   <meta name="description" content="Simulateur pré-diagnostic réglementaire tertiaire : conformité, score pondéré, calendrier, CEE, plan d'action." />
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
@@ -293,7 +293,7 @@
           <path d="M27 39c3 2 7 2 10 0" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
         </svg>
       </div>
-      <div class="hero-badge">EcoEvalue 360° — V5 · Simulateur gratuit</div>
+      <div class="hero-badge">EcoEvalue 360° · Simulateur gratuit</div>
       <h1>Votre conformité réglementaire<br><em>évaluée en 3 minutes</em></h1>
       <p class="hero-sub">28 thématiques analysées, score pondéré sur 3 axes, calendrier d'échéances, priorités d'action, CEE avec codes fiches et plan de financement indicatif.</p>
       <div class="hero-regs">
@@ -348,7 +348,7 @@
       <div class="whead-top">
         <div>
           <div class="wtitle" id="wizard-title">EcoEvalue <em>360°</em></div>
-          <div class="wsub">V5 — 28 enjeux, 3 axes, calendrier, CEE et financement</div>
+          <div class="wsub">28 enjeux, 3 axes, calendrier, CEE et financement</div>
         </div>
         <button class="xbtn" id="close-wizard" aria-label="Fermer">×</button>
       </div>
@@ -588,7 +588,7 @@
       <!-- SP4 RÉSULTATS -->
       <div class="step-panel" id="sp4" role="tabpanel" aria-live="polite">
         <div class="res-top-cta">
-          <p>Votre pré-diagnostic V5 est prêt. Pour recevoir un rapport structuré avec recommandations, utilisez le formulaire de contact.</p>
+          <p>Votre pré-diagnostic est prêt. Pour recevoir un rapport structuré avec recommandations, utilisez le formulaire de contact.</p>
           <button class="btn btn-brand btn-sm" id="res-contact-top">Recevoir mon rapport →</button>
         </div>
 
@@ -1157,7 +1157,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const { results, axisScores, score, mission, reliability, funding, prios, plan90, missing } = diag;
     const s = st; // état courant — copie explicite pour éviter le couplage
     const lines = [
-      "Bonjour,\n\nJe souhaite recevoir un diagnostic complet suite à mon évaluation EcoEvalue 360° V5.\n",
+      "Bonjour,\n\nJe souhaite recevoir un diagnostic complet suite à mon évaluation EcoEvalue 360°.\n",
       "--- Profil bâtiment ---",
       `Activité : ${s.act||"—"}`, `Surface : ${s.surf||"—"}`, `Année : ${s.year||"—"}`,
       `Statut : ${s.statut||"—"}`, `Projet neuf : ${s.neuf||"—"}`,
@@ -1560,7 +1560,7 @@ document.addEventListener("DOMContentLoaded", function() {
   el("prevBtn").addEventListener("click",()=>goToStep(st.step-1));
 
   function openContact(forPdf) {
-    el("cn-s").value=(forPdf?"Demande rapport":"Demande diagnostic")+" EcoEvalue 360° V5 — EcoVertaConsul't";
+    el("cn-s").value=(forPdf?"Demande rapport":"Demande diagnostic")+" EcoEvalue 360° — EcoVertaConsul't";
     goToStep(5);
   }
 
