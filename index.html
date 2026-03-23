@@ -717,9 +717,8 @@
 document.addEventListener("DOMContentLoaded", function() {
   const EMAIL = "contact@ecovertaconsult.com";
   const STORAGE_KEY = "ecoevalue_v5_state";
-  // ↓ Coller ici l'URL webhook Make une fois créé
-  const MAKE_WEBHOOK = ""; // désactivé
   const FORMSPREE_URL = "https://formspree.io/f/mwvrdywn";
+  const MAKE_WEBHOOK  = "https://hook.eu1.make.com/k0cvd24tdl9dwrs5myvwuoxj0dgt8h3e";
 
   // ── VALIDATION SCHÉMA ────────────────────────────────────────────────────
   const FIELD_SCHEMA = {
@@ -1158,7 +1157,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const { results, axisScores, score, mission, reliability, funding, prios, plan90, missing } = diag;
     const s = st; // état courant — copie explicite pour éviter le couplage
     const lines = [
-      "Bonjour,\n\nJe souhaite recevoir un diagnostic complet suite à mon évaluation EcoEvalue 360° .\n",
+      "Bonjour,\n\nJe souhaite recevoir un diagnostic complet suite à mon évaluation EcoEvalue 360°.\n",
       "--- Profil bâtiment ---",
       `Activité : ${s.act||"—"}`, `Surface : ${s.surf||"—"}`, `Année : ${s.year||"—"}`,
       `Statut : ${s.statut||"—"}`, `Projet neuf : ${s.neuf||"—"}`,
@@ -1381,33 +1380,50 @@ document.addEventListener("DOMContentLoaded", function() {
 
   // ── GATE EMAIL ─────────────────────────────────────────────────────────────
 
-  // Envoie les données de capture vers Formspree (sans bloquer l'UI)
+  // Payload commun aux deux services
+  function buildPayload(email, diag) {
+    return {
+      email:         email,
+      score:         diag.score + "/100",
+      activite:      st.act    || "—",
+      surface:       st.surf   || "—",
+      annee:         st.year   || "—",
+      chauffage:     st.chauff || "—",
+      travaux:       st.trav   || "—",
+      objectif:      st.goal   || "—",
+      parking:       st.park   || "—",
+      cee_estimatif: fmt(diag.funding.ceeTotals.low, diag.funding.ceeTotals.high),
+      nb_aides:      diag.funding.aids.length + " aide(s)",
+      mission:       diag.mission,
+      fiabilite:     diag.reliability.label,
+      conformite:    diag.axisScores.compliance + "/100",
+      roi:           diag.axisScores.roi + "/100",
+      maturite_data: diag.axisScores.data + "/100",
+      date:          new Date().toLocaleString("fr-FR"),
+      source:        window.location.hostname || "local"
+    };
+  }
+
+  // Envoie vers Formspree (notification email + dashboard)
   function sendToFormspree(email, diag) {
     try {
       fetch(FORMSPREE_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json", "Accept": "application/json" },
-        body: JSON.stringify({
-          email:         email,
-          score:         diag.score + "/100",
-          activite:      st.act    || "—",
-          surface:       st.surf   || "—",
-          annee:         st.year   || "—",
-          chauffage:     st.chauff || "—",
-          travaux:       st.trav   || "—",
-          objectif:      st.goal   || "—",
-          parking:       st.park   || "—",
-          cee_estimatif: fmt(diag.funding.ceeTotals.low, diag.funding.ceeTotals.high),
-          nb_aides:      diag.funding.aids.length + " aide(s)",
-          mission:       diag.mission,
-          fiabilite:     diag.reliability.label,
-          conformite:    diag.axisScores.compliance + "/100",
-          roi:           diag.axisScores.roi + "/100",
-          maturite_data: diag.axisScores.data + "/100",
-          date:          new Date().toLocaleString("fr-FR"),
-          source:        window.location.hostname || "local"
-        })
-      }).catch(()=>{}); // Erreur silencieuse — ne jamais bloquer l'UI
+        body: JSON.stringify(buildPayload(email, diag))
+      }).catch(()=>{});
+    } catch(e){}
+  }
+
+  // Envoie vers Make (→ Brevo CRM)
+  function sendToMake(email, diag) {
+    if(!MAKE_WEBHOOK) return;
+    try {
+      fetch(MAKE_WEBHOOK, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(buildPayload(email, diag))
+      }).catch(()=>{});
     } catch(e){}
   }
 
@@ -1423,8 +1439,8 @@ document.addEventListener("DOMContentLoaded", function() {
     if(el("cn-e") && !el("cn-e").value) el("cn-e").value = email;
     if(el("cn-m")) el("cn-m").value = buildEmailBody(diag);
 
-    // Envoyer vers Formspree uniquement à la première capture
-    if(isNew) sendToFormspree(email, diag);
+    // Envoyer vers Formspree ET Make à la première capture
+    if(isNew) { sendToFormspree(email, diag); sendToMake(email, diag); }
   }
 
   // Bouton "Débloquer mon plan"
