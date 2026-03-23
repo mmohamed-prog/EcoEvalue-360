@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EcoEvalue 360° | EcoVertaConsul't</title>
+  <title>EcoEvalue 360° — V5 | EcoVertaConsul't</title>
   <meta name="description" content="Simulateur pré-diagnostic réglementaire tertiaire : conformité, score pondéré, calendrier, CEE, plan d'action." />
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
@@ -293,7 +293,7 @@
           <path d="M27 39c3 2 7 2 10 0" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
         </svg>
       </div>
-      <div class="hero-badge">EcoEvalue 360° · Simulateur gratuit</div>
+      <div class="hero-badge">EcoEvalue 360° — V5 · Simulateur gratuit</div>
       <h1>Votre conformité réglementaire<br><em>évaluée en 3 minutes</em></h1>
       <p class="hero-sub">28 thématiques analysées, score pondéré sur 3 axes, calendrier d'échéances, priorités d'action, CEE avec codes fiches et plan de financement indicatif.</p>
       <div class="hero-regs">
@@ -348,7 +348,7 @@
       <div class="whead-top">
         <div>
           <div class="wtitle" id="wizard-title">EcoEvalue <em>360°</em></div>
-          <div class="wsub">28 enjeux, 3 axes, calendrier, CEE et financement</div>
+          <div class="wsub">V5 — 28 enjeux, 3 axes, calendrier, CEE et financement</div>
         </div>
         <button class="xbtn" id="close-wizard" aria-label="Fermer">×</button>
       </div>
@@ -588,7 +588,7 @@
       <!-- SP4 RÉSULTATS -->
       <div class="step-panel" id="sp4" role="tabpanel" aria-live="polite">
         <div class="res-top-cta">
-          <p>Votre pré-diagnostic est prêt. Pour recevoir un rapport structuré avec recommandations, utilisez le formulaire de contact.</p>
+          <p>Votre pré-diagnostic V5 est prêt. Pour recevoir un rapport structuré avec recommandations, utilisez le formulaire de contact.</p>
           <button class="btn btn-brand btn-sm" id="res-contact-top">Recevoir mon rapport →</button>
         </div>
 
@@ -715,10 +715,11 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-  const EMAIL = "contact@ecovertaconsult.fr";
+  const EMAIL = "contact@ecovertaconsult.com";
   const STORAGE_KEY = "ecoevalue_v5_state";
   // ↓ Coller ici l'URL webhook Make une fois créé
-  const MAKE_WEBHOOK = "https://hook.eu1.make.com/k0cvd24tdl9dwrs5myvwuoxj0dgt8h3e";
+  const MAKE_WEBHOOK = ""; // désactivé
+  const FORMSPREE_URL = "https://formspree.io/f/mwvrdywn";
 
   // ── VALIDATION SCHÉMA ────────────────────────────────────────────────────
   const FIELD_SCHEMA = {
@@ -1157,7 +1158,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const { results, axisScores, score, mission, reliability, funding, prios, plan90, missing } = diag;
     const s = st; // état courant — copie explicite pour éviter le couplage
     const lines = [
-      "Bonjour,\n\nJe souhaite recevoir un diagnostic complet suite à mon évaluation EcoEvalue 360°.\n",
+      "Bonjour,\n\nJe souhaite recevoir un diagnostic complet suite à mon évaluation EcoEvalue 360° V5.\n",
       "--- Profil bâtiment ---",
       `Activité : ${s.act||"—"}`, `Surface : ${s.surf||"—"}`, `Année : ${s.year||"—"}`,
       `Statut : ${s.statut||"—"}`, `Projet neuf : ${s.neuf||"—"}`,
@@ -1394,34 +1395,31 @@ document.addEventListener("DOMContentLoaded", function() {
 
   // ── GATE EMAIL ─────────────────────────────────────────────────────────────
 
-  // Envoie les données de capture vers Make → Brevo (sans bloquer l'UI)
-  function sendToMake(email, diag) {
-    if(!MAKE_WEBHOOK || MAKE_WEBHOOK === "VOTRE_URL_WEBHOOK_MAKE_ICI") return;
+  // Envoie les données de capture vers Formspree (sans bloquer l'UI)
+  function sendToFormspree(email, diag) {
     try {
-      fetch(MAKE_WEBHOOK, {
+      fetch(FORMSPREE_URL, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
         body: JSON.stringify({
           email:         email,
-          score:         diag.score,
-          activite:      st.act   || "",
-          surface:       st.surf  || "",
-          annee:         st.year  || "",
-          chauffage:     st.chauff|| "",
-          travaux:       st.trav  || "",
-          objectif:      st.goal  || "",
-          parking:       st.park  || "",
-          cee_low:       diag.funding.ceeTotals.low,
-          cee_high:      diag.funding.ceeTotals.high,
-          cee_label:     formatRange(diag.funding.ceeTotals.low, diag.funding.ceeTotals.high),
-          nb_aides:      diag.funding.aids.length,
+          score:         diag.score + "/100",
+          activite:      st.act    || "—",
+          surface:       st.surf   || "—",
+          annee:         st.year   || "—",
+          chauffage:     st.chauff || "—",
+          travaux:       st.trav   || "—",
+          objectif:      st.goal   || "—",
+          parking:       st.park   || "—",
+          cee_estimatif: formatRange(diag.funding.ceeTotals.low, diag.funding.ceeTotals.high),
+          nb_aides:      diag.funding.aids.length + " aide(s)",
           mission:       diag.mission,
           fiabilite:     diag.reliability.label,
-          conformite:    diag.axisScores.compliance,
-          roi:           diag.axisScores.roi,
-          maturite_data: diag.axisScores.data,
-          date:          new Date().toISOString(),
-          source:        window.location.hostname
+          conformite:    diag.axisScores.compliance + "/100",
+          roi:           diag.axisScores.roi + "/100",
+          maturite_data: diag.axisScores.data + "/100",
+          date:          new Date().toLocaleString("fr-FR"),
+          source:        window.location.hostname || "local"
         })
       }).catch(()=>{}); // Erreur silencieuse — ne jamais bloquer l'UI
     } catch(e){}
@@ -1439,8 +1437,8 @@ document.addEventListener("DOMContentLoaded", function() {
     if(el("cn-e") && !el("cn-e").value) el("cn-e").value = email;
     if(el("cn-m")) el("cn-m").value = buildEmailBody(diag);
 
-    // Envoyer vers Make uniquement à la première capture (pas à chaque rechargement)
-    if(isNew) sendToMake(email, diag);
+    // Envoyer vers Formspree uniquement à la première capture
+    if(isNew) sendToFormspree(email, diag);
   }
 
   // Bouton "Débloquer mon plan"
