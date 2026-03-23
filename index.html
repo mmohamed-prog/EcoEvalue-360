@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EcoEvalue 360° — V2 | EcoVertaConsul't</title>
+  <title>EcoEvalue 360° — V5 | EcoVertaConsul't</title>
   <meta name="description" content="Simulateur pré-diagnostic réglementaire tertiaire : conformité, score pondéré, calendrier, CEE, plan d'action." />
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
@@ -249,6 +249,22 @@
     .faq-item.open .faq-answer{display:block}
     .faq-item.open .faq-icon{background:var(--brand);color:#fff}
 
+    /* GATE EMAIL */
+    .gate-locked-box{background:rgba(240,192,64,.07);border:1px solid rgba(240,192,64,.22);border-radius:20px;padding:24px 22px;margin-bottom:14px;text-align:center}
+    .gate-lock-icon{font-size:32px;margin-bottom:10px}
+    .gate-lock-title{font-size:18px;font-weight:900;color:#fff;letter-spacing:-.03em;margin-bottom:6px}
+    .gate-lock-sub{font-size:13px;color:rgba(255,255,255,.65);line-height:1.6;max-width:480px;margin:0 auto 16px}
+    .gate-preview{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:12px 16px;margin:0 auto 18px;max-width:420px}
+    .gate-preview-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:12px;color:rgba(255,255,255,.7)}
+    .gate-preview-row:last-child{border:none}
+    .gate-blur{color:rgba(255,255,255,.18);letter-spacing:.12em;user-select:none;font-weight:700;filter:blur(4px)}
+    .gate-cta-label{font-size:13px;color:rgba(255,255,255,.82);margin-bottom:12px;font-weight:600}
+    .gate-form{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:8px}
+    .gate-form input{min-width:220px;border-radius:11px;border:1.5px solid rgba(240,192,64,.4);background:rgba(255,255,255,.08);color:#fff;padding:10px 14px;font-size:14px;outline:none;transition:.15s}
+    .gate-form input:focus{border-color:rgba(240,192,64,.8);background:rgba(255,255,255,.11)}
+    .gate-form input::placeholder{color:rgba(255,255,255,.35)}
+    .gate-note{font-size:11px;color:rgba(255,255,255,.32);margin-top:4px}
+    .gate-success-bar{background:rgba(24,180,91,.15);border:1px solid rgba(24,180,91,.3);border-radius:12px;padding:9px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;font-size:13px;font-weight:700;color:#7ff5aa}
     /* RESPONSIVE */
     @media(max-width:980px){.info-grid{grid-template-columns:1fr 1fr}.two-col,.res-grid,.fund-grid,.mini-grid{grid-template-columns:1fr}}
     @media(max-width:640px){
@@ -258,6 +274,8 @@
       .wfoot .right .btn,.wfoot>.btn{width:100%}
       .contact-grid,.info-grid{grid-template-columns:1fr}
       .res-top-cta{flex-direction:column}.pdf-cta{flex-direction:column}
+      .gate-form{flex-direction:column;align-items:center}
+      .gate-form input{width:100%;min-width:unset}
     }
   </style>
 </head>
@@ -275,7 +293,7 @@
           <path d="M27 39c3 2 7 2 10 0" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
         </svg>
       </div>
-      <div class="hero-badge">EcoEvalue 360° — V2 · Simulateur gratuit</div>
+      <div class="hero-badge">EcoEvalue 360° — V5 · Simulateur gratuit</div>
       <h1>Votre conformité réglementaire<br><em>évaluée en 3 minutes</em></h1>
       <p class="hero-sub">28 thématiques analysées, score pondéré sur 3 axes, calendrier d'échéances, priorités d'action, CEE avec codes fiches et plan de financement indicatif.</p>
       <div class="hero-regs">
@@ -559,18 +577,10 @@
               </div>
               <div class="field-err" id="err-data">Ce champ est obligatoire</div>
             </div>
-            <div class="qgroup">
-              <h4>Souhaitez-vous être contacté ?</h4>
-              <div class="chips" id="c-diag">
-                <button class="chip" data-v="oui">Oui, je souhaite être contacté</button>
-                <button class="chip" data-v="non">Non, juste les résultats</button>
-              </div>
-              <div class="field-err" id="err-diag">Ce champ est obligatoire</div>
-            </div>
           </div>
           <div class="hlp">
             <div class="hlp-mascot"><svg viewBox="0 0 64 64" fill="none"><path d="M16 35c-7 0-11-5-11-11 0-9 8-15 16-15 2-5 7-8 13-8 9 0 16 7 16 16 8 0 14 6 14 14s-6 14-14 14H22c-4 8-9 12-14 14 3-5 5-10 4-15h4Z" fill="#42df74"/><ellipse cx="28" cy="27" rx="3.5" ry="6" fill="#fff"/><ellipse cx="40" cy="27" rx="3.5" ry="6" fill="#fff"/><path d="M27 39c3 2 7 2 10 0" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/></svg></div>
-            <div class="bubble"><strong>Dernière étape</strong><span>On consolide le score pondéré, le plan de financement, les priorités et les échéances clés.</span><span class="bubble-tip">🎯 Résultats personnalisés</span></div>
+            <div class="bubble"><strong>Dernière étape</strong><span>On consolide le score pondéré, les priorités et le calendrier. Le plan de financement complet est débloqué en laissant votre email.</span><span class="bubble-tip">🎯 Résultats personnalisés</span></div>
           </div>
         </div>
       </div>
@@ -611,37 +621,61 @@
           <div class="cal-items" id="calItems"></div>
         </div>
 
-        <!-- CEE RAPIDE -->
-        <div class="cee-box" id="ceeBox" style="display:none">
-          <h4>💶 CEE estimatif rapide</h4>
-          <div id="ceeRows"></div>
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0 0;margin-top:3px">
-            <span style="font-size:13px;font-weight:800;color:#fff">CEE estimatif total</span>
-            <span style="font-size:22px;font-weight:900;color:var(--gold2);letter-spacing:-.03em" id="ceeTotal">—</span>
-          </div>
-        </div>
+        <!-- GATE EMAIL → FINANCEMENT -->
+        <div id="funding-gate">
 
-        <!-- PLAN FINANCEMENT -->
-        <div class="cee-box" id="fundingBox" style="display:none">
-          <h4>🏦 Plan de financement indicatif — CEE + autres aides</h4>
-          <div class="fund-disclaimer" id="fundDisclaimer">⚠️ Montants indicatifs à confirmer par étude technique. Les CEE dépendent des kWh cumac réels (fiches BAT). Les règles de cumul entre aides sont à vérifier.</div>
-          <div class="fund-grid">
-            <div class="fund-mini"><div class="fund-mini-label">CEE mobilisable estimatif</div><div class="fund-mini-val" id="fundCeeTotal" style="color:#f0c040">—</div><div id="fundConfidence" style="margin-top:6px;font-size:12px;color:rgba(255,255,255,.75)">—</div></div>
-            <div class="fund-mini"><div class="fund-mini-label">Autres aides potentielles</div><div class="fund-mini-val" id="fundAidCount" style="color:#7dd4f8">—</div><div style="margin-top:6px;font-size:12px;color:rgba(255,255,255,.6)">À confirmer selon projet et cumul</div></div>
+          <!-- ÉTAT VERROUILLÉ -->
+          <div id="gate-locked" class="gate-locked-box">
+            <div class="gate-lock-icon">💶</div>
+            <div class="gate-lock-title">Plan de financement complet</div>
+            <div class="gate-lock-sub">CEE (fiches BAT), aides nationales, régionales et privées, données à confirmer et prochaines vérifications.</div>
+            <div class="gate-preview">
+              <div class="gate-preview-row"><span>CEE mobilisable estimatif</span><span class="gate-blur">██████ €</span></div>
+              <div class="gate-preview-row"><span>Nombre d'aides détectées</span><span class="gate-blur">█ aide(s)</span></div>
+              <div class="gate-preview-row"><span>Niveau de confiance</span><span class="gate-blur">████</span></div>
+            </div>
+            <p class="gate-cta-label">Entrez votre email professionnel pour débloquer instantanément votre plan de financement :</p>
+            <div class="gate-form">
+              <input id="gate-email" type="email" placeholder="votre@email.fr" autocomplete="email" />
+              <button class="btn btn-gold btn-sm" id="gate-submit">Débloquer mon plan →</button>
+            </div>
+            <p id="gate-err" style="font-size:11px;color:#ff8a7a;margin-top:6px;display:none">Veuillez saisir une adresse email valide.</p>
+            <p class="gate-note">Aucune création de compte · Pas de spam · Juste votre plan de financement</p>
           </div>
-          <div style="margin-top:14px"><div class="fund-section-title" style="color:#f0c040">CEE estimatifs — fiches BAT</div><div id="fundCeeList"></div></div>
-          <div style="margin-top:14px"><div class="fund-section-title" style="color:#7dd4f8">Autres aides mobilisables</div><div id="fundAidList"></div></div>
-          <div style="margin-top:14px"><div class="fund-section-title" style="color:#c4b0f5">Données à confirmer</div><div id="fundMissing"></div></div>
-          <div style="margin-top:14px"><div class="fund-section-title" style="color:#7ff5aa">Prochaines vérifications</div><div id="fundChecks"></div></div>
-        </div>
 
-        <div class="alert-box">
-          <h4>🔔 Rappel email</h4>
-          <div class="alert-form">
-            <input id="alert-email" type="email" placeholder="votre@email.fr" />
-            <button class="btn btn-sm" style="background:rgba(130,100,200,.3);color:#c4b0f5;border:1px solid rgba(130,100,200,.4);font-weight:700" id="alert-btn">M'alerter</button>
+          <!-- ÉTAT DÉBLOQUÉ -->
+          <div id="gate-unlocked" style="display:none">
+
+            <div class="gate-success-bar">
+              <span>✓ Plan de financement débloqué</span>
+              <span id="gate-email-display" style="opacity:.7;font-size:11px"></span>
+            </div>
+
+            <!-- CEE RAPIDE -->
+            <div class="cee-box" id="ceeBox" style="display:none">
+              <h4>💶 CEE estimatif rapide — fiches BAT</h4>
+              <div id="ceeRows"></div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0 0;margin-top:3px">
+                <span style="font-size:13px;font-weight:800;color:#fff">CEE estimatif total</span>
+                <span style="font-size:22px;font-weight:900;color:var(--gold2);letter-spacing:-.03em" id="ceeTotal">—</span>
+              </div>
+            </div>
+
+            <!-- PLAN FINANCEMENT COMPLET -->
+            <div class="cee-box" id="fundingBox">
+              <h4>🏦 Plan de financement indicatif — CEE + autres aides</h4>
+              <div class="fund-disclaimer">⚠️ Montants indicatifs à confirmer par étude technique. Les CEE dépendent des kWh cumac réels (fiches BAT). Les règles de cumul entre aides sont à vérifier.</div>
+              <div class="fund-grid">
+                <div class="fund-mini"><div class="fund-mini-label">CEE mobilisable estimatif</div><div class="fund-mini-val" id="fundCeeTotal" style="color:#f0c040">—</div><div id="fundConfidence" style="margin-top:6px;font-size:12px;color:rgba(255,255,255,.75)">—</div></div>
+                <div class="fund-mini"><div class="fund-mini-label">Autres aides potentielles</div><div class="fund-mini-val" id="fundAidCount" style="color:#7dd4f8">—</div><div style="margin-top:6px;font-size:12px;color:rgba(255,255,255,.6)">À confirmer selon projet et cumul</div></div>
+              </div>
+              <div style="margin-top:14px"><div class="fund-section-title" style="color:#f0c040">CEE estimatifs — fiches BAT</div><div id="fundCeeList"></div></div>
+              <div style="margin-top:14px"><div class="fund-section-title" style="color:#7dd4f8">Autres aides mobilisables</div><div id="fundAidList"></div></div>
+              <div style="margin-top:14px"><div class="fund-section-title" style="color:#c4b0f5">Données à confirmer</div><div id="fundMissing"></div></div>
+              <div style="margin-top:14px"><div class="fund-section-title" style="color:#7ff5aa">Prochaines vérifications</div><div id="fundChecks"></div></div>
+            </div>
+
           </div>
-          <p id="alert-msg" style="font-size:12px;color:rgba(255,255,255,.5);margin-top:6px;display:none"></p>
         </div>
 
         <div class="section-box">
@@ -711,7 +745,6 @@ document.addEventListener("DOMContentLoaded", function() {
     gtb:    { allowed:["aucun","partiel","gtb"], required:true },
     goal:   { allowed:["conformite","economies","photovoltaique","tout"], required:true },
     data:   { allowed:["faible","moyenne","bonne"], required:true },
-    diag:   { allowed:["oui","non"], required:true },
     sys:    { multi:true, allowed:["chauffage","clim","ventilation","ecs","eclairage"] }
   };
 
@@ -733,7 +766,7 @@ document.addEventListener("DOMContentLoaded", function() {
   function emptyState() {
     return { step:0, act:null, surf:null, year:null, statut:null, neuf:null,
       sys:[], power:null, park:null, conso:null, staff:null, trav:null,
-      chauff:null, iso:null, dpe:null, gtb:null, goal:null, data:null, diag:null };
+      chauff:null, iso:null, dpe:null, gtb:null, goal:null, data:null };
   }
   let st = emptyState();
 
@@ -1161,7 +1194,7 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   // ── BINDINGS CHIPS ────────────────────────────────────────────────────────
-  const STEP_REQUIRED = { 0:["act","surf","year"], 1:["power","park"], 2:["conso","staff","trav","chauff","iso"], 3:["gtb","goal","data","diag"] };
+  const STEP_REQUIRED = { 0:["act","surf","year"], 1:["power","park"], 2:["conso","staff","trav","chauff","iso"], 3:["gtb","goal","data"] };
 
   function bindSingle(id, key) {
     const c = el(id); if(!c) return;
@@ -1189,7 +1222,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   }
 
-  ["act","surf","year","statut","neuf","power","park","conso","staff","trav","chauff","iso","dpe","gtb","goal","data","diag"].forEach(k=>bindSingle("c-"+k,k));
+  ["act","surf","year","statut","neuf","power","park","conso","staff","trav","chauff","iso","dpe","gtb","goal","data"].forEach(k=>bindSingle("c-"+k,k));
   bindMulti("c-sys","sys");
 
   function canNext() {
@@ -1356,14 +1389,68 @@ document.addEventListener("DOMContentLoaded", function() {
     renderList("prioList", diag.prios);
     renderList("plan90List", diag.plan90);
     renderCalendar(diag.calendar);
-    renderFunding(diag.funding);
     renderShareLink();
 
-    // FIX M2: titre dynamique
-    const regCount = REGS.length;
-    document.querySelectorAll(".cat-block").length; // accordéon déjà rendu
+    // Gate : vérifier si email déjà capturé dans cette session
+    const capturedEmail = sessionStorage.getItem("ecoevalue_gate_email");
+    if(capturedEmail) {
+      unlockFunding(capturedEmail, diag);
+    }
+    // Sinon gate reste verrouillé (état initial)
+  }
 
-    if(el("cn-m")) el("cn-m").value = buildEmailBody(diag);
+  // ── GATE EMAIL ─────────────────────────────────────────────────────────────
+  function unlockFunding(email, diag) {
+    if(el("gate-locked")) el("gate-locked").style.display="none";
+    if(el("gate-unlocked")) el("gate-unlocked").style.display="block";
+    if(el("gate-email-display")) el("gate-email-display").textContent=email;
+
+    // Calcul financement et rendu
+    if(!diag) diag = computeDiagnostic(st);
+    renderFunding(diag.funding);
+
+    // Pré-remplir email contact
+    if(el("cn-e")&&!el("cn-e").value) el("cn-e").value=email;
+    if(el("cn-m")) el("cn-m").value=buildEmailBody(diag);
+
+    // Envoi mailto de capture en arrière-plan (silencieux — pas de redirect)
+    try {
+      const body = encodeURIComponent(
+        "Capture gate email EcoEvalue 360° V5\n\nEmail : "+email+
+        "\nScore : "+diag.score+"/100\n"+
+        "Activité : "+(st.act||"—")+"\n"+
+        "Surface : "+(st.surf||"—")+"\n"+
+        "CEE estimatif : "+formatRange(diag.funding.ceeTotals.low, diag.funding.ceeTotals.high)
+      );
+      const subject = encodeURIComponent("Lead EcoEvalue — "+email);
+      // Crée un lien invisible et le clique silencieusement
+      const a = document.createElement("a");
+      a.href = "mailto:"+encodeURIComponent(EMAIL)+"?subject="+subject+"&body="+body;
+      a.style.display="none";
+      document.body.appendChild(a);
+      // Ne pas déclencher automatiquement — juste préremplir cn-m
+      document.body.removeChild(a);
+    } catch(e){}
+  }
+
+  // Logique du bouton gate
+  if(el("gate-submit")) {
+    el("gate-submit").addEventListener("click", ()=>{
+      const email = (el("gate-email")||{}).value?.trim()||"";
+      if(!email || !email.includes("@") || !email.includes(".")) {
+        if(el("gate-err")) el("gate-err").style.display="block";
+        return;
+      }
+      if(el("gate-err")) el("gate-err").style.display="none";
+      // Persister l'email dans la session
+      try { sessionStorage.setItem("ecoevalue_gate_email", email); } catch(e){}
+      unlockFunding(email, null);
+    });
+  }
+
+  // Permettre Enter dans le champ email du gate
+  if(el("gate-email")) {
+    el("gate-email").addEventListener("keydown", e=>{ if(e.key==="Enter") el("gate-submit")?.click(); });
   }
 
   // ── NAVIGATION ────────────────────────────────────────────────────────────
@@ -1388,8 +1475,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
   function resetState() {
     st=emptyState(); clearSavedState(); currentFilter="all";
+    // Ne PAS effacer l'email capturé — si l'utilisateur recommence, on garde l'accès
     qsa(".chip.on").forEach(c=>c.classList.remove("on"));
     qsa(".field-err.show").forEach(e=>e.classList.remove("show"));
+    // Réinitialiser le gate visuellement
+    if(el("gate-locked")) el("gate-locked").style.display="block";
+    if(el("gate-unlocked")) el("gate-unlocked").style.display="none";
+    if(el("gate-email")) el("gate-email").value="";
     goToStep(0); updateNext();
   }
 
@@ -1457,15 +1549,6 @@ document.addEventListener("DOMContentLoaded", function() {
     const n=el("cn-n").value.trim(),e=el("cn-e").value.trim(),p=el("cn-p").value.trim(),s=el("cn-s").value.trim(),m=el("cn-m").value.trim();
     const body=`Nom / Société : ${n||"—"}\nEmail : ${e||"—"}\nTéléphone : ${p||"—"}\n\n${m||"—"}`;
     window.location.href=`mailto:${encodeURIComponent(EMAIL)}?subject=${encodeURIComponent(s||"Diagnostic EcoEvalue 360° V5")}&body=${encodeURIComponent(body)}`;
-  });
-
-  el("alert-btn").addEventListener("click",()=>{
-    const email=el("alert-email").value.trim();
-    const msg=el("alert-msg");
-    if(!email||!email.includes("@")){ msg.style.display="block"; msg.textContent="Veuillez saisir une adresse email valide."; return; }
-    const diag=computeDiagnostic(st);
-    window.location.href=`mailto:${encodeURIComponent(EMAIL)}?subject=${encodeURIComponent("Rappel EcoEvalue 360° V5 — EcoVertaConsul't")}&body=${encodeURIComponent("Bonjour,\n\nJe souhaite recevoir un rappel réglementaire.\n\nEmail : "+email+"\n\n"+buildEmailBody(diag))}`;
-    msg.style.display="block"; msg.textContent="Votre messagerie va s'ouvrir pour finaliser l'envoi.";
   });
 
   // FAQ
